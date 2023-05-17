@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;900&display=swap');
+
+/*---------------------------------------/*
+ # SETTINGS
+/*---------------------------------------*/
+$dark-yellow: #ffdb55;
+$bg-color: #aecad8;
+$btn-color: #38434a;
+$btn-color-hover: #414e56;
+
+@keyframes move-left {
+  0% {
+    transform: none;
+  }
+  65% {
+    transform: translateX(-80px);
+  }
+  100% {
+    transform: translateX(-80px);
+  }
+}
+@keyframes move-right {
+  0% {
+    transform: none;
+  }
+  65% {
+    transform: translateX(80px);
+  }
+  100% {
+    transform: translateX(80px);
+  }
+}
+@keyframes move-up {
+  100% {
+    bottom: 100.75px;
+  }
+}
+@keyframes move-down {
+  100% {
+    top: 100.75px;
+  }
+}
+@keyframes width-to-zero {
+  0% {
+    width: 50px;
+  }
+  100% {
+    width: 11px;
+  }
+}
+
+/*---------------------------------------/*
+ # GENERIC
+/*---------------------------------------*/
+
+/*---------------------------------------/*
+ # ELEMENTS
+/*---------------------------------------*/
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: $bg-color;
+  transition: all 0.14s ease-in;
+}
+
+/*---------------------------------------/*
+ # OBJECTS
+/*---------------------------------------*/
+.o-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+/*---------------------------------------/*
+ # COMPONENTS
+/*---------------------------------------*/
+.c-power-btn {
+  margin: auto;
+  /* margin-top: 20px; */
+  background: #38434a;
+  border-radius: 0.3125rem;
+  color: white;
+  cursor: pointer;
+  font-family: Roboto;
+  font-weight: 800;
+  font-size: 1.9em;
+  height: 4rem;
+  letter-spacing: 0.2px;
+  line-height: 4rem;
+  text-align: center;
+  user-select: none;
+  width: 10rem;
+  transition: none;
+  &:hover {
+    background: $btn-color-hover;
+  }
+  &:active {
+    box-shadow: inset 0px 4px 10px 0px #2d363b;
+    transition: background 0.14s ease-in;
+  }
+}
+/* opmaak van de bulb */
+.c-fancy-bulb {
+  position: relative;
+
+  &__streaks {
+    position: absolute;
+    background: $dark-yellow;
+    border-radius: 5.5px;
+    height: 11px;
+    z-index: 5000;
+
+    &:after,
+    &:before {
+      position: absolute;
+      background: $dark-yellow;
+      border-radius: 5.5px;
+      height: 11px;
+      z-index: 5000;
+      content: '';
+      display: block;
+    }
+
+    &:before {
+      bottom: 4rem;
+    }
+
+    &:after {
+      top: 4rem;
+    }
+
+    &--left {
+      right: 13.5rem;
+      top: 5.5rem;
+    }
+    &--left:before,
+    &--left:after {
+      left: 1rem;
+    }
+
+    &--right {
+      left: 13.5rem;
+      top: 5.5rem;
+    }
+
+    &--right:before,
+    &--right:after {
+      right: 1rem;
+    }
+
+    &--left:before,
+    &--righ:after {
+      transform: rotate(34deg);
+    }
+
+    &--left:after,
+    &--righ:before {
+      transform: rotate(-34deg);
+    }
+  }
+
+  &__light {
+    transform: translate(50%, 50%) scale(0);
+    opacity: 0;
+    fill: $dark-yellow;
+  }
+}
+.c-room {
+  display: flex;
+  flex-direction: column;
+  background: #a3bcc9;
+  padding: 1em;
+  margin: 0 0.5em;
+
+  &__name {
+    font-family: Roboto;
+    font-size: 1.25em;
+    font-weight: 100;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #38434a;
+  }
+  &__icon {
+    margin-bottom: 20px;
+  }
+  &--wait {
+    .c-fancy-bulb {
+      &__light {
+        opacity: 1;
+        transform: translate(0) scale(1);
+        transition: all 0.14s ease-in;
+        fill: rgb(248, 238, 203);
+      }
+    }
+  }
+  &--on {
+    .c-fancy-bulb {
+      &__light {
+        opacity: 1;
+        transform: translate(0) scale(1);
+        transition: all 0.14s ease-in;
+        fill: $dark-yellow;
+      }
+
+      &__streaks {
+        &--left {
+          animation: move-left 0.38s ease-out, width-to-zero 0.38s ease-out;
+          animation-delay: 0.14s;
+
+          &:before {
+            animation: width-to-zero 0.38s ease-out, move-up 0.38s ease-out;
+            animation-delay: 0.14s;
+          }
+          &:after {
+            animation: width-to-zero 0.38s ease-out, move-down 0.38s ease-out;
+            animation-delay: 0.14s;
+          }
+        }
+
+        &--right {
+          animation: move-right 0.38s ease-out, width-to-zero 0.38s ease-out;
+          animation-delay: 0.14s;
+          &:before {
+            animation: width-to-zero 0.38s ease-out, move-up 0.38s ease-out;
+            animation-delay: 0.14s;
+          }
+          &:after {
+            animation: width-to-zero 0.38s ease-out, move-down 0.38s ease-out;
+            animation-delay: 0.14s;
+          }
+        }
+      }
+    }
+    .c-power-btn {
+      background: #58c48d;
+      &:active {
+        box-shadow: inset 0px 6px 8px -1px #41b77b;
+      }
+    }
+  }
+}
+
+/*---------------------------------------/*
+ # UTILITIES
+/*---------------------------------------*/
+
+/* body.u-active {
+  background: #f3f7f9;
+} */
