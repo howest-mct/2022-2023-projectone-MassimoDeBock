@@ -1,9 +1,10 @@
-# Titel van project
+# Docter Pablo
 
-**VOORNAAM NAAM:** A B
 
-**Sparringpartner:** C D
+**VOORNAAM NAAM:** Massimo De Bock
 
-**Projectsamenvatting in max 10 woorden:** E
+**Sparringpartner:** Ava Alizadeh
 
-**Projecttitel:** F
+**Projectsamenvatting in max 10 woorden:** Helpen met onthouden van medicatie te nemen
+
+**Projecttitel:** Docter Pablo
