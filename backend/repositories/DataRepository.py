@@ -12,23 +12,59 @@ class DataRepository:
 
     @staticmethod
     def read_status_lampen():
-        sql = "SELECT * from lampen"
+        sql = "SELECT * from MedicationHandler.lampen"
         return Database.get_rows(sql)
 
     @staticmethod
     def read_status_lamp_by_id(id):
-        sql = "SELECT * from lampen WHERE id = %s"
+        sql = "SELECT * from MedicationHandler.lampen WHERE id = %s"
         params = [id]
         return Database.get_one_row(sql, params)
 
     @staticmethod
     def update_status_lamp(id, status):
-        sql = "UPDATE lampen SET status = %s WHERE id = %s"
+        sql = "UPDATE MedicationHandler.lampen SET status = %s WHERE id = %s"
         params = [status, id]
         return Database.execute_sql(sql, params)
 
     @staticmethod
     def update_status_alle_lampen(status):
-        sql = "UPDATE lampen SET status = %s"
+        sql = "UPDATE MedicationHandler.lampen SET status = %s"
         params = [status]
         return Database.execute_sql(sql, params)
+
+
+    @staticmethod
+    def GetNextScheduledMedication():
+        sql = "SELECT * FROM DocterPablo.MedicationIntake MI where MI.Status = \"scheduled\" order by Time limit 1"
+        return Database.get_one_row(sql)
+    
+    @staticmethod
+    def LoginUser(username, password):
+        sql = "SELECT * FROM DocterPablo.SettingsProfile SP where SP.Name = %s and SP.Password = %s limit 1"
+        params = [username, password]
+        row = Database.get_one_row(sql,params)
+        if row == None:
+            return None
+        else:
+            return row["Settings"]
+        
+    @staticmethod
+    def LoginAny(username):
+        sql = "SELECT * FROM DocterPablo.SettingsProfile SP where SP.Password = %s limit 1"
+        params = [username]
+        row = Database.get_one_row(sql,params)
+        if row == None:
+            return None
+        else:
+            return row["Settings"]
+    
+    @staticmethod
+    def LogComponents(component, value):
+        sql = "insert into DocterPablo.ComponentValue values (NOW(), %s, %s)"
+        params = [component, value]
+        result = Database.execute_sql(sql,params)
+        if result == None:
+            print("something went wrong with logging a component")
+        return
+            

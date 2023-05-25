@@ -5,6 +5,8 @@ from flask import Flask, jsonify
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 
+from Handlers.MedicationHandler import MedicationHandler
+
 # TODO: GPIO
 
 app = Flask(__name__)
@@ -18,24 +20,29 @@ CORS(app)
 
 # START een thread op. Belangrijk!!! Debugging moet UIT staan op start van de server, anders start de thread dubbel op
 # werk enkel met de packages gevent en gevent-websocket.
-def all_out():
+def run():
     # wait 10s with sleep sintead of threading.Timer, so we can use daemon
-    time.sleep(10)
-    while True:
-        print('*** We zetten alles uit **')
-        DataRepository.update_status_alle_lampen(0)
-        status = DataRepository.read_status_lampen()
-        socketio.emit('B2F_alles_uit', {
-                    'status': "lampen uit"})
-        socketio.emit('B2F_status_lampen', {'lampen': status})
-        # save our last run time
-        last_time_alles_uit = now
-        time.sleep(30)
+    pablo =  MedicationHandler()
 
+
+    time.sleep(2)
+    print("Functional")
+    while True:
+        # print('*** We zetten alles uit **')
+        # DataRepository.update_status_alle_lampen(0)
+        # status = DataRepository.read_status_lampen()
+        # socketio.emit('B2F_alles_uit', {
+        #             'status': "lampen uit"})
+        # socketio.emit('B2F_status_lampen', {'lampen': status})
+        # # save our last run time
+        # last_time_alles_uit = now
+        # time.sleep(30)
+
+        pablo.update()
 
 def start_thread():
     # threading.Timer(10, all_out).start()
-    t = threading.Thread(target=all_out, daemon=True)
+    t = threading.Thread(target=run, daemon=True)
     t.start()
     print("thread started")
 

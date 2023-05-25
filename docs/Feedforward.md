@@ -1,12 +1,12 @@
-# Projectgegevens
+# Docter Pablo
 
-**VOORNAAM NAAM:** A B
+**VOORNAAM NAAM:** Massimo De Bock
 
-**Sparringpartner:** C D
+**Sparringpartner:** Ava Alizadeh
 
-**Projectsamenvatting in max 10 woorden:** E
+**Projectsamenvatting in max 10 woorden:** Helpen met onthouden van medicatie te nemen
 
-**Projecttitel:** F
+**Projecttitel:** Docter Pablo
 
 # Tips voor feedbackgesprekken
 
@@ -32,17 +32,17 @@
 
 # Feedforward gesprekken
 
-## Gesprek 1 (Datum: xx/xx/2023)
+## Gesprek 1 (Datum: 22/05/2023)
 
-Lector:
+Stijn Walcarius:
 
 Vragen voor dit gesprek:
 
-- vraag 1: V
+-   vraag 1: Feedback op de huidige database, hoeft alles 50 rows te hebben
 
 Dit is de feedback op mijn vragen.
 
-- feedback 1: G
+-   feedback 1: De database lijkt goed en alleen voor de rows waar het realistisch is om 50 rows te hebben.
 
 ## Gesprek 2 (Datum: xx/xx/2023)
 
@@ -50,11 +50,11 @@ Lector:
 
 Vragen voor dit gesprek:
 
--  vraag 1: V
+-   vraag 1: V
 
 Dit is de feedback op mijn vragen.
 
-- feedback 1: G
+-   feedback 1: G
 
 ## Gesprek 3 (Datum: xx/xx/2023)
 
@@ -62,8 +62,8 @@ Lector:
 
 Vragen voor dit gesprek:
 
-- [x] vraag 1: V
+-   [x] vraag 1: V
 
 Dit is de feedback op mijn vragen.
 
-- feedback 1: G
+-   feedback 1: G
