@@ -1,256 +1,787 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;900&display=swap');
+/*---------------------------------------/*
+ # Imports
+/*---------------------------------------*/
+
+// import open color
+@import 'open-color';
+
+/*---------------------------------------/*
+ # TOOLS
+/*---------------------------------------*/
+
+//
+// Media Query mixin
+// @include mq(#point, #query1, #query2);
+//
+
+@mixin mq($breakpoint, $query1: min, $query2: width) {
+	$query: map-get($breakpoints, $breakpoint);
+
+	@if $query != null {
+		@media (#{$query1}-#{$query2}: #{$query}) {
+			@content;
+		}
+	} @else {
+		@media (#{$query1}-#{$query2}: $breakpoint) {
+			@content;
+		}
+	}
+}
 
 /*---------------------------------------/*
  # SETTINGS
 /*---------------------------------------*/
-$dark-yellow: #ffdb55;
-$bg-color: #aecad8;
-$btn-color: #38434a;
-$btn-color-hover: #414e56;
 
-@keyframes move-left {
-  0% {
-    transform: none;
-  }
-  65% {
-    transform: translateX(-80px);
-  }
-  100% {
-    transform: translateX(-80px);
-  }
-}
-@keyframes move-right {
-  0% {
-    transform: none;
-  }
-  65% {
-    transform: translateX(80px);
-  }
-  100% {
-    transform: translateX(80px);
-  }
-}
-@keyframes move-up {
-  100% {
-    bottom: 100.75px;
-  }
-}
-@keyframes move-down {
-  100% {
-    top: 100.75px;
-  }
-}
-@keyframes width-to-zero {
-  0% {
-    width: 50px;
-  }
-  100% {
-    width: 11px;
-  }
-}
+// ---
+// Settings: Colors
+// ---
+
+$color-text: $oc-gray-9;
+$color-text-light: $oc-gray-7;
+$color-text-lighter: $oc-gray-5;
+
+$color-text-nav: $oc-green-1;
+
+$color-primary: $oc-green-0;
+$color-primary-light: $oc-green-5;
+$color-primary-lighter: $oc-green-4;
+$color-primary-dark: $oc-green-6;
+$color-primary-dark2: $oc-green-7;
+
+$color-primary-darker: $oc-green-8;
+
+
+$color-border: $oc-gray-2;
+$color-border-light: $oc-gray-1;
+$color-border-dark: $oc-gray-3;
+
+// ---
+// Settings: radii
+// ---
+
+$radius: 4px;
+$radius-m: 6px;
+$radius-l: 8px;
+
+// ---
+// Settings: Typography
+// ---
+
+$root-font-size: 16;
+
+// modular scale ratio
+$ratio: 1.125;
+
+// font-sizes
+$ms0: 1rem; // 16px
+$ms-1: calc($ms0 / $ratio); // 14,2222222222px
+$ms-2: calc($ms-1 / $ratio); // 12,6701311556px
+$ms1: calc($ms0 * $ratio); // 18px
+$ms2: calc($ms1 * $ratio); // 20,25px
+$ms3: calc($ms2 * $ratio); // 22.781px
+$ms4: calc($ms3 * $ratio); // 25.629px
+$ms5: calc($ms4 * $ratio); // 28.833px
+$ms6: calc($ms5 * $ratio); // 32.437px
+$ms7: calc($ms6 * $ratio); // 36.491px
+$ms8: calc($ms7 * $ratio); // 41.053px
+$ms9: calc($ms8 * $ratio); // 46.184px
+$ms10: calc($ms9 * $ratio); // 51.957px
+$ms11: calc($ms10 * $ratio); // 58.452px
+
+$font-family-primary: inter, sans-serif;
+
+// ---
+// Settings: Spacing
+// ---
+
+// baseline unit
+$baseline: calc(8 / $root-font-size * 1rem);
+
+// spacing scale
+$space-xxxs: calc($baseline * 0.5); // 4px
+$space-xxs: calc($baseline * 1); // 8px
+$space-xs: calc($baseline * 1.5); // 12px
+$space-s: calc($baseline * 2); // 16px
+$space-m: calc($baseline * 3); // 24px
+$space-l: calc($space-s * 2); // 32px
+$space-xl: calc($space-m * 2); // 48px
+$space-xxl: calc($space-l * 2); // 64px
+$space-xxxl: calc($space-xl * 2); // 96px
+
+// ---
+// Breakpoints
+// ---
+
+$breakpoints: (
+	bp1: calc(577 / 16 * 1em),
+	bp2: calc(769 / 16 * 1em),
+	bp3: calc(993 / 16 * 1em),
+	bp4: calc(1201 / 16 * 1em),
+	bp5: calc(1401 / 16 * 1em),
+) !default;
+
+// ---
+// Grid
+// ---
+
+$container-max-width: calc(1400 / $root-font-size * 1rem);
+
+// The gutter between columns
+$grid-gutter: $space-m;
+$grid-gutter-s: $space-s;
+$grid-gutter-l: $space-l;
+
+// Define the amount of columns in the grid
+$columns: (2, 3, 4, 5, 6) !default;
 
 /*---------------------------------------/*
  # GENERIC
 /*---------------------------------------*/
 
+*,
+*:before,
+*:after {
+	// Reset box-sizing
+	box-sizing: border-box;
+}
+
+* {
+	// Reset margin and font-size
+	padding: 0;
+	margin: 0;
+	font-size: 100%;
+}
+
+img {
+	display: block; // make images block level elements
+	max-width: 100%; // make images responsive
+}
+
 /*---------------------------------------/*
  # ELEMENTS
 /*---------------------------------------*/
-body,
+
+/*
+    Elements: Page
+    ---
+    Default markup for page level elements
+*/
+
 html {
-  height: 100%;
-  width: 100%;
+	font-size: calc($root-font-size / 16 * 100%);
+	line-height: calc(24 / $root-font-size); // 24px
+	font-family: $font-family-primary; // global font-family
+	color: $color-text; // global text color
+	scroll-behavior: smooth; // smooth scrolling
 }
 
-body {
-  background: $bg-color;
-  transition: all 0.14s ease-in;
+/*
+    Customize the background color and color to match your design.
+*/
+
+::selection {
+	background: $color-primary-light; // background color
+	color: white; // text color
+}
+
+/*
+    Elements: typography
+    ---
+    Default markup for typographic elements
+*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 700;
+}
+
+h1 {
+	font-size: $ms7;
+	line-height: calc($baseline * 4);
+	margin-bottom: $space-xxs;
+}
+
+h2 {
+	font-size: $ms3;
+	line-height: calc($baseline * 3);
+	margin-bottom: $space-m;
+}
+
+h3 {
+	font-size: $ms1;
+	line-height: calc($baseline * 3);
+	margin-bottom: $space-m;
+}
+
+h4,
+h5,
+h6 {
+	font-size: $ms0;
+	line-height: calc($baseline * 3);
+	margin-bottom: $space-m;
+}
+
+p,
+ol,
+ul,
+dl,
+table,
+address,
+figure {
+	margin-bottom: $space-m;
+}
+
+p {
+	color: $oc-gray-7;
+	font-size: $ms0;
+}
+
+ul,
+ol {
+	margin-left: $space-m;
+}
+
+li ul,
+li ol {
+	margin-bottom: 0;
+}
+
+blockquote {
+	font-style: italic;
+	font-size: $ms3;
+	line-height: calc($baseline * 4);
+	margin-bottom: $space-m;
+}
+
+figcaption {
+	font-size: $ms-1;
+	line-height: calc($baseline * 2);
+	margin-top: $space-xs;
+	color: $color-text-lighter;
+}
+
+hr {
+	border: 0;
+	height: 1px;
+	background: $color-border;
+	margin-bottom: $space-m;
+}
+
+a {
+	color: $color-primary;
+	transition: all 0.1s ease-in-out;
+}
+
+a:visited {
+	color: $color-primary;
+}
+
+a:hover {
+	color: $color-primary-light;
+}
+
+a:active {
+	color: $color-primary-dark;
 }
 
 /*---------------------------------------/*
  # OBJECTS
 /*---------------------------------------*/
+
+/*
+    Objects: list reset
+    ---
+    Resets the default list styles
+*/
+
+.o-list-reset {
+	list-style: none;
+	margin-left: 0;
+}
+
+/*
+    Object: Button reset
+    ---
+    Small button reset object
+*/
+
+.o-button-reset {
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	overflow: visible;
+	background: transparent;
+
+	/* inherit font & color from ancestor */
+	color: inherit;
+	font: inherit;
+
+	/* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+	line-height: inherit;
+
+	/* Corrects font smoothing for webkit */
+	-webkit-font-smoothing: inherit;
+	-moz-osx-font-smoothing: inherit;
+
+	/* Corrects inability to style clickable `input` types in iOS */
+	-webkit-appearance: none;
+}
+
+/*
+    Objects: Row
+    ---
+    Creates a horizontal row with padding
+*/
+
+.o-row {
+	padding: $space-m $space-m 0;
+	display: flow-root;
+}
+
+.o-row--primary {
+	background: $color-primary-dark;
+}
+
+.o-row--l {
+	@include mq(bp2) {
+		padding: $space-xl $space-m $space-m;
+	}
+}
+
+/*
+    Objects: Container
+    ---
+    Creates a horizontal container that sets de global max-width
+*/
+
 .o-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	max-width: $container-max-width;
 }
 
-/*---------------------------------------/*
- # COMPONENTS
-/*---------------------------------------*/
-.c-power-btn {
-  margin: auto;
-  /* margin-top: 20px; */
-  background: #38434a;
-  border-radius: 0.3125rem;
-  color: white;
-  cursor: pointer;
-  font-family: Roboto;
-  font-weight: 800;
-  font-size: 1.9em;
-  height: 4rem;
-  letter-spacing: 0.2px;
-  line-height: 4rem;
-  text-align: center;
-  user-select: none;
-  width: 10rem;
-  transition: none;
-  &:hover {
-    background: $btn-color-hover;
-  }
-  &:active {
-    box-shadow: inset 0px 4px 10px 0px #2d363b;
-    transition: background 0.14s ease-in;
+/*
+    Objects: Section
+    ---
+    Sections that follow each other get a margin-top
+*/
+
+.o-section + .o-section {
+	margin-top: $space-m;
+}
+
+/*
+    Objects: Layout
+    ---
+    The layout object provides us with a column-style layout system. This object
+    contains the basic structural elements, but classes should be complemented
+    with width utilities
+*/
+
+.o-layout {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.o-layout__item {
+	flex-basis: 100%;
+}
+
+/* gutter modifiers, these affect o-layout__item too */
+
+.o-layout--gutter {
+	margin-left: calc($grid-gutter / -2);
+	margin-right: calc($grid-gutter / -2);
+}
+
+.o-layout--gutter > .o-layout__item {
+	padding-left: calc($grid-gutter / 2);
+	padding-right: calc($grid-gutter / 2);
+}
+
+.o-layout--gutter-s {
+	margin-left: calc($grid-gutter-s / -2);
+	margin-right: calc($grid-gutter-s / -2);
+}
+
+.o-layout--gutter-s > .o-layout__item {
+	padding-left: calc($grid-gutter-s / 2);
+	padding-right: calc($grid-gutter-s / 2);
+}
+
+.o-layout--gutter-l {
+	margin-left: calc($grid-gutter-l / -2);
+	margin-right: calc($grid-gutter-l / -2);
+}
+
+.o-layout--gutter-l > .o-layout__item {
+	padding-left: calc($grid-gutter-l / 2);
+	padding-right: calc($grid-gutter-l / 2);
+}
+
+/* reverse horizontal row modifier */
+
+.o-layout--row-reverse {
+	flex-direction: row-reverse;
+}
+
+/* Horizontal alignment modifiers*/
+
+.o-layout--justify-start {
+	justify-content: flex-start;
+}
+
+.o-layout--justify-end {
+	justify-content: flex-end;
+}
+
+.o-layout--justify-center {
+	justify-content: center;
+}
+
+.o-layout--justify-space-around {
+	justify-content: space-around;
+}
+
+.o-layout--justify-space-evenly {
+	justify-content: space-evenly;
+}
+
+.o-layout--justify-space-between {
+	justify-content: space-between;
+}
+
+/* Vertical alignment modifiers */
+
+.o-layout--align-start {
+	align-items: flex-start;
+}
+
+.o-layout--align-end {
+	align-items: flex-end;
+}
+
+.o-layout--align-center {
+	align-items: center;
+}
+
+.o-layout--align-baseline {
+	align-items: baseline;
+}
+
+/* Vertical alignment modifiers that only work if there is one than one flex item */
+
+.o-layout--align-content-start {
+	align-content: start;
+}
+
+.o-layout--align-content-end {
+	align-content: end;
+}
+
+.o-layout--align-content-center {
+	align-content: center;
+}
+
+.o-layout--align-content-space-around {
+	align-content: space-around;
+}
+
+.o-layout--align-content-space-between {
+	align-content: space-between;
+}
+
+/*------------------------------------*\
+  #COMPONENTS
+\*------------------------------------*/
+
+/*
+  Components: Example
+  ---
+  This is a comment for a component
+*/
+.c-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: $space-m;
+}
+
+.c-header__nav {
+	@include mq(bp1, max) {
+		display: none;
+	}
+}
+
+.c-header__menu {
+	margin-left: auto;
+}
+
+.c-nav__list {
+	display: flex;
+	align-items: center;
+	gap: $space-m;
+}
+
+.c-nav__link:any-link {
+  padding:1rem;
+  border-radius: $radius;
+	color: $color-text;
+	text-decoration: none;
+	color: $color-text-nav;
+  &:hover{
+    background-color: $color-primary-dark2;
+    color: $color-primary;
   }
 }
-/* opmaak van de bulb */
-.c-fancy-bulb {
-  position: relative;
-
-  &__streaks {
-    position: absolute;
-    background: $dark-yellow;
-    border-radius: 5.5px;
-    height: 11px;
-    z-index: 5000;
-
-    &:after,
-    &:before {
-      position: absolute;
-      background: $dark-yellow;
-      border-radius: 5.5px;
-      height: 11px;
-      z-index: 5000;
-      content: '';
-      display: block;
-    }
-
-    &:before {
-      bottom: 4rem;
-    }
-
-    &:after {
-      top: 4rem;
-    }
-
-    &--left {
-      right: 13.5rem;
-      top: 5.5rem;
-    }
-    &--left:before,
-    &--left:after {
-      left: 1rem;
-    }
-
-    &--right {
-      left: 13.5rem;
-      top: 5.5rem;
-    }
-
-    &--right:before,
-    &--right:after {
-      right: 1rem;
-    }
-
-    &--left:before,
-    &--righ:after {
-      transform: rotate(34deg);
-    }
-
-    &--left:after,
-    &--righ:before {
-      transform: rotate(-34deg);
-    }
-  }
-
-  &__light {
-    transform: translate(50%, 50%) scale(0);
-    opacity: 0;
-    fill: $dark-yellow;
-  }
+.c-nav__link--active{
+  background-color: $color-primary-darker;
+  color: $color-primary;
 }
-.c-room {
-  display: flex;
-  flex-direction: column;
-  background: #a3bcc9;
-  padding: 1em;
-  margin: 0 0.5em;
 
-  &__name {
-    font-family: Roboto;
-    font-size: 1.25em;
-    font-weight: 100;
-    text-align: center;
-    margin-bottom: 12px;
-    color: #38434a;
-  }
-  &__icon {
-    margin-bottom: 20px;
-  }
-  &--wait {
-    .c-fancy-bulb {
-      &__light {
-        opacity: 1;
-        transform: translate(0) scale(1);
-        transition: all 0.14s ease-in;
-        fill: rgb(248, 238, 203);
-      }
-    }
-  }
-  &--on {
-    .c-fancy-bulb {
-      &__light {
-        opacity: 1;
-        transform: translate(0) scale(1);
-        transition: all 0.14s ease-in;
-        fill: $dark-yellow;
-      }
+.c-button,
+.c-button:any-link {
+	display: inline-block;
+	padding: calc($space-xs - 1px) $space-m calc($space-xs + 1px);
+	border-radius: $radius-m;
+	// font-weight: 600;
+	text-decoration: none;
+	color: white;
+	background-color: $color-primary-dark;
+	transition: background-color 0.2s ease-in-out;
+	font-size: $ms-1;
+	font-weight: bold;
 
-      &__streaks {
-        &--left {
-          animation: move-left 0.38s ease-out, width-to-zero 0.38s ease-out;
-          animation-delay: 0.14s;
+	&:hover {
+		background-color: $color-primary-dark2;
+	}
+}
 
-          &:before {
-            animation: width-to-zero 0.38s ease-out, move-up 0.38s ease-out;
-            animation-delay: 0.14s;
-          }
-          &:after {
-            animation: width-to-zero 0.38s ease-out, move-down 0.38s ease-out;
-            animation-delay: 0.14s;
-          }
-        }
+.c-button--blue {
+	background-color: $oc-indigo-7;
+	&:hover {
+		background-color: $oc-indigo-7;
+	}
+}
 
-        &--right {
-          animation: move-right 0.38s ease-out, width-to-zero 0.38s ease-out;
-          animation-delay: 0.14s;
-          &:before {
-            animation: width-to-zero 0.38s ease-out, move-up 0.38s ease-out;
-            animation-delay: 0.14s;
-          }
-          &:after {
-            animation: width-to-zero 0.38s ease-out, move-down 0.38s ease-out;
-            animation-delay: 0.14s;
-          }
-        }
-      }
-    }
-    .c-power-btn {
-      background: #58c48d;
-      &:active {
-        box-shadow: inset 0px 6px 8px -1px #41b77b;
-      }
-    }
-  }
+.c-button--block {
+	display: block;
+	width: 100%;
+}
+
+.c-icon-button {
+	display: flex;
+	align-items: center;
+	fill: $color-primary;
+}
+
+.c-date {
+	color: #818a91;
+	margin-bottom: 0.25rem;
+}
+
+.c-card {
+	border-radius: $radius-l;
+	background-color: white;
+	border-color: $oc-gray-2;
+	border-width: 1px;
+	border-style: solid;
+	margin-bottom: $space-xl;
+
+	&--blue {
+		border-color: $oc-indigo-7;
+		margin-bottom: 0;
+	}
+
+	&--lblue {
+		border-color: $oc-indigo-0;
+		border-width: 4px;
+		margin-bottom: $space-m;
+	}
+
+	&--follow {
+		background-color: $oc-gray-1;
+	}
+}
+
+.c-card__body {
+	padding: $space-m $space-m 0;
+	display: flow-root;
+
+	& + & {
+		border-top: 1px solid $color-border-light;
+	}
+}
+
+.c-author {
+	display: flex;
+	align-items: center;
+	gap: $space-s;
+	margin-bottom: $space-m;
+}
+
+.c-author__name > strong {
+	color: $oc-indigo-7;
+	font-weight: bold;
+}
+
+.c-author__image {
+	width: calc($baseline * 8);
+	aspect-ratio: 1/1;
+	border-radius: 100%;
+	margin-right: $ms-1;
+}
+
+.c-author__icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: $oc-gray-1;
+	width: calc($baseline * 8);
+	aspect-ratio: 1/1;
+	border-radius: 4px;
+	fill: $oc-indigo-7;
+	margin-right: $ms-1;
 }
 
 /*---------------------------------------/*
  # UTILITIES
 /*---------------------------------------*/
 
-/* body.u-active {
-  background: #f3f7f9;
-} */
+.u-lighttext {
+	color: #818a91;
+}
+
+.u-hugright {
+	text-align: end;
+}
+
+.u-rounded {
+	border-radius: $radius;
+}
+
+.u-rounded-m {
+	border-radius: $radius-m;
+}
+
+.u-rounded-l {
+	border-radius: $radius-l;
+}
+
+.u-fullwidth {
+	width: 100%;
+}
+
+/*
+    Utilities: Colors
+    ---
+    Utility classes to set the color of an element
+*/
+
+.u-color-text-light {
+	color: $color-text-light;
+}
+
+.u-color-text-lighter {
+	color: $color-text-lighter;
+}
+/*
+    Utilities: Max widths
+    ---
+    max-width utility classes
+*/
+
+.u-max-width-s {
+	max-width: calc(600 / 16 * 1rem);
+}
+
+.u-max-width-m {
+	max-width: calc(960 / 16 * 1rem);
+}
+
+.u-max-width-l {
+	max-width: calc(1400 / 16 * 1rem);
+}
+
+/*
+    Utitlities: whitespace
+    ---
+    Utility classes to put specific margins and padding onto elements
+*/
+
+.u-pt-clear {
+	padding-top: 0;
+}
+
+.u-mb-clear {
+	margin-bottom: 0;
+}
+
+.u-mb-s {
+	margin-bottom: $space-s;
+}
+
+.u-mb-xs {
+	margin-bottom: $space-xs;
+}
+
+/*
+  Utilities: Font size
+  ---
+  Font size utility classes
+*/
+
+.u-ms-1 {
+	font-size: $ms-1;
+	line-height: calc($baseline * 3);
+}
+
+/*
+    Utilities: Widths
+    ---
+    Width utility classes
+*/
+
+.u-flex-basis-auto {
+	flex-basis: auto;
+}
+
+// Loop through the different columns
+@each $column in $columns {
+	// Generate the grid classes
+	@each $denominator, $numerator in $column {
+		// Begin creating a numerator for our fraction up until we hit the
+		// denominator.
+		@for $numerator from 1 through $denominator {
+			// Build a class in the format `.u-4-of-6`
+			.u-#{$numerator}-of-#{$denominator} {
+				flex-basis: calc(($numerator / $denominator) * 100%) !important;
+			}
+		}
+	}
+}
+
+// Loop through the different breakpoints
+@each $breakpoint, $value in $breakpoints {
+	@include mq($value) {
+		// Loop through the different columns
+		@each $column in $columns {
+			// Generate the grid classes
+			@each $denominator, $numerator in $column {
+				// Begin creating a numerator for our fraction up until we hit the
+				// denominator.
+				@for $numerator from 1 through $denominator {
+					// Build a class in the format `.u-4-of-6-bp1`
+					.u-#{$numerator}-of-#{$denominator}-#{$breakpoint} {
+						flex-basis: calc(($numerator / $denominator) * 100%) !important;
+					}
+				}
+			}
+		}
+	}
+}

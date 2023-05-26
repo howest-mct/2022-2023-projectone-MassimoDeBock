@@ -38,32 +38,41 @@ Stijn Walcarius:
 
 Vragen voor dit gesprek:
 
--   vraag 1: Feedback op de huidige database, hoeft alles 50 rows te hebben
+-   vraag 1: Feedback op de huidige database
+-   vraag 2: Hoeft alles 50 rows te hebben
 
 Dit is de feedback op mijn vragen.
 
--   feedback 1: De database lijkt goed en alleen voor de rows waar het realistisch is om 50 rows te hebben.
+-   feedback 1: De database lijkt goed
+-   feedback 2: Alleen voor de rows waar het realistisch is om 50 rows te hebben.
 
-## Gesprek 2 (Datum: xx/xx/2023)
+## Gesprek 2 (Datum: 25/05/2023)
 
-Lector:
+Geert Deslovere:
 
 Vragen voor dit gesprek:
 
--   vraag 1: V
+-   vraag 1: Feedback op nieuw fritzing schema
 
 Dit is de feedback op mijn vragen.
 
--   feedback 1: G
+-   feedback 1: - Module voor servomotor was niet verbonden met ground en volt
+                - RFID reader rst lijn staat in het zwart ipv andere kleur
+                - De kabel tussen LCD zijn "brightness" pin en de potentiometer staat in her rood, is geen 5v of 3.3v dus nieuwe kleur kiezen
 
-## Gesprek 3 (Datum: xx/xx/2023)
+## Gesprek 3 (Datum: 25/05/2023)
 
-Lector:
+Pieter-Jan Beeckman:
 
 Vragen voor dit gesprek:
 
--   [x] vraag 1: V
+-   vraag 1: Waarom werkt mijn RFID reader niet?
+
+-   vraag 2: Kan hiervoor een library gebruikt worden.
 
 Dit is de feedback op mijn vragen.
 
--   feedback 1: G
+-   feedback 1: We keken naar de code voor rfid en het probleem bleek aan het kaartje te liggen,
+                in te tussentijd zag ik ook dat er 2 functies zijn 1 blockende en 1 niet blockende voor rfid
+
+    feedback 2: Library kan gebruikt worden, maar mail hiervoor sturen
