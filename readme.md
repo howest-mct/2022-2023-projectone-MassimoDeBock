@@ -1,4 +1,4 @@
-# Docter Pablo
+# Doctor Pablo
 
 
 **VOORNAAM NAAM:** Massimo De Bock
