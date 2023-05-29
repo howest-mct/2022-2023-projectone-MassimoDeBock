@@ -49,8 +49,8 @@ const showMedicationIntake = function(jsonObject){
 		<p class="u-mb-clear">${intake.Time}</p>
 		<p class="u-mb-clear">${intake.FirstName + " " +intake.LastName}</p>
 		<p class="u-mb-clear">${intake.Name}</p>
-		<p class="u-mb-clear">${}</p>
-		<p class="u-mb-clear">1min</p>
+		<p class="u-mb-clear">${intake.Dosage}</p>
+		<p class="u-mb-clear">${intake.Delay} min</p>
 	</div>
 	<hr class="u-mb-clear">
 </li>
