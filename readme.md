@@ -1,4 +1,4 @@
-# Docter Pablo
+# Doctor Pablo
 
 
 **VOORNAAM NAAM:** Massimo De Bock
@@ -7,4 +7,4 @@
 
 **Projectsamenvatting in max 10 woorden:** Helpen met onthouden van medicatie te nemen
 
-**Projecttitel:** Docter Pablo
+**Projecttitel:** Doctor Pablo
