@@ -5,6 +5,8 @@ from flask import Flask, jsonify
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 
+from subprocess import check_output
+
 from Handlers.MedicationHandler import MedicationHandler
 
 # TODO: GPIO
@@ -52,6 +54,17 @@ def start_thread():
 def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
 
+@app.route('/ip')
+def getIp():
+    ipaddresses = check_output(
+        ['hostname', '--all-ip-addresses']).decode('utf-8')
+    ipaddresses = ipaddresses[0:len(ipaddresses)-2]
+    return ipaddresses
+
+@app.route('/getrecentdata')
+def getRecentData():
+    data = DataRepository.GetRecentMedicationInfo()
+    return data
 
 # SOCKET IO
 @socketio.on('connect')
@@ -81,6 +94,7 @@ def switch_light(data):
     if lamp_id == '3':
         print(f"TV kamer moet switchen naar {new_status} !")
         # Do something
+    
 
 
 if __name__ == '__main__':

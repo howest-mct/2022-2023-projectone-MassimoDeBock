@@ -40,6 +40,7 @@ html {
   line-height: 1.5;
   font-family: inter, sans-serif;
   color: #212529;
+  background-color: #dee2e6;
   scroll-behavior: smooth;
 }
 
@@ -106,7 +107,7 @@ figure {
 }
 
 p {
-  color: #495057;
+  color: #868e96;
   font-size: 1rem;
 }
 
@@ -444,6 +445,13 @@ a:active {
   background-color: #37b24d;
 }
 
+.c-button--ip {
+  position: fixed;
+  bottom: 1rem;
+  right: 2rem;
+  padding: 0.5rem;
+}
+
 .c-button--blue {
   background-color: #4263eb;
 }
@@ -489,6 +497,7 @@ a:active {
 }
 
 .c-card__body {
+  border-radius: 8px;
   padding: 1.5rem 1.5rem 0;
   display: flow-root;
 }
@@ -527,9 +536,29 @@ a:active {
   margin-right: 0.8888888889rem;
 }
 
+.c-historycontainer {
+  display: flex;
+  align-items: center;
+}
+
+.c-historycontainer object {
+  margin-right: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 0.5rem;
+}
+
+.c-historycontainer p {
+  flex: 1;
+}
+
 /*---------------------------------------/*
  # UTILITIES
 /*---------------------------------------*/
+.u-filllightgrey {
+  background-color: #f8f9fa;
+}
+
 .u-lighttext {
   color: #818a91;
 }
@@ -565,6 +594,18 @@ a:active {
 
 .u-color-text-lighter {
   color: #adb5bd;
+}
+
+.u-color-text-darker {
+  color: #495057;
+}
+
+.u-fill-darker {
+  background-color: #dee2e6;
+}
+
+.u-border-darker {
+  border-color: #495057;
 }
 
 /*
@@ -1013,4 +1054,4 @@ a:active {
   .u-6-of-6-bp5 {
     flex-basis: 100% !important;
   }
-}
+}/*# sourceMappingURL=screen.css.map */

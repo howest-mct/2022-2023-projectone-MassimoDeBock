@@ -68,3 +68,8 @@ class DataRepository:
             print("something went wrong with logging a component")
         return
             
+
+    @staticmethod
+    def GetRecentMedicationInfo():
+        sql = "SELECT * FROM (     SELECT * FROM DocterPablo.MedicationIntake MI      WHERE MI.Status = 'Taken'     ORDER BY MI.Time DESC     LIMIT 2 ) AS Subquery1  UNION ALL  SELECT * FROM (     SELECT * FROM DocterPablo.MedicationIntake MI     WHERE MI.Status != 'Taken'     ORDER BY MI.Time     LIMIT 3 ) AS Subquery2; "
+        return Database.get_rows(sql)

@@ -3,7 +3,7 @@
 /*---------------------------------------*/
 
 // import open color
-@import 'open-color';
+@import "open-color";
 
 /*---------------------------------------/*
  # TOOLS
@@ -49,7 +49,6 @@ $color-primary-dark: $oc-green-6;
 $color-primary-dark2: $oc-green-7;
 
 $color-primary-darker: $oc-green-8;
-
 
 $color-border: $oc-gray-2;
 $color-border-light: $oc-gray-1;
@@ -172,6 +171,7 @@ html {
 	line-height: calc(24 / $root-font-size); // 24px
 	font-family: $font-family-primary; // global font-family
 	color: $color-text; // global text color
+	background-color: $oc-gray-3;
 	scroll-behavior: smooth; // smooth scrolling
 }
 
@@ -235,7 +235,7 @@ figure {
 }
 
 p {
-	color: $oc-gray-7;
+	color: $oc-gray-6;
 	font-size: $ms0;
 }
 
@@ -529,19 +529,19 @@ a:active {
 }
 
 .c-nav__link:any-link {
-  padding:1rem;
-  border-radius: $radius;
+	padding: 1rem;
+	border-radius: $radius;
 	color: $color-text;
 	text-decoration: none;
 	color: $color-text-nav;
-  &:hover{
-    background-color: $color-primary-dark2;
-    color: $color-primary;
-  }
+	&:hover {
+		background-color: $color-primary-dark2;
+		color: $color-primary;
+	}
 }
-.c-nav__link--active{
-  background-color: $color-primary-darker;
-  color: $color-primary;
+.c-nav__link--active {
+	background-color: $color-primary-darker;
+	color: $color-primary;
 }
 
 .c-button,
@@ -560,6 +560,13 @@ a:active {
 	&:hover {
 		background-color: $color-primary-dark2;
 	}
+}
+
+.c-button--ip {
+	position: fixed;
+	bottom: 1rem;
+	right: $grid-gutter-l;
+	padding: 0.5rem;
 }
 
 .c-button--blue {
@@ -610,6 +617,7 @@ a:active {
 }
 
 .c-card__body {
+	border-radius: $radius-l;
 	padding: $space-m $space-m 0;
 	display: flow-root;
 
@@ -649,9 +657,29 @@ a:active {
 	margin-right: $ms-1;
 }
 
+.c-historycontainer {
+	display: flex;
+	align-items: center;
+}
+
+.c-historycontainer object {
+	margin-right: 0.75rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	margin-left: 0.5rem;
+}
+
+.c-historycontainer p {
+	flex: 1;
+}
+
 /*---------------------------------------/*
  # UTILITIES
 /*---------------------------------------*/
+
+.u-filllightgrey {
+	background-color: $oc-gray-0;
+}
 
 .u-lighttext {
 	color: #818a91;
@@ -689,6 +717,15 @@ a:active {
 
 .u-color-text-lighter {
 	color: $color-text-lighter;
+}
+.u-color-text-darker {
+	color: $oc-gray-7;
+}
+.u-fill-darker {
+	background-color: $oc-gray-3;
+}
+.u-border-darker {
+	border-color: $oc-gray-7;
 }
 /*
     Utilities: Max widths
