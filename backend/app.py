@@ -19,13 +19,14 @@ socketio = SocketIO(app, cors_allowed_origins="*",
                     async_mode='gevent', ping_interval=0.5)
 CORS(app)
 
+ENDPOINT = '/api/v1'
+
 
 # START een thread op. Belangrijk!!! Debugging moet UIT staan op start van de server, anders start de thread dubbel op
 # werk enkel met de packages gevent en gevent-websocket.
 def run():
     # wait 10s with sleep sintead of threading.Timer, so we can use daemon
-    pablo =  MedicationHandler()
-
+    pablo = MedicationHandler()
 
     time.sleep(2)
     print("Functional")
@@ -42,6 +43,7 @@ def run():
 
         pablo.update()
 
+
 def start_thread():
     # threading.Timer(10, all_out).start()
     t = threading.Thread(target=run, daemon=True)
@@ -54,19 +56,23 @@ def start_thread():
 def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
 
-@app.route('/ip')
+
+@app.route(ENDPOINT+'/ip')
 def getIp():
     ipaddresses = check_output(
         ['hostname', '--all-ip-addresses']).decode('utf-8')
     ipaddresses = ipaddresses[0:len(ipaddresses)-2]
-    return ipaddresses
+    return jsonify(ipaddresses)
 
-@app.route('/getrecentdata')
+
+@app.route(ENDPOINT+'/getrecentdata')
 def getRecentData():
     data = DataRepository.GetRecentMedicationInfo()
     return data
 
 # SOCKET IO
+
+
 @socketio.on('connect')
 def initial_connection():
     print('A new client connect')
@@ -94,7 +100,6 @@ def switch_light(data):
     if lamp_id == '3':
         print(f"TV kamer moet switchen naar {new_status} !")
         # Do something
-    
 
 
 if __name__ == '__main__':

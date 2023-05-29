@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+		<meta charset="utf-8" >
+		<!-- <meta http-equiv="x-ua-compatible" content="ie=edge" > -->
 		<title>Doctor Pablo - Massimo De Bock</title>
-		<meta name="description" content="Project for MCT" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="Project for MCT" >
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
 
-		<link rel="icon" href="favicon.ico" sizes="any" />
-		<link rel="icon" href="favicon.svg" type="image/svg+xml" />
-		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-		<link rel="manifest" href="manifest.webmanifest" />
+		<link rel="icon" href="favicon.ico" sizes="any" >
+		<!-- <link rel="icon" href="favicon.svg" type="image/svg+xml" > -->
+		<!-- <link rel="apple-touch-icon" href="apple-touch-icon.png" > -->
+		<link rel="manifest" href="manifest.webmanifest" >
 
-		<link rel="stylesheet" href="style/screen.css" />
+		<link rel="stylesheet" href="style/screen.css" >
+		<script src="script/datahandler.js"></script>
+		<script src="script/app.js"></script>
 	</head>
 
 	<body>
 		<header class="o-row o-row--s o-row--primary">
 			<div class="c-header">
 				<h2 class="c-logo">
-					<!-- <a class="c-logo__link" href="index.html">
-                    Eventbrite
-                </a> -->
-					<!-- <svg class="c-icon-button" viewbox="89,37 16 89,37 48" xmlns="http://www.w3.org/2000/svg" width="89,37" height="48"> -->
-					<svg class="c-icon-button" xmlns=" http://www.w3.org/2000/svg" width="126" height="39" viewBox="0 0 126 39">
+					<svg class="c-icon-button" xmlns="http://www.w3.org/2000/svg" width="126" height="39" viewBox="0 0 126 39">
 						<text id="Logo" transform="translate(0 32)" font-size="32" font-family="BasicSans-Bold, Basic Sans" font-weight="700">
 							<tspan x="0" y="0">Dr. Pablo</tspan>
 						</text>
@@ -47,9 +45,10 @@
 				</nav>
 			</div>
 		</header>
-		<hr />
+		<hr>
 		<main class="c-main">
-			<button type="button" class="o-button-reset c-button c-button--meta c-button--ip">Show IP</button>
+			<button type="button" class="o-button-reset c-button c-button--meta c-button--ip js-ipButton">Show IP</button>
+
 			<section class="o-row o-row--l">
 				<div class="o-container">
 					<div class="o-layout o-layout--gutter">
@@ -58,7 +57,7 @@
 								<div class="c-card__body u-filllightgrey">
 									<h2 class="u-mb-xs">Medication intake</h2>
 									<p>Gives an overview of the last 2 taken medication and the next 3</p>
-									<hr />
+									<hr >
 									<div class="c-card">
 										<div class="c-historycontainer">
 											<object data="./style/svg/pillgrey.svg" type="image/svg+xml"></object>
@@ -68,55 +67,55 @@
 											<p class="u-mb-clear u-color-text-darker">Dosis</p>
 											<p class="u-mb-clear u-color-text-darker">Delay time</p>
 										</div>
-										<hr class="u-mb-clear u-fill-darker" />
-										<ul class="o-list-reset js-recentintake u-mb-clear">
+										<hr class="u-mb-clear u-fill-darker" >
+										<ul class="o-list-reset js-medicationIntakeTable u-mb-clear">
 											<li>
 												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
+													<!-- <object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object> -->
 													<p class="u-mb-clear">2022-05-25 00:59</p>
 													<p class="u-mb-clear">Johan Tuin</p>
 													<p class="u-mb-clear">Galantamine</p>
 													<p class="u-mb-clear">4mg</p>
 													<p class="u-mb-clear">1min</p>
-												</div>
+												</div><hr class="u-mb-clear" >
 											</li>
-											<hr class="u-mb-clear" />
+											
 											<li>
 												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
+													<!-- <object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object> -->
 													<p class="u-mb-clear">2022-05-25 00:59</p>
 													<p class="u-mb-clear">Johan Tuin</p>
 													<p class="u-mb-clear">Galantamine</p>
 													<p class="u-mb-clear">4mg</p>
 													<p class="u-mb-clear">1min</p>
-												</div>
+												</div><hr class="u-mb-clear" >
 											</li>
-											<hr class="u-mb-clear" />
+											
 											<li>
 												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
+													<!-- <object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object> -->
 													<p class="u-mb-clear">2022-05-25 00:59</p>
 													<p class="u-mb-clear">Johan Tuin</p>
 													<p class="u-mb-clear">Galantamine</p>
 													<p class="u-mb-clear">4mg</p>
 													<p class="u-mb-clear">1min</p>
-												</div>
+												</div><hr class="u-mb-clear" >
 											</li>
-											<hr class="u-mb-clear" />
+											
 											<li>
 												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
+													<!-- <object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object> -->
 													<p class="u-mb-clear">2022-05-25 00:59</p>
 													<p class="u-mb-clear">Johan Tuin</p>
 													<p class="u-mb-clear">Galantamine</p>
 													<p class="u-mb-clear">4mg</p>
 													<p class="u-mb-clear">1min</p>
-												</div>
+												</div><hr class="u-mb-clear" >
 											</li>
-											<hr class="u-mb-clear" />
+											
 											<li>
 												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
+													<!-- <object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object> -->
 													<p class="u-mb-clear">2022-05-25 00:59</p>
 													<p class="u-mb-clear">Johan Tuin</p>
 													<p class="u-mb-clear">Galantamine</p>
