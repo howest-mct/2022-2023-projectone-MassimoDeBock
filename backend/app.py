@@ -1,7 +1,7 @@
 import threading
 import time
 from repositories.DataRepository import DataRepository
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 
@@ -42,6 +42,8 @@ def run():
         # time.sleep(30)
 
         pablo.update()
+        
+        time.sleep(1)
 
 
 def start_thread():
@@ -67,8 +69,9 @@ def getIp():
 
 @app.route(ENDPOINT+'/getrecentdata')
 def getRecentData():
-    data = DataRepository.GetRecentMedicationInfo()
-    return data
+    print("1")
+    data = DataRepository.GetDispenserInfo()
+    return jsonify(data)
 
 # SOCKET IO
 
@@ -78,10 +81,16 @@ def initial_connection():
     print('A new client connect')
     # # Send to the client!
     # vraag de status op van de lampen uit de DB
-    status = DataRepository.read_status_lampen()
+    id = request.sid
+    status = DataRepository.GetDispenserInfo()
+    # status2 = DataRepository.read_status_lampen()
+    # print(status)
+    # print(status2)
     # socketio.emit('B2F_status_lampen', {'lampen': status})
     # Beter is het om enkel naar de client te sturen die de verbinding heeft gemaakt.
-    emit('B2F_status_lampen', {'lampen': status}, broadcast=False)
+
+    socketio.emit('B2F_status_dispenser', status, to=id)
+    # emit('B2F_status_lampen', {'lampen': status}, broadcast=False)
 
 
 @socketio.on('F2B_switch_light')
@@ -98,7 +107,7 @@ def switch_light(data):
     socketio.emit('B2F_verandering_lamp',  {'lamp': data})
     # Indien het om de lamp van de TV kamer gaat, dan moeten we ook de hardware aansturen.
     if lamp_id == '3':
-        print(f"TV kamer moet switchen naar {new_status} !")
+        print(f"TV kamer moet switchen naar {new_status[0]} !")
         # Do something
 
 

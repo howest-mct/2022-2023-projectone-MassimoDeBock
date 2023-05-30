@@ -3,7 +3,7 @@
 /*---------------------------------------*/
 
 // import open color
-@import "open-color";
+@import 'open-color';
 
 /*---------------------------------------/*
  # TOOLS
@@ -671,6 +671,17 @@ a:active {
 
 .c-historycontainer p {
 	flex: 1;
+	margin-right: 0.5rem;
+}
+
+.c-logincontainer {
+	//
+}
+
+.c-logincontainer form {
+	display: flex;
+	align-items: center;
+	margin-left: 0.5rem;
 }
 
 /*---------------------------------------/*

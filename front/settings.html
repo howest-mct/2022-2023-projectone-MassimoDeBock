@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<!-- <meta http-equiv="x-ua-compatible" content="ie=edge" > -->
+	<title>Doctor Pablo - Massimo De Bock</title>
+	<meta name="description" content="Project for MCT">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="icon" href="favicon.ico" sizes="any">
+	<!-- <link rel="icon" href="favicon.svg" type="image/svg+xml" > -->
+	<!-- <link rel="apple-touch-icon" href="apple-touch-icon.png" > -->
+	<link rel="manifest" href="manifest.webmanifest">
+
+	<link rel="stylesheet" href="style/screen.css">
+	<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+	<script src="script/datahandler.js"></script>
+	<script src="script/app.js"></script>
+</head>
+
+<body>
+	<header class="o-row o-row--s o-row--primary">
+		<div class="c-header">
+			<h2 class="c-logo">
+				<svg class="c-icon-button" xmlns="http://www.w3.org/2000/svg" width="126" height="39" viewBox="0 0 126 39">
+					<text id="Logo" transform="translate(0 32)" font-size="32" font-family="BasicSans-Bold, Basic Sans" font-weight="700">
+						<tspan x="0" y="0">Dr. Pablo</tspan>
+					</text>
+				</svg>
+			</h2>
+			<nav class="c-header__nav c-nav">
+				<ul class="o-list-reset c-nav__list o-list-reset">
+					<li class="c-nav__item">
+						<a class="c-nav__link" href="index.html">Overzicht</a>
+					</li>
+					<li class="c-nav__item">
+						<a class="c-nav__link" href="#!">Historiek</a>
+					</li>
+					<li class="c-nav__item">
+						<a class="c-nav__link" href="#!">Medicatie</a>
+					</li>
+					<li class="c-nav__item">
+						<a class="c-nav__link c-nav__link--active" href="settings.html">Settings</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<hr>
+	<main class="c-main">
+		<button type="button" class="o-button-reset c-button c-button--meta c-button--ip js-ipButton">Show IP</button>
+
+		<section class="o-row o-row--l">
+			<div class="o-container">
+				<div class="o-layout o-layout--gutter">
+					<section class="o-layout__item u-2-of-3-bp3">
+						<div class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">AddUser</h2>
+								<p>Use this to login and make certain changes</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<form>
+												<input type="Name" placeholder="Name" name="name" required>
+												<input type="LastName" placeholder="Last Name" name="last name" required>
+												<input type="Phonenumber" placeholder="Phonenumber" name="phone number" required>
+												<input type="PhoneNumberResponsible" placeholder="Phone number of responsible person" name="phonenumberresponsible">
+												<input type="RfidTag" placeholder="rfid id" name="rfidid" value="">
+												<input type="button" class="j-getRfid" value="GetRfid">
+												<input type="submit" value="Add user">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section class="o-layout__item u-1-of-3-bp3">
+						<div class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">Login</h2>
+								<p>Use this to login and make certain changes</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<form class="j-loginform">
+												<input type="text" placeholder="Username" name="username" required>
+												<input type="password" placeholder="Password" name="password" required>
+												<input type="submit" value="Login">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section class="o-layout__item u-1-of-3-bp3"></section>
+				</div>
+			</div>
+		</section>
+	</main>
+</body>
+
+</html>
