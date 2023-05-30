@@ -127,7 +127,8 @@ const init = function () {
 	}
 
 	htmlRFIDButton = document.querySelector('.j-getRfid');
-	if(htmlRFIDButton)
+	if (htmlRFIDButton) {
+	}
 };
 
 document.addEventListener('DOMContentLoaded', init);
