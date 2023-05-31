@@ -56,9 +56,7 @@ Vragen voor dit gesprek:
 
 Dit is de feedback op mijn vragen.
 
--   feedback 1: - Module voor servomotor was niet verbonden met ground en volt
-                - RFID reader rst lijn staat in het zwart ipv andere kleur
-                - De kabel tussen LCD zijn "brightness" pin en de potentiometer staat in her rood, is geen 5v of 3.3v dus nieuwe kleur kiezen
+-   feedback 1: - Module voor servomotor was niet verbonden met ground en volt - RFID reader rst lijn staat in het zwart ipv andere kleur - De kabel tussen LCD zijn "brightness" pin en de potentiometer staat in her rood, is geen 5v of 3.3v dus nieuwe kleur kiezen
 
 ## Gesprek 3 (Datum: 25/05/2023)
 
@@ -73,6 +71,30 @@ Vragen voor dit gesprek:
 Dit is de feedback op mijn vragen.
 
 -   feedback 1: We keken naar de code voor rfid en het probleem bleek aan het kaartje te liggen,
-                in te tussentijd zag ik ook dat er 2 functies zijn 1 blockende en 1 niet blockende voor rfid
+    in te tussentijd zag ik ook dat er 2 functies zijn 1 blockende en 1 niet blockende voor rfid
 
     feedback 2: Library kan gebruikt worden, maar mail hiervoor sturen
+
+## Gesprek 4 (Datum: 31/05/2023)
+
+Dieter:
+
+Vragen voor dit gesprek:
+
+-   vraag 1: Moet login/security gedaan worden?
+
+-   vraag 2: Hoe werken buttons en submit in form?
+
+-   vraag 3: backend_IP localhost of effectieve ip?
+
+-   vraag 4: Table formatting veranderd veel op reload
+
+Dit is de feedback op mijn vragen.
+
+-   feedback 1: Niet nodig voor dit project
+
+-   feedback 2: Submit reload altijd indien je dat niet wil gebruik een button
+
+-   feedback 3: LanIp ipv statisch ip
+
+-   feedback 4: Voeg de data toe aan de html zelf en laat ze daarnaa overschreven worden

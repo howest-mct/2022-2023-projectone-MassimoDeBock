@@ -24,9 +24,13 @@ ENDPOINT = '/api/v1'
 
 # START een thread op. Belangrijk!!! Debugging moet UIT staan op start van de server, anders start de thread dubbel op
 # werk enkel met de packages gevent en gevent-websocket.
+pablo = MedicationHandler()
+
+
 def run():
     # wait 10s with sleep sintead of threading.Timer, so we can use daemon
-    pablo = MedicationHandler()
+    # pablo = MedicationHandler()
+    pablo.SetScanReturn(sendRFIDToBackend)
 
     time.sleep(2)
     print("Functional")
@@ -42,7 +46,7 @@ def run():
         # time.sleep(30)
 
         pablo.update()
-        
+
         time.sleep(1)
 
 
@@ -51,6 +55,11 @@ def start_thread():
     t = threading.Thread(target=run, daemon=True)
     t.start()
     print("thread started")
+
+
+def sendRFIDToBackend(rfid, clientId):
+    print(f"sending data {rfid} to {clientId}")
+    socketio.emit('B2F_rfid_id', rfid, to=clientId)
 
 
 # API ENDPOINTS
@@ -109,6 +118,13 @@ def switch_light(data):
     if lamp_id == '3':
         print(f"TV kamer moet switchen naar {new_status[0]} !")
         # Do something
+
+
+@socketio.on('F2B_request_rfid')
+def requestRfid():
+    id = request.sid
+    print(f"rfid got requested {id}")
+    pablo.SetScanReturnId(id)
 
 
 if __name__ == '__main__':

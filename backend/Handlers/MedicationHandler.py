@@ -22,6 +22,9 @@ class MedicationHandler:
         GPIO.setup(self.__testpin, GPIO.OUT)
         self.__bool = False
 
+        self.__scannedCallback = None
+        self.__rfidCallbackId = False
+
     def update(self):
         self.__bool = ~self.__bool
         GPIO.output(self.__testpin, self.__bool)
@@ -54,6 +57,17 @@ class MedicationHandler:
 
     def __ReadRFID(self):
         if self.__rfidReader.Read():
-            print(self.__rfidReader.getId())
+            id = self.__rfidReader.getId()
+            print(id)
+            if (self.__rfidCallbackId and (self.__scannedCallback != None)):
+                self.__scannedCallback(id, self.__rfidCallbackId)
+                self.__rfidCallbackId = None
 
             self.__timeOutFuncRFID.Timeout(2)
+
+    def SetScanReturn(self, callback):
+        self.__scannedCallback = callback
+
+    def SetScanReturnId(self, id):
+        self.__rfidReader.reset()
+        self.__rfidCallbackId = id

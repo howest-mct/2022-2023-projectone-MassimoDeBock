@@ -1,9 +1,9 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socketio = io(lanIP);
 
-const backend_IP = 'http://192.168.168.169:5000';
+// const backend_IP = 'http://192.168.168.169:5000';
 // const backend_IP = "http://192.168.1.199:5000";
-const backend = backend_IP + '/api/v1';
+const backend = lanIP + '/api/v1';
 //const backend = lanIP + "/api/v1";
 
 // #region ***  DOM references                           ***********
@@ -11,9 +11,15 @@ let htmlIpButton;
 let htmlMedicationIntakeTable;
 
 let htmlLoginForm;
+
 let htmlAddUser;
 let htmlRFIDButton;
 
+let htmlAUName;
+let htmlAULastName;
+let htmlAUPhoneNumber;
+let htmlAUPhoneNumberResp;
+let htmlRFIDField;
 // #endregion
 
 // #region ***  Callback-Visualisation - show___         ***********
@@ -78,12 +84,17 @@ const getMedicationIntake = function () {
 	}
 };
 
-const getRFID = function () {
+const getlogin = function () {
 	const username = document.getElementsByName('username')[0].value;
 	const password = document.getElementsByName('password')[0].value;
 	if (username && password) {
 		socketio.emit('F2B_login', { username, password });
 	}
+};
+
+const getRfid = function () {
+	socketio.emit('F2B_request_rfid');
+	console.log('rfidRequested');
 };
 
 // #endregion
@@ -121,13 +132,19 @@ const init = function () {
 		//getMedicationIntake();
 	}
 
-	htmlLoginForm = document.querySelector('.j-loginform');
+	htmlLoginForm = document.querySelector('.js-loginform');
 	if (htmlLoginForm) {
-		htmlLoginForm.addEventListener('click', getRFID);
+		htmlLoginForm.addEventListener('click', getlogin);
 	}
 
-	htmlRFIDButton = document.querySelector('.j-getRfid');
+	htmlRFIDButton = document.querySelector('.js-getRfid');
+	htmlRFIDField = document.querySelector('.js-rfidfield');
 	if (htmlRFIDButton) {
+		htmlRFIDButton.addEventListener('click', getRfid);
+		htmlAUName = document.querySelector;
+		htmlAULastName;
+		htmlAUPhoneNumber;
+		htmlAUPhoneNumberResp;
 	}
 };
 
@@ -147,6 +164,13 @@ const listenToSocket = function () {
 			console.log('clientInfo');
 			console.log(jsonObject);
 			showMedicationIntake(jsonObject);
+		}
+	});
+
+	socketio.on('B2F_rfid_id', function (jsonObject) {
+		if (htmlRFIDField) {
+			console.log(jsonObject);
+			htmlRFIDField.value = jsonObject;
 		}
 	});
 };
