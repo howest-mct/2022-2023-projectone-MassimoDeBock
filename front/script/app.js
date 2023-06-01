@@ -92,6 +92,21 @@ const getlogin = function () {
 	}
 };
 
+const createNewUser = function () {
+	let name = htmlAUName.value;
+	let lastName = htmlAULastName.value;
+	let phoneNumber = htmlAUPhoneNumber.value;
+	let phoneNumberResp = htmlAUPhoneNumberResp.value;
+	let rfidField = htmlRFIDField.value;
+
+	if (name && lastName) {
+		console.log('data being send');
+		socketio.emit('F2B_add_user', { name: name, lastName: lastName, phoneNumber: phoneNumber, phoneNumberResp: phoneNumberResp, rfidField: rfidField });
+	} else {
+		console.log("data can't be send, not enough");
+	}
+};
+
 const getRfid = function () {
 	socketio.emit('F2B_request_rfid');
 	console.log('rfidRequested');
@@ -141,10 +156,15 @@ const init = function () {
 	htmlRFIDField = document.querySelector('.js-rfidfield');
 	if (htmlRFIDButton) {
 		htmlRFIDButton.addEventListener('click', getRfid);
-		htmlAUName = document.querySelector;
-		htmlAULastName;
-		htmlAUPhoneNumber;
-		htmlAUPhoneNumberResp;
+
+		htmlAUName = document.querySelector('.js-nuname');
+		htmlAULastName = document.querySelector('.js-nulastname');
+		htmlAUPhoneNumber = document.querySelector('.js-nuphonenumber');
+		htmlAUPhoneNumberResp = document.querySelector('.js-nuphonenumberresponsible');
+		htmlAddUser = document.querySelector('.js-newUserBtn');
+		if (htmlAddUser) {
+			htmlAddUser.addEventListener('click', createNewUser);
+		}
 	}
 };
 
@@ -167,10 +187,10 @@ const listenToSocket = function () {
 		}
 	});
 
-	socketio.on('B2F_rfid_id', function (jsonObject) {
+	socketio.on('B2F_rfid_id', function (id) {
 		if (htmlRFIDField) {
-			console.log(jsonObject);
-			htmlRFIDField.value = jsonObject;
+			console.log(id);
+			htmlRFIDField.value = id;
 		}
 	});
 };

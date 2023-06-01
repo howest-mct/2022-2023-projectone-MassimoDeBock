@@ -35,7 +35,7 @@ class DataRepository:
 
     @staticmethod
     def GetNextScheduledMedication():
-        sql = "SELECT * FROM DocterPablo.MedicationIntake MI where MI.Status = \"scheduled\" order by Time limit 1"
+        sql = "SELECT * FROM DocterPablo.MedicationIntake MI where MI.Status != \"Taken\" order by Time limit 1"
         return Database.get_one_row(sql)
 
     @staticmethod
@@ -72,3 +72,29 @@ class DataRepository:
         sql = "         SELECT U.Name AS FirstName, U.LastName, DATE_FORMAT(MI.Time, '%Y-%m-%d %H:%i:%s') AS Time, MI.Patient, MI.TypeId, MI.Status, MI.Delay, MI.RelatedDoctorId, MI.Dosage, MT.* FROM DocterPablo.UserInfo U JOIN (     SELECT *     FROM (         SELECT *         FROM DocterPablo.MedicationIntake MI         WHERE MI.Status = 'Taken'         ORDER BY MI.Time DESC         LIMIT 2     ) AS Subquery1     UNION ALL     SELECT *     FROM (         SELECT *         FROM DocterPablo.MedicationIntake MI         WHERE MI.Status != 'Taken'         ORDER BY MI.Time         LIMIT 3     ) AS Subquery2 ) AS MI ON MI.Patient = U.Id JOIN DocterPablo.MedicationType MT ON MI.TypeId = MT.Id"
         result = Database.get_rows(sql)
         return result
+
+    @staticmethod
+    def InsertUser(Name, LastName, PhoneNumber, PhoneNumberResponsible, RFID):
+        sql = "insert into DocterPablo.UserInfo (Name, LastName, PhoneNumber, PhoneNumberResponsible, RFID) values (%s, %s,%s,%s,%s)"
+        params = [Name, LastName, PhoneNumber, PhoneNumberResponsible, RFID]
+        result = Database.execute_sql(sql, params)
+        if result == None:
+            print("invalid user wth")
+        return
+
+    @staticmethod
+    def SetNextDropActive():
+        sql = "UPDATE DocterPablo.MedicationIntake SET Status = 'InProgress' WHERE MedicationIntake.Status != 'Taken' ORDER BY MedicationIntake.Time LIMIT 1"
+        result = Database.execute_sql(sql)
+        if result == None:
+            print("invalid dropactive somehow..")
+        print(f"{result} changes")
+        return
+
+    @staticmethod
+    def SetActiveDropTaken():
+        sql = "UPDATE DocterPablo.MedicationIntake SET Status = 'Taken' WHERE MedicationIntake.Status = 'InProgress' ORDER BY MedicationIntake.Time LIMIT 1;"
+        result = Database.execute_sql(sql)
+        if result == None:
+            print("invalid droptaken somehow..")
+        return

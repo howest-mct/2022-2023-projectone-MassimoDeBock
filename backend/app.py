@@ -31,6 +31,7 @@ def run():
     # wait 10s with sleep sintead of threading.Timer, so we can use daemon
     # pablo = MedicationHandler()
     pablo.SetScanReturn(sendRFIDToBackend)
+    pablo.SetDataUpdateReturn(sync_data)
 
     time.sleep(2)
     print("Functional")
@@ -68,7 +69,7 @@ def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
 
 
-@app.route(ENDPOINT+'/ip')
+@app.route(ENDPOINT+'/ip',  methods=['GET'])
 def getIp():
     ipaddresses = check_output(
         ['hostname', '--all-ip-addresses']).decode('utf-8')
@@ -76,11 +77,11 @@ def getIp():
     return jsonify(ipaddresses)
 
 
-@app.route(ENDPOINT+'/getrecentdata')
+@app.route(ENDPOINT+'/getrecentdata',  methods=['GET'])
 def getRecentData():
-    print("1")
     data = DataRepository.GetDispenserInfo()
     return jsonify(data)
+
 
 # SOCKET IO
 
@@ -100,6 +101,13 @@ def initial_connection():
 
     socketio.emit('B2F_status_dispenser', status, to=id)
     # emit('B2F_status_lampen', {'lampen': status}, broadcast=False)
+
+
+@socketio.on('B2B_sync_status_dispenser')
+def sync_data():
+    print("data being synced")
+    status = DataRepository.GetDispenserInfo()
+    socketio.emit('B2F_status_dispenser', status)
 
 
 @socketio.on('F2B_switch_light')
@@ -125,6 +133,14 @@ def requestRfid():
     id = request.sid
     print(f"rfid got requested {id}")
     pablo.SetScanReturnId(id)
+
+
+@socketio.on('F2B_add_user')
+def createNewUser(input):
+    print(input)
+    data = DataRepository.InsertUser(
+        input["name"], input["lastName"], input["phoneNumber"], input["phoneNumberResp"], input["rfidField"])
+    print(f"{data} change(s) made")
 
 
 if __name__ == '__main__':

@@ -70,7 +70,7 @@
 												<input type="PhoneNumberResponsible" class="js-nuphonenumberresponsible" placeholder="Phone number of responsible person" name="phonenumberresponsible">
 												<input type="RfidTag" class="js-rfidfield" placeholder="rfid id" name="rfidid" value="">
 												<input type="button" class="js-getRfid" value="GetRfid">
-												<input type="button" class="js-newUser" value="Add user">
+												<input type="button" class="js-newUserBtn" value="Add user">
 											</form>
 										</div>
 									</div>
@@ -79,7 +79,7 @@
 						</div>
 					</section>
 					<section class="o-layout__item u-1-of-3-bp3">
-						<div class="c-card">
+						<div title="disabled for this scope" class="c-card">
 							<div class="c-card__body u-filllightgrey">
 								<h2 class="u-mb-xs">Login</h2>
 								<p>Use this to login and make certain changes</p>
@@ -88,9 +88,9 @@
 									<div class="o-container">
 										<div class="c-logincontainer">
 											<form class="js-loginform">
-												<input type="text" placeholder="Username" name="username" required>
-												<input type="password" placeholder="Password" name="password" required>
-												<input type="submit" value="Login">
+												<input type="text" placeholder="Username" title="disabled for this scope" name="username" disabled required>
+												<input type="password" placeholder="Password" title="disabled for this scope" name="password" disabled required>
+												<input type="submit" disabled title="disabled for this scope" value="Login">
 											</form>
 										</div>
 									</div>
