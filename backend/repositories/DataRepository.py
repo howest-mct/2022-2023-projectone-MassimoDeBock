@@ -35,7 +35,7 @@ class DataRepository:
 
     @staticmethod
     def GetNextScheduledMedication():
-        sql = "SELECT * FROM DocterPablo.MedicationIntake MI where MI.Status != \"Taken\" order by Time limit 1"
+        sql = "SELECT * FROM DocterPablo.MedicationIntake MI left join DocterPablo.UserInfo UI on UI.id = MI.Patient where MI.Status != \"Taken\" order by Time;"
         return Database.get_one_row(sql)
 
     @staticmethod
@@ -69,7 +69,7 @@ class DataRepository:
 
     @staticmethod
     def GetDispenserInfo():
-        sql = "         SELECT U.Name AS FirstName, U.LastName, DATE_FORMAT(MI.Time, '%Y-%m-%d %H:%i:%s') AS Time, MI.Patient, MI.TypeId, MI.Status, MI.Delay, MI.RelatedDoctorId, MI.Dosage, MT.* FROM DocterPablo.UserInfo U JOIN (     SELECT *     FROM (         SELECT *         FROM DocterPablo.MedicationIntake MI         WHERE MI.Status = 'Taken'         ORDER BY MI.Time DESC         LIMIT 2     ) AS Subquery1     UNION ALL     SELECT *     FROM (         SELECT *         FROM DocterPablo.MedicationIntake MI         WHERE MI.Status != 'Taken'         ORDER BY MI.Time         LIMIT 3     ) AS Subquery2 ) AS MI ON MI.Patient = U.Id JOIN DocterPablo.MedicationType MT ON MI.TypeId = MT.Id"
+        sql = "SELECT   U.Name AS FirstName,   U.LastName,   DATE_FORMAT(MI.Time, '%Y-%m-%d %H:%i:%s') AS Time,   MI.Patient,   MI.TypeId,   MI.Status,   MI.Delay,   MI.RelatedDoctorId,   MI.Dosage,   MT.* FROM   DocterPablo.UserInfo U JOIN (   SELECT *   FROM (     SELECT *     FROM DocterPablo.MedicationIntake MI     WHERE MI.Status = 'Taken'     ORDER BY MI.Time DESC     LIMIT 2   ) AS Subquery1   UNION ALL   SELECT *   FROM (     SELECT *     FROM DocterPablo.MedicationIntake MI     WHERE MI.Status != 'Taken'     LIMIT 3   ) AS Subquery2 ) AS MI ON MI.Patient = U.Id JOIN DocterPablo.MedicationType MT ON MI.TypeId = MT.Id     ORDER BY       CASE         WHEN MI.Status = 'Taken' THEN 1         WHEN MI.Status = 'InProgress' THEN 2         WHEN MI.Status = 'Scheduled' THEN 3         ELSE 4       END,       MI.Time "
         result = Database.get_rows(sql)
         return result
 
@@ -92,18 +92,28 @@ class DataRepository:
         return
 
     @staticmethod
-    def SetActiveDropTaken():
-        sql = "UPDATE DocterPablo.MedicationIntake SET Status = 'Taken' WHERE MedicationIntake.Status = 'InProgress' ORDER BY MedicationIntake.Time LIMIT 1;"
+    def SetActiveDropTaken(delay):
+        sql = "UPDATE DocterPablo.MedicationIntake SET Status = 'Taken', Delay = %s WHERE MedicationIntake.Status = 'InProgress' ORDER BY MedicationIntake.Time LIMIT 1"
+        params = [delay]
         result = Database.execute_sql(sql)
         if result == None:
             print("invalid droptaken somehow..")
         return
 
     @staticmethod
-    def SetFixUpcommingData():
-        sql = "UPDATE DocterPablo.MedicationIntake SET Status = 'Scheduled' WHERE (MedicationIntake.Status = 'Taken' And DocterPablo.MedicationIntake.Time >= now()) ORDER BY MedicationIntake.Time"
+    def FixUpcommingData():
+        sql = "UPDATE DocterPablo.MedicationIntake SET Status = 'Scheduled', DocterPablo.MedicationIntake.Delay = 0 WHERE (DocterPablo.MedicationIntake.Time >= now()) ORDER BY MedicationIntake.Time"
         result = Database.execute_sql(sql)
         if result == None:
             print("set impossible taken data to scheduled")
 
+        return
+
+    @staticmethod
+    def InsertMedicationIntake(Time, Patient, TypeId, RelatedDocterId, Dosage):
+        sql = "insert into DocterPablo.MedicationIntake (Time, Patient, TypeId, RelatedDocterId, Dosage) values (%s, %s,%s,%s,%s)"
+        params = [Time, Patient, TypeId, RelatedDocterId, Dosage]
+        result = Database.execute_sql(sql, params)
+        if result == None:
+            print("invalid MedicationIntake wth")
         return

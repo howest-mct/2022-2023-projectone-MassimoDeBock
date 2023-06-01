@@ -143,6 +143,14 @@ def createNewUser(input):
     print(f"{data} change(s) made")
 
 
+@socketio.on('F2B_insert_medication_intake')
+def createInsertMedicationIntake(input):
+    print(input)
+    data = DataRepository.InsertMedicationIntake(
+        input["Time"], input["Patient"], input["TypeId"], input["RelatedDocterId"], input["Dosage"])
+    print(f"{data} change(s) made")
+
+
 if __name__ == '__main__':
     try:
         start_thread()

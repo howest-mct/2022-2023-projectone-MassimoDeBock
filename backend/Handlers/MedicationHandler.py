@@ -30,6 +30,7 @@ class MedicationHandler:
         self.__nextMedication = None
 
         self.__canDropWithTouch = True
+        self.__idDrop = None
 
         GPIO.output(self.__lampPin, False)
 
@@ -51,7 +52,7 @@ class MedicationHandler:
             print(DataRepository.GetNextScheduledMedication())
             DataRepository.LogComponents(3, 1)
 
-            if (self.__canDropWithTouch):
+            if (self.__idDrop == None):
                 self.DepositeMedication()
             pass
 
@@ -74,6 +75,15 @@ class MedicationHandler:
         if self.__rfidReader.Read():
             id = self.__rfidReader.getId()
             print(id)
+            if (self.__idDrop != None):
+                print(self.__idDrop)
+                if (int(self.__idDrop) == id):
+
+                    self.DepositeMedication()
+                else:
+                    print(
+                        f"{type(int(self.__idDrop))} isn't the same as {type(id)}")
+
             if (self.__rfidCallbackId and (self.__scannedCallback != None)):
                 self.__scannedCallback(id, self.__rfidCallbackId)
                 self.__rfidCallbackId = None
@@ -101,6 +111,7 @@ class MedicationHandler:
             DataRepository.SetNextDropActive()
             print("new dosis ready")
             self.__nextMedication = DataRepository.GetNextScheduledMedication()
+            self.__idDrop = self.__nextMedication["RFID"]
             print(self.__nextMedication)
             self.__dataUpdateCallback()
         else:
@@ -108,8 +119,12 @@ class MedicationHandler:
 
     def DepositeMedication(self):
         if (self.__nextMedication["Status"] == "InProgress"):
-            DataRepository.SetActiveDropTaken()
+            delay = (self.__nextMedication["Time"] -
+                     datetime.datetime.now()).total_seconds() / 60
+            
+            DataRepository.SetActiveDropTaken(delay)
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")
             self.__dataUpdateCallback()
             self.__dosisReady = False
+            self.__idDrop = None

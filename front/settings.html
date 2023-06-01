@@ -57,18 +57,18 @@
 					<section class="o-layout__item u-2-of-3-bp3">
 						<div class="c-card">
 							<div class="c-card__body u-filllightgrey">
-								<h2 class="u-mb-xs">AddUser</h2>
+								<h2 class="u-mb-xs">Add User</h2>
 								<p>Use this to login and make certain changes</p>
 								<hr>
 								<div class="c-card">
 									<div class="o-container">
 										<div class="c-logincontainer">
 											<form>
-												<input type="Name" class="js-nuname" placeholder="Name" name="name" required>
-												<input type="LastName" class="js-nulastname" placeholder="Last Name" name="last name" required>
-												<input type="Phonenumber" class="js-nuphonenumber" placeholder="Phonenumber" name="phone number" required>
-												<input type="PhoneNumberResponsible" class="js-nuphonenumberresponsible" placeholder="Phone number of responsible person" name="phonenumberresponsible">
-												<input type="RfidTag" class="js-rfidfield" placeholder="rfid id" name="rfidid" value="">
+												<input type="text" class="js-nuname" placeholder="Name" name="name" required>
+												<input type="text" class="js-nulastname" placeholder="Last Name" name="last name" required>
+												<input type="number" class="js-nuphonenumber" placeholder="Phonenumber" name="phone number" required>
+												<input type="number" class="js-nuphonenumberresponsible" placeholder="Phone number of responsible person" name="phonenumberresponsible">
+												<input type="number" class="js-rfidfield" placeholder="rfid id" name="rfidid" value="">
 												<input type="button" class="js-getRfid" value="GetRfid">
 												<input type="button" class="js-newUserBtn" value="Add user">
 											</form>
@@ -98,7 +98,31 @@
 							</div>
 						</div>
 					</section>
-					<section class="o-layout__item u-1-of-3-bp3"></section>
+					<!-- <section class="o-layout__item u-1-of-3-bp3"></section> -->
+					<section class="o-layout__item u-2-of-3-bp3">
+						<div class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">AddUser</h2>
+								<p>Use this to login and make certain changes</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<form>
+												<!-- Time, Patient, TypeId, RelatedDocterId, Dosage -->
+												<input type="datetime-local" class="js-ni-time" placeholder="Time" name="Time" required>
+												<input type="number" class="js-ni-patientid" placeholder="patientid" name="patientid" required>
+												<input type="number" class="js-ni-typeid" placeholder="typeid" name="typeid" required>
+												<input type="number" class="js-ni-relateddocter" placeholder="relateddocter" name="relateddocter">
+												<input type="text" class="js-ni-dosage" placeholder="dosage" name="dosage" value="">
+												<input type="button" class="js-ni-dosage" value="Add user">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 				</div>
 			</div>
 		</section>

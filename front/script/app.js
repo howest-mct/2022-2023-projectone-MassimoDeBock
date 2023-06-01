@@ -1,9 +1,9 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socketio = io(lanIP);
 
-// const backend_IP = 'http://192.168.168.169:5000';
-// const backend_IP = "http://192.168.1.199:5000";
-const backend = lanIP + '/api/v1';
+const backend_IP = 'http://192.168.168.169:5000';
+//const backend_IP = "http://192.168.1.199:5000";
+const backend = backend_IP + '/api/v1';
 //const backend = lanIP + "/api/v1";
 
 // #region ***  DOM references                           ***********
@@ -20,13 +20,21 @@ let htmlAULastName;
 let htmlAUPhoneNumber;
 let htmlAUPhoneNumberResp;
 let htmlRFIDField;
+
+let htmlNITime;
+let htmlNIPatientId;
+let htmlNITypeId;
+let htmlNIRelDocId;
+let htmlNIDosage;
+let htmlNIButton;
+
 // #endregion
 
 // #region ***  Callback-Visualisation - show___         ***********
 
 const showError = function () {
 	console.error('Error');
-};
+}; 
 
 const showIp = function (jsonObject) {
 	try {
@@ -144,7 +152,7 @@ const init = function () {
 
 	htmlMedicationIntakeTable = document.querySelector('.js-medicationIntakeTable');
 	if (htmlMedicationIntakeTable) {
-		//getMedicationIntake();
+		getMedicationIntake();
 	}
 
 	htmlLoginForm = document.querySelector('.js-loginform');
@@ -165,6 +173,13 @@ const init = function () {
 		if (htmlAddUser) {
 			htmlAddUser.addEventListener('click', createNewUser);
 		}
+
+		htmlNITime = document.querySelector('.js-');
+		htmlNIPatientId = document.querySelector();
+		htmlNITypeId = document.querySelector();
+		htmlNIRelDocId = document.querySelector();
+		htmlNIDosage = document.querySelector();
+		htmlNIButton = document.querySelector();
 	}
 };
 
