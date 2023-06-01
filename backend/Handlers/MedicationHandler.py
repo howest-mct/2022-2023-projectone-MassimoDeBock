@@ -121,10 +121,15 @@ class MedicationHandler:
         if (self.__nextMedication["Status"] == "InProgress"):
             delay = (self.__nextMedication["Time"] -
                      datetime.datetime.now()).total_seconds() / 60
-            
-            DataRepository.SetActiveDropTaken(delay)
+            print(delay)
+            DataRepository.SetActiveDropTaken(0)
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")
             self.__dataUpdateCallback()
             self.__dosisReady = False
             self.__idDrop = None
+
+    def RecheckMedication(self):
+        self.__dosisReady = False
+        self.__idDrop = None
+        self.__nextMedication = None

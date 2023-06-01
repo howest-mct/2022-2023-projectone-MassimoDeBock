@@ -22,7 +22,7 @@ let htmlAUPhoneNumberResp;
 let htmlRFIDField;
 
 let htmlNITime;
-let htmlNIPatientId;
+let htmlSelectPatient;
 let htmlNITypeId;
 let htmlNIRelDocId;
 let htmlNIDosage;
@@ -34,12 +34,49 @@ let htmlNIButton;
 
 const showError = function () {
 	console.error('Error');
-}; 
+};
 
 const showIp = function (jsonObject) {
 	try {
 		console.log(jsonObject);
 		htmlIpButton.innerHTML = jsonObject;
+	} catch (err) {
+		console.error(err);
+	}
+};
+
+const ShowId = function (jsonObject) {
+	try {
+		console.log(jsonObject);
+		let tempinner = '';
+		for (let info of jsonObject) {
+			tempinner += `<option value=${info.Id}>${info.Id}: ${info.Name} ${info.LastName}</option>`;
+		}
+		htmlSelectPatient.innerHTML += tempinner;
+	} catch (err) {
+		console.error(err);
+	}
+};
+const ShowDoctId = function (jsonObject) {
+	try {
+		console.log(jsonObject);
+		let tempinner = '';
+		for (let info of jsonObject) {
+			tempinner += `<option value=${info.Id}>${info.Id}: ${info.Name} ${info.LastName}</option>`;
+		}
+		htmlNIRelDocId.innerHTML += tempinner;
+	} catch (err) {
+		console.error(err);
+	}
+};
+const ShowMedId = function (jsonObject) {
+	try {
+		console.log(jsonObject);
+		let tempinner = '';
+		for (let info of jsonObject) {
+			tempinner += `<option value=${info.Id}>${info.Id}: ${info.Name}</option>`;
+		}
+		htmlNITypeId.innerHTML += tempinner;
 	} catch (err) {
 		console.error(err);
 	}
@@ -62,7 +99,7 @@ const showMedicationIntake = function (jsonObject) {
 								default:
 									return 'orange';
 							}
-						})()}.svg" type="image/svg+xml"></object>
+						})()}.svg" type="image/svg+xml" height="24" width="24"></object>
 						<p class="u-mb-clear">${intake.Time}</p>
 						<p class="u-mb-clear">${intake.FirstName + ' ' + intake.LastName}</p>
 						<p class="u-mb-clear">${intake.Name}</p>
@@ -114,10 +151,49 @@ const createNewUser = function () {
 		console.log("data can't be send, not enough");
 	}
 };
+const addNewMediTime = function () {
+	let time = htmlNITime.value;
+	let patientId = htmlSelectPatient.value;
+	let typeId = htmlNITypeId.value;
+	let docId = htmlNIRelDocId.value;
+	let dosage = htmlNIDosage.value;
+
+	if (time && patientId && typeId && docId && dosage) {
+		console.log('data being send');
+		socketio.emit('F2B_insert_medication_intake', { Time: time, Patient: patientId, TypeId: typeId, RelatedDocterId: docId, Dosage: dosage });
+	} else {
+		console.log("data can't be send, not enough");
+	}
+};
 
 const getRfid = function () {
 	socketio.emit('F2B_request_rfid');
 	console.log('rfidRequested');
+};
+
+const getUsersId = function () {
+	try {
+		handleData(`${backend}/getuserids`, ShowId, showError);
+	} catch (err) {
+		console.error(err);
+	}
+	console.log();
+};
+const getDoctId = function () {
+	try {
+		handleData(`${backend}/getdoctids`, ShowDoctId, showError);
+	} catch (err) {
+		console.error(err);
+	}
+	console.log();
+};
+const getMedTypeId = function () {
+	try {
+		handleData(`${backend}/getmedtypeids`, ShowMedId, showError);
+	} catch (err) {
+		console.error(err);
+	}
+	console.log();
 };
 
 // #endregion
@@ -160,6 +236,11 @@ const init = function () {
 		htmlLoginForm.addEventListener('click', getlogin);
 	}
 
+	htmlSelectPatient = document.querySelector('.js-select-patient');
+	if (htmlSelectPatient) {
+		getUsersId();
+	}
+
 	htmlRFIDButton = document.querySelector('.js-getRfid');
 	htmlRFIDField = document.querySelector('.js-rfidfield');
 	if (htmlRFIDButton) {
@@ -174,12 +255,26 @@ const init = function () {
 			htmlAddUser.addEventListener('click', createNewUser);
 		}
 
-		htmlNITime = document.querySelector('.js-');
-		htmlNIPatientId = document.querySelector();
-		htmlNITypeId = document.querySelector();
-		htmlNIRelDocId = document.querySelector();
-		htmlNIDosage = document.querySelector();
-		htmlNIButton = document.querySelector();
+		htmlNITime = document.querySelector('.js-ni-time');
+		if (htmlNITime) {
+			let currtime = new Date();
+			htmlNITime.value = currtime.toISOString().slice(0, 16);
+		}
+		htmlNITypeId = document.querySelector('.js-ni-typeid');
+		htmlNIRelDocId = document.querySelector('.js-ni-relateddocter');
+		htmlNIDosage = document.querySelector('.js-ni-dosage');
+		htmlNIButton = document.querySelector('.js-ni-button');
+		if (htmlNIButton) {
+			htmlNIButton.addEventListener('click', addNewMediTime);
+		}
+
+		if (htmlNITypeId) {
+			getMedTypeId();
+		}
+
+		if (htmlNIRelDocId) {
+			getDoctId();
+		}
 	}
 };
 

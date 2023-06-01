@@ -57,8 +57,8 @@
 					<section class="o-layout__item u-2-of-3-bp3">
 						<div class="c-card">
 							<div class="c-card__body u-filllightgrey">
-								<h2 class="u-mb-xs">Add User</h2>
-								<p>Use this to login and make certain changes</p>
+								<h2 class="u-mb-xs">Add patient</h2>
+								<p>Use this to add new patients</p>
 								<hr>
 								<div class="c-card">
 									<div class="o-container">
@@ -102,8 +102,8 @@
 					<section class="o-layout__item u-2-of-3-bp3">
 						<div class="c-card">
 							<div class="c-card__body u-filllightgrey">
-								<h2 class="u-mb-xs">AddUser</h2>
-								<p>Use this to login and make certain changes</p>
+								<h2 class="u-mb-xs">Add to schedule</h2>
+								<p>Use this add medication intakes to the schedule</p>
 								<hr>
 								<div class="c-card">
 									<div class="o-container">
@@ -111,11 +111,20 @@
 											<form>
 												<!-- Time, Patient, TypeId, RelatedDocterId, Dosage -->
 												<input type="datetime-local" class="js-ni-time" placeholder="Time" name="Time" required>
-												<input type="number" class="js-ni-patientid" placeholder="patientid" name="patientid" required>
-												<input type="number" class="js-ni-typeid" placeholder="typeid" name="typeid" required>
-												<input type="number" class="js-ni-relateddocter" placeholder="relateddocter" name="relateddocter">
+												<!-- <input type="number" class="js-ni-patientid" placeholder="patientid" name="patientid" required> -->
+												<select name="patientid" id="patientid" class="js-select-patient">
+													<option disabled selected value="">Select a patient</option>
+												</select>
+												<!-- <input type="number" class="js-ni-typeid" placeholder="typeid" name="typeid" required> -->
+												<select name="typeid" id="typeid" class="js-ni-typeid">
+													<option disabled selected value="">Select a type</option>
+												</select>
+												<!-- <input type="number" class="js-ni-relateddocter" placeholder="relateddocter" name="relateddocter"> -->
+												<select name="relateddocter" id="relateddocter" class="js-ni-relateddocter">
+													<option disabled selected value="">Select a doctor</option>
+												</select>
 												<input type="text" class="js-ni-dosage" placeholder="dosage" name="dosage" value="">
-												<input type="button" class="js-ni-dosage" value="Add user">
+												<input type="button" class="js-ni-button" value="Add to schedule">
 											</form>
 										</div>
 									</div>

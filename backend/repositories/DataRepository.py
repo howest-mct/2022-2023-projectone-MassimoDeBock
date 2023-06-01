@@ -65,12 +65,19 @@ class DataRepository:
         result = Database.execute_sql(sql, params)
         if result == None:
             print("something went wrong with logging a component")
-        return
+        return result
 
     @staticmethod
     def GetDispenserInfo():
         sql = "SELECT   U.Name AS FirstName,   U.LastName,   DATE_FORMAT(MI.Time, '%Y-%m-%d %H:%i:%s') AS Time,   MI.Patient,   MI.TypeId,   MI.Status,   MI.Delay,   MI.RelatedDoctorId,   MI.Dosage,   MT.* FROM   DocterPablo.UserInfo U JOIN (   SELECT *   FROM (     SELECT *     FROM DocterPablo.MedicationIntake MI     WHERE MI.Status = 'Taken'     ORDER BY MI.Time DESC     LIMIT 2   ) AS Subquery1   UNION ALL   SELECT *   FROM (     SELECT *     FROM DocterPablo.MedicationIntake MI     WHERE MI.Status != 'Taken'     LIMIT 3   ) AS Subquery2 ) AS MI ON MI.Patient = U.Id JOIN DocterPablo.MedicationType MT ON MI.TypeId = MT.Id     ORDER BY       CASE         WHEN MI.Status = 'Taken' THEN 1         WHEN MI.Status = 'InProgress' THEN 2         WHEN MI.Status = 'Scheduled' THEN 3         ELSE 4       END,       MI.Time "
         result = Database.get_rows(sql)
+        return result
+
+    @staticmethod
+    def GetDispenserInfo(userId):
+        sql = "SELECT   U.Name AS FirstName,   U.LastName,   DATE_FORMAT(MI.Time, '%Y-%m-%d %H:%i:%s') AS Time,   MI.Patient,   MI.TypeId,   MI.Status,   MI.Delay,   MI.RelatedDoctorId,   MI.Dosage,   MT.* FROM   DocterPablo.UserInfo U JOIN (   SELECT *   FROM (     SELECT *     FROM DocterPablo.MedicationIntake MI     WHERE MI.Status = 'Taken'     ORDER BY MI.Time DESC     LIMIT 2   ) AS Subquery1   UNION ALL   SELECT *   FROM (     SELECT *     FROM DocterPablo.MedicationIntake MI     WHERE MI.Status != 'Taken'     LIMIT 3   ) AS Subquery2 ) AS MI ON MI.Patient = U.Id JOIN DocterPablo.MedicationType MT ON MI.TypeId = MT.Id WHERE   DocterPablo.MedicationIntake = '%s' ORDER BY   CASE     WHEN MI.Status = 'Taken' THEN 1     WHEN MI.Status = 'InProgress' THEN 2     WHEN MI.Status = 'Scheduled' THEN 3     ELSE 4   END,   MI.Time;"
+        params = userId
+        result = Database.get_rows(sql, params)
         return result
 
     @staticmethod
@@ -80,7 +87,7 @@ class DataRepository:
         result = Database.execute_sql(sql, params)
         if result == None:
             print("invalid user wth")
-        return
+        return result
 
     @staticmethod
     def SetNextDropActive():
@@ -89,16 +96,16 @@ class DataRepository:
         if result == None:
             print("invalid dropactive somehow..")
         print(f"{result} changes")
-        return
+        return result
 
     @staticmethod
     def SetActiveDropTaken(delay):
         sql = "UPDATE DocterPablo.MedicationIntake SET Status = 'Taken', Delay = %s WHERE MedicationIntake.Status = 'InProgress' ORDER BY MedicationIntake.Time LIMIT 1"
         params = [delay]
-        result = Database.execute_sql(sql)
+        result = Database.execute_sql(sql, params)
         if result == None:
             print("invalid droptaken somehow..")
-        return
+        return result
 
     @staticmethod
     def FixUpcommingData():
@@ -107,13 +114,37 @@ class DataRepository:
         if result == None:
             print("set impossible taken data to scheduled")
 
-        return
+        return result
 
     @staticmethod
     def InsertMedicationIntake(Time, Patient, TypeId, RelatedDocterId, Dosage):
-        sql = "insert into DocterPablo.MedicationIntake (Time, Patient, TypeId, RelatedDocterId, Dosage) values (%s, %s,%s,%s,%s)"
+        sql = "insert into DocterPablo.MedicationIntake (Time, Patient, TypeId, RelatedDoctorId, Dosage) values (%s, %s,%s,%s,%s)"
         params = [Time, Patient, TypeId, RelatedDocterId, Dosage]
         result = Database.execute_sql(sql, params)
         if result == None:
             print("invalid MedicationIntake wth")
-        return
+        return result
+
+    @staticmethod
+    def GetIdUsers():
+        sql = "SELECT Id, Name, LastName FROM DocterPablo.UserInfo"
+        result = Database.get_rows(sql)
+        if result == None:
+            print("invalid GetIdUsers somehow..")
+        return result
+
+    @staticmethod
+    def GetIdDoctor():
+        sql = "SELECT Id, Name, LastName FROM DocterPablo.DoctorInfo"
+        result = Database.get_rows(sql)
+        if result == None:
+            print("invalid GetIdDoctor somehow..")
+        return result
+
+    @staticmethod
+    def GetIdMedication():
+        sql = "SELECT Id, Name FROM DocterPablo.MedicationType"
+        result = Database.get_rows(sql)
+        if result == None:
+            print("invalid GetIdMedication somehow..")
+        return result

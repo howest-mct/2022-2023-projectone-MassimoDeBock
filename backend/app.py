@@ -83,6 +83,27 @@ def getRecentData():
     return jsonify(data)
 
 
+@app.route(ENDPOINT+'/getuserids',  methods=['GET'])
+def getUserId():
+    print("ids of users requested")
+    data = DataRepository.GetIdUsers()
+    return jsonify(data)
+
+
+@app.route(ENDPOINT+'/getdoctids',  methods=['GET'])
+def getDoctId():
+    print("ids of users requested")
+    data = DataRepository.GetIdDoctor()
+    return jsonify(data)
+
+
+@app.route(ENDPOINT+'/getmedtypeids',  methods=['GET'])
+def getMedId():
+    print("ids of users requested")
+    data = DataRepository.GetIdMedication()
+    return jsonify(data)
+
+
 # SOCKET IO
 
 
@@ -149,6 +170,7 @@ def createInsertMedicationIntake(input):
     data = DataRepository.InsertMedicationIntake(
         input["Time"], input["Patient"], input["TypeId"], input["RelatedDocterId"], input["Dosage"])
     print(f"{data} change(s) made")
+    pablo.RecheckMedication()
 
 
 if __name__ == '__main__':
