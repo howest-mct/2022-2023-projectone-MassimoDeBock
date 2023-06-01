@@ -98,3 +98,12 @@ class DataRepository:
         if result == None:
             print("invalid droptaken somehow..")
         return
+
+    @staticmethod
+    def SetFixUpcommingData():
+        sql = "UPDATE DocterPablo.MedicationIntake SET Status = 'Scheduled' WHERE (MedicationIntake.Status = 'Taken' And DocterPablo.MedicationIntake.Time >= now()) ORDER BY MedicationIntake.Time"
+        result = Database.execute_sql(sql)
+        if result == None:
+            print("set impossible taken data to scheduled")
+
+        return
