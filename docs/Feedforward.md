@@ -98,9 +98,7 @@ Dit is de feedback op mijn vragen.
 -   feedback 3: LanIp ipv statisch ip
 
 -   feedback 4: Voeg de data toe aan de html zelf en laat ze daarnaa overschreven worden
-=======
-    
-    
+
 ## Gesprek 4 (Datum: 30/05/2023)
 
 Claudia Eekhoud, Geert Deslovere, Dieter:
@@ -108,7 +106,6 @@ Claudia Eekhoud, Geert Deslovere, Dieter:
 Feedback moment:
 
 -   feedback 1: Frontend laten user testen, niet efficient genoeg voor snel data te halen in noodgevallen.
-
 
 ## Gesprek 5 (Datum: 25/05/2023)
 
@@ -122,4 +119,4 @@ Dit is de feedback op mijn vragen.
 
 -   oplossing 1: We keken naar de instellingen, en na vorige gesprekken waar we de swap memory vergroot hebben, dit loste niets op
 
--   oplossing 2: We underclockde de pi in /boot/config.txt en daar zette we arm_freq op 1800 
+-   oplossing 2: We underclockde de pi in /boot/config.txt en daar zette we arm_freq op 1800

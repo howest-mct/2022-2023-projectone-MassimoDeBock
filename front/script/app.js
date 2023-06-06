@@ -28,6 +28,8 @@ let htmlNIRelDocId;
 let htmlNIDosage;
 let htmlNIButton;
 
+let htmlHistoryAmount;
+
 // #endregion
 
 // #region ***  Callback-Visualisation - show___         ***********
@@ -127,6 +129,13 @@ const getMedicationIntake = function () {
 	} catch (err) {
 		console.error(err);
 	}
+};
+
+const getUserData = function () {
+	userid = htmlSelectPatient.value;
+	histamount = htmlHistoryAmount.value;
+	socketio.emit('F2B_get_status_dispenser_user', { UserId: userid, HistoryLimit: histamount });
+	console.log(userid);
 };
 
 const getlogin = function () {
@@ -241,6 +250,7 @@ const init = function () {
 		getUsersId();
 	}
 
+	htmlHistoryAmount = document.querySelector('.js-historyAmount');
 	htmlRFIDButton = document.querySelector('.js-getRfid');
 	htmlRFIDField = document.querySelector('.js-rfidfield');
 	if (htmlRFIDButton) {
@@ -290,6 +300,24 @@ const listenToSocket = function () {
 	});
 
 	socketio.on('B2F_status_dispenser', function (jsonObject) {
+		console.log(htmlSelectPatient.value);
+		if (htmlSelectPatient === null || htmlHistoryAmount === null) {
+			return;
+		}
+
+		if (htmlSelectPatient.value == 0) {
+			if (htmlMedicationIntakeTable) {
+				console.log('clientInfo');
+				console.log(jsonObject);
+				showMedicationIntake(jsonObject);
+			}
+		} else {
+			userid = htmlSelectPatient.value;
+			histamount = htmlHistoryAmount.value;
+			socketio.emit('F2B_get_status_dispenser_user', { UserId: userid, HistoryLimit: histamount });
+		}
+	});
+	socketio.on('B2F_status_dispenser_user', function (jsonObject) {
 		if (htmlMedicationIntakeTable) {
 			console.log('clientInfo');
 			console.log(jsonObject);

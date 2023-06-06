@@ -48,7 +48,7 @@ def run():
 
         pablo.update()
 
-        #time.sleep(1)
+        # time.sleep(1)
 
 
 def start_thread():
@@ -129,6 +129,28 @@ def sync_data():
     print("data being synced")
     status = DataRepository.GetDispenserInfo()
     socketio.emit('B2F_status_dispenser', status)
+
+
+@socketio.on('F2B_get_status_dispenser_user')
+def sync_data_user(data):
+    id = request.sid
+    print(data)
+    userId = data["UserId"]
+    if (data["HistoryLimit"]):
+        historylimit = int(data["HistoryLimit"])
+    else:
+        historylimit = 2
+    if (historylimit < 2):
+        historylimit = 2
+    if (historylimit > 100):
+        historylimit = 100
+    if (userId != '0'):
+        print(f"data being synced for user {userId}")
+        status = DataRepository.GetDispenserInfoUser(userId, historylimit)
+        socketio.emit('B2F_status_dispenser_user', status, to=id)
+    else:
+        status = DataRepository.GetDispenserInfo()
+        socketio.emit('B2F_status_dispenser', status)
 
 
 @socketio.on('F2B_switch_light')
