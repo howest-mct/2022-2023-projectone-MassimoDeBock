@@ -29,8 +29,9 @@ class MedicationHandler:
 
         self.__nextMedication = None
 
-        self.__canDropWithTouch = True
         self.__idDrop = None
+
+        self.__masterBadgeId = 701808313545
 
         GPIO.output(self.__lampPin, False)
 
@@ -80,12 +81,17 @@ class MedicationHandler:
             if (self.__idDrop != None):
                 if (self.__idDrop != ''):
                     print(self.__idDrop)
+                    DataRepository.LogComponents(6, id)
                     if (int(self.__idDrop) == id):
 
                         self.DepositeMedication()
                     else:
-                        print(
-                            f"{type(int(self.__idDrop))} isn't the same as {type(id)}")
+                        if (int(self.__masterBadgeId) == id):
+                            print("masterbadge used")
+                            self.DepositeMedication()
+                        else:
+                            print(
+                                f"{type(int(self.__idDrop))} isn't the same as {type(id)}")
 
             if (self.__rfidCallbackId and (self.__scannedCallback != None)):
                 self.__scannedCallback(id, self.__rfidCallbackId)
