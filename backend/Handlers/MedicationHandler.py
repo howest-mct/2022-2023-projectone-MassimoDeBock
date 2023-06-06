@@ -17,7 +17,7 @@ class MedicationHandler:
         self.__touch = TouchSensor(16)
         self.__kPad = Keypad(6, 13, 19, 26, 0x20, 0, 1, 2, 3)
         self.__timedFuncRFID = TimedFunction(0.2, 1)
-        self.__timeOutFuncRFID = TimeOutableFunction()
+        # self.__timeOutFuncRFID = TimeOutableFunction()
         self.__rfidReader = TagReader()
 
         self.__lampPin = 21
@@ -52,7 +52,7 @@ class MedicationHandler:
             print(DataRepository.GetNextScheduledMedication())
             DataRepository.LogComponents(3, 1)
 
-            if (self.__idDrop == None):
+            if ((self.__idDrop == None) or (self.__idDrop == '')):
                 self.DepositeMedication()
             pass
 
@@ -69,26 +69,29 @@ class MedicationHandler:
                 DataRepository.LogComponents(4, login)
 
     def __HandleReader(self):
-        self.__timeOutFuncRFID(self.__ReadRFID)
+        # print("read")
+        self.__ReadRFID()
+        # self.__timeOutFuncRFID(self.__ReadRFID)
 
     def __ReadRFID(self):
         if self.__rfidReader.Read():
             id = self.__rfidReader.getId()
             print(id)
             if (self.__idDrop != None):
-                print(self.__idDrop)
-                if (int(self.__idDrop) == id):
+                if (self.__idDrop != ''):
+                    print(self.__idDrop)
+                    if (int(self.__idDrop) == id):
 
-                    self.DepositeMedication()
-                else:
-                    print(
-                        f"{type(int(self.__idDrop))} isn't the same as {type(id)}")
+                        self.DepositeMedication()
+                    else:
+                        print(
+                            f"{type(int(self.__idDrop))} isn't the same as {type(id)}")
 
             if (self.__rfidCallbackId and (self.__scannedCallback != None)):
                 self.__scannedCallback(id, self.__rfidCallbackId)
                 self.__rfidCallbackId = None
 
-            self.__timeOutFuncRFID.Timeout(2)
+            # self.__timeOutFuncRFID.Timeout(2)
 
     def SetScanReturn(self, callback):
         self.__scannedCallback = callback

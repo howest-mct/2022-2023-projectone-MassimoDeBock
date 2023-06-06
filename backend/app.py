@@ -48,7 +48,7 @@ def run():
 
         pablo.update()
 
-        time.sleep(1)
+        #time.sleep(1)
 
 
 def start_thread():

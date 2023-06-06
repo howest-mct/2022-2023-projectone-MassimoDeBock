@@ -550,6 +550,13 @@ a:active {
 
 .c-historycontainer p {
   flex: 1;
+  margin-right: 0.5rem;
+}
+
+.c-logincontainer form {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
 }
 
 /*---------------------------------------/*
@@ -1054,4 +1061,4 @@ a:active {
   .u-6-of-6-bp5 {
     flex-basis: 100% !important;
   }
-}/*# sourceMappingURL=screen.css.map */
+}
