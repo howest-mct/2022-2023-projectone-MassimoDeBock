@@ -60,8 +60,9 @@
 								<h2 class="u-mb-xs">Medication intake</h2>
 								<p>Gives an overview of the last 2 taken medication and the next 3</p>
 								<hr>
-								<select name="patientid" id="patientid" class="js-select-patient">
+								<select name="patientid" id="patientid" class="js-select-patient" onchange="getUserData()">
 									<option value=0>Select no patient</option>
+									<input value="2" type="number" class="js-historyAmount" placeholder="HistoryAmount" name="history amount" onchange="getUserData()">
 								</select>
 								<div class="c-card">
 									<div class="c-historycontainer">

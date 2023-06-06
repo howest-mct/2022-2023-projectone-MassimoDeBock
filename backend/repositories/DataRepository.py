@@ -74,9 +74,9 @@ class DataRepository:
         return result
 
     @staticmethod
-    def GetDispenserInfoUser(userId):
-        sql = "SELECT   U.Name AS FirstName,   U.LastName,   DATE_FORMAT(MI.Time, '%Y-%m-%d %H:%i:%s') AS Time,   MI.Patient,   MI.TypeId,   MI.Status,   MI.Delay,   MI.RelatedDoctorId,   MI.Dosage,   MT.* FROM   DocterPablo.UserInfo U JOIN (   SELECT *   FROM (     SELECT *     FROM DocterPablo.MedicationIntake MI     WHERE MI.Status = 'Taken'     ORDER BY MI.Time DESC     LIMIT 2   ) AS Subquery1   UNION ALL   SELECT *   FROM (     SELECT *     FROM DocterPablo.MedicationIntake MI     WHERE MI.Status != 'Taken'     LIMIT 3   ) AS Subquery2 ) AS MI ON MI.Patient = U.Id JOIN DocterPablo.MedicationType MT ON MI.TypeId = MT.Id WHERE   DocterPablo.MedicationIntake = '%s' ORDER BY   CASE     WHEN MI.Status = 'Taken' THEN 1     WHEN MI.Status = 'InProgress' THEN 2     WHEN MI.Status = 'Scheduled' THEN 3     ELSE 4   END,   MI.Time;"
-        params = userId
+    def GetDispenserInfoUser(userId, historyLength=2):
+        sql = "         SELECT     U.Name AS FirstName,     U.LastName,     DATE_FORMAT(MI.Time, '%Y-%m-%d %H:%i:%S') AS Time,     MI.Patient,     MI.TypeId,     MI.Status,     MI.Delay,     MI.RelatedDoctorId,     MI.Dosage,     MT.* FROM     DocterPablo.UserInfo U JOIN     (     SELECT *     FROM         (         SELECT *         FROM             DocterPablo.MedicationIntake MI         WHERE             MI.Status = 'Taken' and MI.Patient = %s         ORDER BY             MI.Time DESC         LIMIT %s         ) AS Subquery1     UNION ALL     SELECT *     FROM         (         SELECT *         FROM             DocterPablo.MedicationIntake MI         WHERE             MI.Status != 'Taken' and MI.Patient = %s         LIMIT 3         ) AS Subquery2     ) AS MI ON MI.Patient = U.Id JOIN     DocterPablo.MedicationType MT ON MI.TypeId = MT.Id ORDER BY     CASE         WHEN MI.Status = 'Taken' THEN 1         WHEN MI.Status = 'InProgress' THEN 2         WHEN MI.Status = 'Scheduled' THEN 3         ELSE 4     END,     MI.Time"
+        params = [userId, historyLength, userId]
         result = Database.get_rows(sql, params)
         return result
 
