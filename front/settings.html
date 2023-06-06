@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<!-- <meta http-equiv="x-ua-compatible" content="ie=edge" > -->
+	<title>Doctor Pablo - Massimo De Bock</title>
+	<meta name="description" content="Project for MCT">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="icon" href="favicon.ico" sizes="any">
+	<!-- <link rel="icon" href="favicon.svg" type="image/svg+xml" > -->
+	<!-- <link rel="apple-touch-icon" href="apple-touch-icon.png" > -->
+	<link rel="manifest" href="manifest.webmanifest">
+
+	<link rel="stylesheet" href="style/screen.css">
+	<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+	<script src="script/datahandler.js"></script>
+	<script src="script/app.js"></script>
+</head>
+
+<body>
+	<header class="o-row o-row--s o-row--primary">
+		<div class="c-header">
+			<h2 class="c-logo">
+				<svg class="c-icon-button" xmlns="http://www.w3.org/2000/svg" width="126" height="39" viewBox="0 0 126 39">
+					<text id="Logo" transform="translate(0 32)" font-size="32" font-family="BasicSans-Bold, Basic Sans" font-weight="700">
+						<tspan x="0" y="0">Dr. Pablo</tspan>
+					</text>
+				</svg>
+			</h2>
+			<nav class="c-header__nav c-nav">
+				<ul class="o-list-reset c-nav__list o-list-reset">
+					<li class="c-nav__item">
+						<a class="c-nav__link" href="index.html">Overzicht</a>
+					</li>
+					<li class="c-nav__item">
+						<a class="c-nav__link" href="#!">Historiek</a>
+					</li>
+					<li class="c-nav__item">
+						<a class="c-nav__link" href="#!">Medicatie</a>
+					</li>
+					<li class="c-nav__item">
+						<a class="c-nav__link c-nav__link--active" href="settings.html">Settings</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<hr>
+	<main class="c-main">
+		<button type="button" class="o-button-reset c-button c-button--meta c-button--ip js-ipButton">Show IP</button>
+
+		<section class="o-row o-row--l">
+			<div class="o-container">
+				<div class="o-layout o-layout--gutter">
+					<section class="o-layout__item u-2-of-3-bp3">
+						<div class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">Add patient</h2>
+								<p>Use this to add new patients</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<form>
+												<input type="text" class="js-nuname" placeholder="Name" name="name" required>
+												<input type="text" class="js-nulastname" placeholder="Last Name" name="last name" required>
+												<input type="number" class="js-nuphonenumber" placeholder="Phonenumber" name="phone number" required>
+												<input type="number" class="js-nuphonenumberresponsible" placeholder="Phone number of responsible person" name="phonenumberresponsible">
+												<input type="number" class="js-rfidfield" placeholder="rfid id" name="rfidid" value="">
+												<input type="button" class="js-getRfid" value="GetRfid">
+												<input type="button" class="js-newUserBtn" value="Add user">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section class="o-layout__item u-1-of-3-bp3">
+						<div title="disabled for this scope" class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">Login</h2>
+								<p>Use this to login and make certain changes</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<form class="js-loginform">
+												<input type="text" placeholder="Username" title="disabled for this scope" name="username" disabled required>
+												<input type="password" placeholder="Password" title="disabled for this scope" name="password" disabled required>
+												<input type="submit" disabled title="disabled for this scope" value="Login">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- <section class="o-layout__item u-1-of-3-bp3"></section> -->
+					<section class="o-layout__item u-2-of-3-bp3">
+						<div class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">Add to schedule</h2>
+								<p>Use this add medication intakes to the schedule</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<form>
+												<!-- Time, Patient, TypeId, RelatedDocterId, Dosage -->
+												<input type="datetime-local" class="js-ni-time" placeholder="Time" name="Time" required>
+												<!-- <input type="number" class="js-ni-patientid" placeholder="patientid" name="patientid" required> -->
+												<select name="patientid" id="patientid" class="js-select-patient">
+													<option disabled selected value="">Select a patient</option>
+												</select>
+												<!-- <input type="number" class="js-ni-typeid" placeholder="typeid" name="typeid" required> -->
+												<select name="typeid" id="typeid" class="js-ni-typeid">
+													<option disabled selected value="">Select a type</option>
+												</select>
+												<!-- <input type="number" class="js-ni-relateddocter" placeholder="relateddocter" name="relateddocter"> -->
+												<select name="relateddocter" id="relateddocter" class="js-ni-relateddocter">
+													<option disabled selected value="">Select a doctor</option>
+												</select>
+												<input type="text" class="js-ni-dosage" placeholder="dosage" name="dosage" value="">
+												<input type="button" class="js-ni-button" value="Add to schedule">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</section>
+	</main>
+</body>
+
+</html>

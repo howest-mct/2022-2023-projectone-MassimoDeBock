@@ -1,138 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="x-ua-compatible" content="ie=edge" />
-		<title>Doctor Pablo - Massimo De Bock</title>
-		<meta name="description" content="Project for MCT" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<link rel="icon" href="favicon.ico" sizes="any" />
-		<link rel="icon" href="favicon.svg" type="image/svg+xml" />
-		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
-		<link rel="manifest" href="manifest.webmanifest" />
+<head>
+	<meta charset="utf-8">
+	<!-- <meta http-equiv="x-ua-compatible" content="ie=edge" > -->
+	<title>Doctor Pablo - Massimo De Bock</title>
+	<meta name="description" content="Project for MCT">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" href="style/screen.css" />
-	</head>
+	<link rel="icon" href="favicon.ico" sizes="any">
+	<!-- <link rel="icon" href="favicon.svg" type="image/svg+xml" > -->
+	<!-- <link rel="apple-touch-icon" href="apple-touch-icon.png" > -->
+	<link rel="manifest" href="manifest.webmanifest">
 
-	<body>
-		<header class="o-row o-row--s o-row--primary">
-			<div class="c-header">
-				<h2 class="c-logo">
-					<!-- <a class="c-logo__link" href="index.html">
-                    Eventbrite
-                </a> -->
-					<!-- <svg class="c-icon-button" viewbox="89,37 16 89,37 48" xmlns="http://www.w3.org/2000/svg" width="89,37" height="48"> -->
-					<svg class="c-icon-button" xmlns=" http://www.w3.org/2000/svg" width="126" height="39" viewBox="0 0 126 39">
-						<text id="Logo" transform="translate(0 32)" font-size="32" font-family="BasicSans-Bold, Basic Sans" font-weight="700">
-							<tspan x="0" y="0">Dr. Pablo</tspan>
-						</text>
-					</svg>
-				</h2>
-				<nav class="c-header__nav c-nav">
-					<ul class="o-list-reset c-nav__list o-list-reset">
-						<li class="c-nav__item">
-							<a class="c-nav__link c-nav__link--active" href="index.html">Overzicht</a>
-						</li>
-						<li class="c-nav__item">
-							<a class="c-nav__link" href="#!">Historiek</a>
-						</li>
-						<li class="c-nav__item">
-							<a class="c-nav__link" href="#!">Medicatie</a>
-						</li>
-						<li class="c-nav__item">
-							<a class="c-nav__link" href="#!">Settings</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-		</header>
-		<hr />
-		<main class="c-main">
-			<button type="button" class="o-button-reset c-button c-button--meta c-button--ip">Show IP</button>
-			<section class="o-row o-row--l">
-				<div class="o-container">
-					<div class="o-layout o-layout--gutter">
-						<section class="o-layout__item u-2-of-3-bp3">
-							<div class="c-card">
-								<div class="c-card__body u-filllightgrey">
-									<h2 class="u-mb-xs">Medication intake</h2>
-									<p>Gives an overview of the last 2 taken medication and the next 3</p>
-									<hr />
-									<div class="c-card">
-										<div class="c-historycontainer">
-											<object data="./style/svg/pillgrey.svg" type="image/svg+xml"></object>
-											<p class="u-mb-clear u-color-text-darker">Date + Time</p>
-											<p class="u-mb-clear u-color-text-darker">Name patient</p>
-											<p class="u-mb-clear u-color-text-darker">Product</p>
-											<p class="u-mb-clear u-color-text-darker">Dosis</p>
-											<p class="u-mb-clear u-color-text-darker">Delay time</p>
-										</div>
-										<hr class="u-mb-clear u-fill-darker" />
-										<ul class="o-list-reset js-recentintake u-mb-clear">
-											<li>
-												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
-													<p class="u-mb-clear">2022-05-25 00:59</p>
-													<p class="u-mb-clear">Johan Tuin</p>
-													<p class="u-mb-clear">Galantamine</p>
-													<p class="u-mb-clear">4mg</p>
-													<p class="u-mb-clear">1min</p>
-												</div>
-											</li>
-											<hr class="u-mb-clear" />
-											<li>
-												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
-													<p class="u-mb-clear">2022-05-25 00:59</p>
-													<p class="u-mb-clear">Johan Tuin</p>
-													<p class="u-mb-clear">Galantamine</p>
-													<p class="u-mb-clear">4mg</p>
-													<p class="u-mb-clear">1min</p>
-												</div>
-											</li>
-											<hr class="u-mb-clear" />
-											<li>
-												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
-													<p class="u-mb-clear">2022-05-25 00:59</p>
-													<p class="u-mb-clear">Johan Tuin</p>
-													<p class="u-mb-clear">Galantamine</p>
-													<p class="u-mb-clear">4mg</p>
-													<p class="u-mb-clear">1min</p>
-												</div>
-											</li>
-											<hr class="u-mb-clear" />
-											<li>
-												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
-													<p class="u-mb-clear">2022-05-25 00:59</p>
-													<p class="u-mb-clear">Johan Tuin</p>
-													<p class="u-mb-clear">Galantamine</p>
-													<p class="u-mb-clear">4mg</p>
-													<p class="u-mb-clear">1min</p>
-												</div>
-											</li>
-											<hr class="u-mb-clear" />
-											<li>
-												<div class="c-historycontainer">
-													<object data="./style/svg/pillgreen.svg" type="image/svg+xml"></object>
-													<p class="u-mb-clear">2022-05-25 00:59</p>
-													<p class="u-mb-clear">Johan Tuin</p>
-													<p class="u-mb-clear">Galantamine</p>
-													<p class="u-mb-clear">4mg</p>
-													<p class="u-mb-clear">1min</p>
-												</div>
-											</li>
-										</ul>
+	<link rel="stylesheet" href="style/screen.css">
+	<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+	<script src="script/datahandler.js"></script>
+	<script src="script/app.js"></script>
+</head>
+
+<body>
+	<header class="o-row o-row--s o-row--primary">
+		<div class="c-header">
+			<h2 class="c-logo">
+				<svg class="c-icon-button" xmlns="http://www.w3.org/2000/svg" width="126" height="39" viewBox="0 0 126 39">
+					<text id="Logo" transform="translate(0 32)" font-size="32" font-family="BasicSans-Bold, Basic Sans" font-weight="700">
+						<tspan x="0" y="0">Dr. Pablo</tspan>
+					</text>
+				</svg>
+			</h2>
+			<nav class="c-header__nav c-nav">
+				<ul class="o-list-reset c-nav__list o-list-reset">
+					<li class="c-nav__item">
+						<a class="c-nav__link c-nav__link--active" href="index.html">Overzicht</a>
+					</li>
+					<li class="c-nav__item">
+						<a class="c-nav__link" href="#!">Historiek</a>
+					</li>
+					<li class="c-nav__item">
+						<a class="c-nav__link" href="#!">Medicatie</a>
+					</li>
+					<li class="c-nav__item">
+						<a class="c-nav__link" href="settings.html">Settings</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<hr>
+	<main class="c-main">
+		<button type="button" class="o-button-reset c-button c-button--meta c-button--ip js-ipButton">Show IP</button>
+
+		<section class="o-row o-row--l">
+			<div class="o-container">
+				<div class="o-layout o-layout--gutter">
+					<section class="o-layout__item u-2-of-3-bp3">
+						<div class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">Medication intake</h2>
+								<p>Gives an overview of the last 2 taken medication and the next 3</p>
+								<hr>
+								<select name="patientid" id="patientid" class="js-select-patient">
+									<option value=0>Select no patient</option>
+								</select>
+								<div class="c-card">
+									<div class="c-historycontainer">
+										<object data="./style/svg/pillgrey.svg" type="image/svg+xml" height="24" width="24"></object>
+										<p class="u-mb-clear u-color-text-darker">Date + Time</p>
+										<p class="u-mb-clear u-color-text-darker">Name patient</p>
+										<p class="u-mb-clear u-color-text-darker">Product</p>
+										<p class="u-mb-clear u-color-text-darker">Dosis</p>
+										<p class="u-mb-clear u-color-text-darker">Delay time</p>
 									</div>
+									<hr class="u-mb-clear u-fill-darker">
+									<ul class="o-list-reset js-medicationIntakeTable u-mb-clear">
+										<li>
+											<div class="c-historycontainer">
+												<object data="./style/svg/pillgrey.svg" type="image/svg+xml" height="24" width="24"></object>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+											</div>
+											<hr class="u-mb-clear">
+										</li>
+										<li>
+											<div class="c-historycontainer">
+												<object data="./style/svg/pillgrey.svg" type="image/svg+xml" height="24" width="24"></object>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+											</div>
+											<hr class="u-mb-clear">
+										</li>
+										<li>
+											<div class="c-historycontainer">
+												<object data="./style/svg/pillgrey.svg" type="image/svg+xml" height="24" width="24"></object>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+											</div>
+											<hr class="u-mb-clear">
+										</li>
+										<li>
+											<div class="c-historycontainer">
+												<object data="./style/svg/pillgrey.svg" type="image/svg+xml" height="24" width="24"></object>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+											</div>
+											<hr class="u-mb-clear">
+										</li>
+										<li>
+											<div class="c-historycontainer">
+												<object data="./style/svg/pillgrey.svg" type="image/svg+xml" height="24" width="24"></object>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+												<p class="u-mb-clear">-</p>
+											</div>
+											<hr class="u-mb-clear">
+										</li>
+
+									</ul>
 								</div>
 							</div>
-						</section>
-						<section class="o-layout__item u-1-of-3-bp3"></section>
-					</div>
+						</div>
+					</section>
+					<section class="o-layout__item u-1-of-3-bp3"></section>
 				</div>
-			</section>
-		</main>
-	</body>
+			</div>
+		</section>
+	</main>
+</body>
+
 </html>

@@ -1,7 +1,7 @@
 import threading
 import time
 from repositories.DataRepository import DataRepository
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 
@@ -19,13 +19,19 @@ socketio = SocketIO(app, cors_allowed_origins="*",
                     async_mode='gevent', ping_interval=0.5)
 CORS(app)
 
+ENDPOINT = '/api/v1'
+
 
 # START een thread op. Belangrijk!!! Debugging moet UIT staan op start van de server, anders start de thread dubbel op
 # werk enkel met de packages gevent en gevent-websocket.
+pablo = MedicationHandler()
+
+
 def run():
     # wait 10s with sleep sintead of threading.Timer, so we can use daemon
-    pablo =  MedicationHandler()
-
+    # pablo = MedicationHandler()
+    pablo.SetScanReturn(sendRFIDToBackend)
+    pablo.SetDataUpdateReturn(sync_data)
 
     time.sleep(2)
     print("Functional")
@@ -42,6 +48,9 @@ def run():
 
         pablo.update()
 
+        #time.sleep(1)
+
+
 def start_thread():
     # threading.Timer(10, all_out).start()
     t = threading.Thread(target=run, daemon=True)
@@ -49,33 +58,77 @@ def start_thread():
     print("thread started")
 
 
+def sendRFIDToBackend(rfid, clientId):
+    print(f"sending data {rfid} to {clientId}")
+    socketio.emit('B2F_rfid_id', rfid, to=clientId)
+
+
 # API ENDPOINTS
 @app.route('/')
 def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
 
-@app.route('/ip')
+
+@app.route(ENDPOINT+'/ip',  methods=['GET'])
 def getIp():
     ipaddresses = check_output(
         ['hostname', '--all-ip-addresses']).decode('utf-8')
     ipaddresses = ipaddresses[0:len(ipaddresses)-2]
-    return ipaddresses
+    return jsonify(ipaddresses)
 
-@app.route('/getrecentdata')
+
+@app.route(ENDPOINT+'/getrecentdata',  methods=['GET'])
 def getRecentData():
-    data = DataRepository.GetRecentMedicationInfo()
-    return data
+    data = DataRepository.GetDispenserInfo()
+    return jsonify(data)
+
+
+@app.route(ENDPOINT+'/getuserids',  methods=['GET'])
+def getUserId():
+    print("ids of users requested")
+    data = DataRepository.GetIdUsers()
+    return jsonify(data)
+
+
+@app.route(ENDPOINT+'/getdoctids',  methods=['GET'])
+def getDoctId():
+    print("ids of users requested")
+    data = DataRepository.GetIdDoctor()
+    return jsonify(data)
+
+
+@app.route(ENDPOINT+'/getmedtypeids',  methods=['GET'])
+def getMedId():
+    print("ids of users requested")
+    data = DataRepository.GetIdMedication()
+    return jsonify(data)
+
 
 # SOCKET IO
+
+
 @socketio.on('connect')
 def initial_connection():
     print('A new client connect')
     # # Send to the client!
     # vraag de status op van de lampen uit de DB
-    status = DataRepository.read_status_lampen()
+    id = request.sid
+    status = DataRepository.GetDispenserInfo()
+    # status2 = DataRepository.read_status_lampen()
+    # print(status)
+    # print(status2)
     # socketio.emit('B2F_status_lampen', {'lampen': status})
     # Beter is het om enkel naar de client te sturen die de verbinding heeft gemaakt.
-    emit('B2F_status_lampen', {'lampen': status}, broadcast=False)
+
+    socketio.emit('B2F_status_dispenser', status, to=id)
+    # emit('B2F_status_lampen', {'lampen': status}, broadcast=False)
+
+
+@socketio.on('B2B_sync_status_dispenser')
+def sync_data():
+    print("data being synced")
+    status = DataRepository.GetDispenserInfo()
+    socketio.emit('B2F_status_dispenser', status)
 
 
 @socketio.on('F2B_switch_light')
@@ -92,9 +145,32 @@ def switch_light(data):
     socketio.emit('B2F_verandering_lamp',  {'lamp': data})
     # Indien het om de lamp van de TV kamer gaat, dan moeten we ook de hardware aansturen.
     if lamp_id == '3':
-        print(f"TV kamer moet switchen naar {new_status} !")
+        print(f"TV kamer moet switchen naar {new_status[0]} !")
         # Do something
-    
+
+
+@socketio.on('F2B_request_rfid')
+def requestRfid():
+    id = request.sid
+    print(f"rfid got requested {id}")
+    pablo.SetScanReturnId(id)
+
+
+@socketio.on('F2B_add_user')
+def createNewUser(input):
+    print(input)
+    data = DataRepository.InsertUser(
+        input["name"], input["lastName"], input["phoneNumber"], input["phoneNumberResp"], input["rfidField"])
+    print(f"{data} change(s) made")
+
+
+@socketio.on('F2B_insert_medication_intake')
+def createInsertMedicationIntake(input):
+    print(input)
+    data = DataRepository.InsertMedicationIntake(
+        input["Time"], input["Patient"], input["TypeId"], input["RelatedDocterId"], input["Dosage"])
+    print(f"{data} change(s) made")
+    pablo.RecheckMedication()
 
 
 if __name__ == '__main__':
