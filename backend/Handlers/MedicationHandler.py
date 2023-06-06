@@ -29,8 +29,9 @@ class MedicationHandler:
 
         self.__nextMedication = None
 
-        self.__canDropWithTouch = True
         self.__idDrop = None
+
+        self.__masterBadgeId = 701808313545
 
         GPIO.output(self.__lampPin, False)
 
@@ -77,9 +78,13 @@ class MedicationHandler:
         if self.__rfidReader.Read():
             id = self.__rfidReader.getId()
             print(id)
-            if (self.__idDrop != None):
+            if (int(self.__masterBadgeId) == id):
+                print("masterbadge used")
+                self.DepositeMedication()
+            elif (self.__idDrop != None):
                 if (self.__idDrop != ''):
                     print(self.__idDrop)
+                    DataRepository.LogComponents(6, id)
                     if (int(self.__idDrop) == id):
 
                         self.DepositeMedication()
