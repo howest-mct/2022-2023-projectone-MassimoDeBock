@@ -21,7 +21,9 @@ class MedicationHandler:
         self.__rfidReader = TagReader()
 
         self.__lampPin = 21
+        self.__buzzerPin = 20
         GPIO.setup(self.__lampPin, GPIO.OUT)
+        GPIO.setup(self.__buzzerPin, GPIO.OUT)
         self.__dosisReady = False
 
         self.__scannedCallback = None
@@ -29,15 +31,17 @@ class MedicationHandler:
 
         self.__nextMedication = None
 
-        self.__canDropWithTouch = True
         self.__idDrop = None
 
         GPIO.output(self.__lampPin, False)
+        GPIO.output(self.__buzzerPin, False)
+        self.__buzzerOn = True
 
         self.__dataUpdateCallback = None
 
     def __del__(self):
         GPIO.output(self.__lampPin, False)
+        GPIO.output(self.__buzzerPin, False)
 
     def update(self):
 
@@ -108,6 +112,8 @@ class MedicationHandler:
             self.__nextMedication = DataRepository.GetNextScheduledMedication()
         elif (self.__dosisReady):
             GPIO.output(self.__lampPin, True)
+            if (self.__buzzerOn):
+                GPIO.output(self.__buzzerPin, True)
 
         elif (self.__nextMedication["Time"] < datetime.datetime.now()):
             self.__dosisReady = True
@@ -119,6 +125,7 @@ class MedicationHandler:
             self.__dataUpdateCallback()
         else:
             GPIO.output(self.__lampPin, False)
+            GPIO.output(self.__buzzerPin, False)
 
     def DepositeMedication(self):
         if (self.__nextMedication["Status"] == "InProgress"):
