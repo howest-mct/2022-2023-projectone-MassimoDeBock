@@ -7,6 +7,8 @@ from helpers.Class_TimeOutableFunction import TimeOutableFunction
 
 from repositories.DataRepository import DataRepository
 from helpers.Class_RFID import TagReader
+from helpers.Class_LCD import LCD_Monitor
+
 
 import datetime
 
@@ -15,10 +17,17 @@ class MedicationHandler:
     def __init__(self):
         self.__timedFuncTouchSensor = TimedFunction(0.2)
         self.__touch = TouchSensor(16)
-        self.__kPad = Keypad(6, 13, 19, 26, 0x20, 0, 1, 2, 3)
+        self.__kPad = Keypad(6, 13, 19, 26, 0x22, 0, 1, 2, 3)
         self.__timedFuncRFID = TimedFunction(0.2, 1)
         # self.__timeOutFuncRFID = TimeOutableFunction()
         self.__rfidReader = TagReader()
+        self.__LCD = LCD_Monitor(24,23,formatSettings=0b0)
+        self.__LCD.SetScrollOption(1, LCD_Monitor.LCDScrollOptions.Right.value |
+        LCD_Monitor.LCDScrollOptions.EnabledWhenLarge.value)
+        self.__LCD.SetScrollSpacing(0, 2)
+        self.__LCD.SetScrollSpacing(1, 2)
+        self.__LCD.WriteMessage("Booting ", 1)
+        self.__LCD.SetScrollSpeed(1, 0.7)
 
         self.__lampPin = 21
         self.__buzzerPin = 20
