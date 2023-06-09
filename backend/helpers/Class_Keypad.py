@@ -39,6 +39,18 @@ class Keypad:
             hit = self.__CheckAllButtons(prev)
             self.__WritePCF(prev, self.__pcfFilter)
             value = self.__values[hit]
+            if value == 'D':
+                return 13
+
+            if value == 'C':
+                return 12
+
+            if value == 'B':
+                return 11
+
+            if value == 'A':
+                return 10
+
             if value == '?':
                 return -2
             if value == '#':
@@ -50,18 +62,18 @@ class Keypad:
                 print(f"Buffer cleared")
                 return -1
             self.__buffer.append(value)
-            if(self.__buffer.__len__()>3):
+            if (self.__buffer.__len__() > 3):
                 return 1
             # print(*(self.__buffer), sep='')
 
         return 0
-    
+
     def Code(self):
         input = ''
         for char in self.__buffer:
             input += str(char)
         return input
-    
+
     def ResetCode(self):
         self.__buffer.clear()
         print(f"Buffer cleared")

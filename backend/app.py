@@ -27,6 +27,9 @@ ENDPOINT = '/api/v1'
 pablo = MedicationHandler()
 
 
+treadrun = True
+
+
 def run():
     # wait 10s with sleep sintead of threading.Timer, so we can use daemon
     # pablo = MedicationHandler()
@@ -35,7 +38,7 @@ def run():
 
     time.sleep(2)
     print("Functional")
-    while True:
+    while treadrun:
         # print('*** We zetten alles uit **')
         # DataRepository.update_status_alle_lampen(0)
         # status = DataRepository.read_status_lampen()
@@ -59,6 +62,7 @@ def start_thread():
 
 
 def sendRFIDToBackend(rfid, clientId):
+    pablo.LogNetwork("Send: rfid")
     print(f"sending data {rfid} to {clientId}")
     socketio.emit('B2F_rfid_id', rfid, to=clientId)
 
@@ -71,6 +75,7 @@ def hallo():
 
 @app.route(ENDPOINT+'/ip',  methods=['GET'])
 def getIp():
+    pablo.LogNetwork("Request: ip")
     ipaddresses = check_output(
         ['hostname', '--all-ip-addresses']).decode('utf-8')
     ipaddresses = ipaddresses[0:len(ipaddresses)-2]
@@ -79,6 +84,7 @@ def getIp():
 
 @app.route(ENDPOINT+'/getrecentdata',  methods=['GET'])
 def getRecentData():
+    pablo.LogNetwork("Request: recent data")
     data = DataRepository.GetDispenserInfo()
     return jsonify(data)
 
@@ -86,20 +92,23 @@ def getRecentData():
 @app.route(ENDPOINT+'/getuserids',  methods=['GET'])
 def getUserId():
     print("ids of users requested")
+    pablo.LogNetwork("Request: UserIds")
     data = DataRepository.GetIdUsers()
     return jsonify(data)
 
 
 @app.route(ENDPOINT+'/getdoctids',  methods=['GET'])
 def getDoctId():
-    print("ids of users requested")
+    print("ids of doc requested")
+    pablo.LogNetwork("Request: DocIds")
     data = DataRepository.GetIdDoctor()
     return jsonify(data)
 
 
 @app.route(ENDPOINT+'/getmedtypeids',  methods=['GET'])
 def getMedId():
-    print("ids of users requested")
+    print("ids of meds requested")
+    pablo.LogNetwork("Request: MedIds")
     data = DataRepository.GetIdMedication()
     return jsonify(data)
 
@@ -109,6 +118,7 @@ def getMedId():
 
 @socketio.on('connect')
 def initial_connection():
+    pablo.LogNetwork("A new client connect")
     print('A new client connect')
     # # Send to the client!
     # vraag de status op van de lampen uit de DB
@@ -126,6 +136,7 @@ def initial_connection():
 
 @socketio.on('B2B_sync_status_dispenser')
 def sync_data():
+    pablo.LogNetwork("B2B_sync_status_dispenser")
     print("data being synced")
     status = DataRepository.GetDispenserInfo()
     socketio.emit('B2F_status_dispenser', status)
@@ -133,6 +144,7 @@ def sync_data():
 
 @socketio.on('F2B_get_status_dispenser_user')
 def sync_data_user(data):
+    pablo.LogNetwork("F2B_get_status_dispenser_user")
     id = request.sid
     print(data)
     userId = data["UserId"]
@@ -173,6 +185,7 @@ def switch_light(data):
 
 @socketio.on('F2B_request_rfid')
 def requestRfid():
+    pablo.LogNetwork("F2B_request_rfid")
     id = request.sid
     print(f"rfid got requested {id}")
     pablo.SetScanReturnId(id)
@@ -181,6 +194,7 @@ def requestRfid():
 @socketio.on('F2B_add_user')
 def createNewUser(input):
     print(input)
+    pablo.LogNetwork("F2B_add_user")
     data = DataRepository.InsertUser(
         input["name"], input["lastName"], input["phoneNumber"], input["phoneNumberResp"], input["rfidField"])
     print(f"{data} change(s) made")
@@ -188,6 +202,7 @@ def createNewUser(input):
 
 @socketio.on('F2B_insert_medication_intake')
 def createInsertMedicationIntake(input):
+    pablo.LogNetwork("F2B_insert_medication_intake")
     print(input)
     data = DataRepository.InsertMedicationIntake(
         input["Time"], input["Patient"], input["TypeId"], input["RelatedDocterId"], input["Dosage"])
@@ -203,4 +218,6 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print('KeyboardInterrupt exception is caught')
     finally:
+        treadrun = False
+        time.sleep(3)
         print("finished")

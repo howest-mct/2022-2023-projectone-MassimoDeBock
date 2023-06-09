@@ -2,7 +2,8 @@ from RPi import GPIO
 import time
 import enum
 
-import Timers
+from helpers.Timers import Timer
+from helpers.Timers import ChronoTimer
 from helpers.Class_PCF import PCF
 
 # i used https://fsymbols.com/generators/tarty/ for these big texts
@@ -25,7 +26,7 @@ from helpers.Class_PCF import PCF
 class LCDinstructions(enum.Enum):
     clearDisplay = 0b00000001
     cursorHome = 0b00000010
-    displayOn = 0b00001000
+    displayOff = 0b00001000
     displayOnWCursor = 0b00001111
     functionSet = 0b00111000
     setDDRAM = 0b10000000
@@ -83,9 +84,9 @@ class LCD_Monitor:
         self.__maxLines = 2
         self.__hardcapwidth = 64
 
-        self.__chrono = Timers.ChronoTimer()
+        self.__chrono = ChronoTimer()
 
-        self.__scrollTimer = [Timers.Timer(5), Timers.Timer(5)]
+        self.__scrollTimer = [Timer(5), Timer(5)]
         self.__scrollIndex = [0, 0]
         self.__scrollOptions = [0b0, 0b0]
         self.__scrollSpacing = [screenWidth, screenWidth]
@@ -160,6 +161,7 @@ class LCD_Monitor:
 # maakt een klokpuls met de E lijn. (van hoog naar laag = inlezen). Deze methode roept ook
 # de methode set_data_bits(value) aan.
 
+
     def SendInstruction(self, value):
         self.__SetInstructionMode()
         self.__SendDataBits(value)
@@ -194,19 +196,26 @@ class LCD_Monitor:
         for char in message:
             self.__SendCharacter(ord(char), line)
 
-    def RewriteMessage(self, message, line=0):
+    def RewriteMessage(self, message, line=0, rewrite=True):
         self.ChangeText(message, line)
-        self.RewriteDisplay()
+        self.__scrollIndex[line] = 0
+        if (rewrite):
 
-    def WriteMessage(self, message, line=0):
+            self.RewriteDisplay()
+
+    def WriteMessage(self, message, line=0, rewrite=True):
         self.AddText(message, line)
-        self.RewriteDisplay()
+        if (rewrite):
+            self.RewriteDisplay()
 
+    def DoubleWrite(self, message, message2):
+        self.ChangeText(message, 0)
+        self.ChangeText(message2, 1)
+        self.RewriteDisplay()
 
 # j) Vraag een input van de gebruiker. De ingegeven tekst druk je af op het display. Zorg er ook voor dat
 # de tekst correct wordt weergeven als de tekst meer dan 16 karakters bedraagt. Los dit op door gebruik
 # te maken van een extra instructie tussendoor.
-
 
     def PromptInput(self, prompt, line=0, rewrite=True):
         message = input(f'{prompt} ')
@@ -247,7 +256,6 @@ class LCD_Monitor:
 # ─████████████───██████████─██████████████─██████─────────██████████████─██████──██████───────██████───────
 # ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-
     def RewriteDisplay(self):
         if (self.__formatSettings & LCDFormatting.wrap.value):
             self.__SendMessage(self.__data[0][0:self.__screenWidth], 0)
@@ -271,6 +279,7 @@ class LCD_Monitor:
 
 
 # scoll
+
 
     def __ScrollLine(self, line, deltaTime, scrollLeft=True):
         if (self.__scrollTimer[line].Update(deltaTime)):
