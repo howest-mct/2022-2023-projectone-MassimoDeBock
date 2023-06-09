@@ -9,7 +9,7 @@ from helpers.Class_RFID import TagReader
 from helpers.Class_LCD import LCD_Monitor
 from helpers.Class_LCD import LCDScrollOptions
 from helpers.Class_LCD import LCDinstructions
-from helpers.Class_stepMotor
+from helpers.Class_StepMotor import StepMotor
 
 import helpers.Timers
 from subprocess import check_output
@@ -54,6 +54,8 @@ class MedicationHandler:
         self.__lastInfo = "No info yet"
         self.__lastNetworkInfo = "No networkinfo yet"
         self.ChangeLCDMode(LCDModes.InfoMode)
+
+        self.StepMotor = StepMotor(addressPCF=0x20)
 
         self.__lampPin = 21
         self.__buzzerPin = 20
@@ -194,6 +196,8 @@ class MedicationHandler:
             DataRepository.SetActiveDropTaken(0)
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")
+            self.LogAction("Medication dropped", "started")
+            self.StepMotor.turnFull()
             self.LogAction("Medication dropped", "successfull")
             self.__dataUpdateCallback()
             self.__dosisReady = False
