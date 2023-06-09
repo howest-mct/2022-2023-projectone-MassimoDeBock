@@ -9,12 +9,11 @@ from helpers.Class_RFID import TagReader
 from helpers.Class_LCD import LCD_Monitor
 from helpers.Class_LCD import LCDScrollOptions
 from helpers.Class_LCD import LCDinstructions
+from helpers.Class_StepMotor import StepMotor
+
 import helpers.Timers
 from subprocess import check_output
 import enum
-
-
-import datetime
 
 
 class LCDModes(enum.Enum):
@@ -169,8 +168,7 @@ class MedicationHandler:
             GPIO.output(self.__lampPin, True)
             if (self.__buzzerOn):
                 GPIO.output(self.__buzzerPin, True)
-
-        elif (self.__nextMedication["Time"] < datetime.datetime.now()):
+        elif (self.__nextMedication["Time"].timestamp() < time.time()):
             self.LogAction("New dosis", "ready")
             self.__dosisReady = True
             DataRepository.SetNextDropActive()
@@ -186,8 +184,6 @@ class MedicationHandler:
 
     def DepositeMedication(self):
         if (self.__nextMedication["Status"] == "InProgress"):
-            delay = (self.__nextMedication["Time"] -
-                     datetime.datetime.now()).total_seconds() / 60
             print(delay)
             DataRepository.SetActiveDropTaken(0)
             self.__nextMedication = None
