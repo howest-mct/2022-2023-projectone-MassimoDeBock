@@ -52,6 +52,8 @@ class MedicationHandler:
         self.__lastNetworkInfo = "No networkinfo yet"
         self.ChangeLCDMode(LCDModes.InfoMode)
 
+        self.StepMotor = StepMotor(addressPCF=0x20)
+
         self.__lampPin = 21
         self.__buzzerPin = 20
         GPIO.setup(self.__lampPin, GPIO.OUT)
@@ -188,6 +190,8 @@ class MedicationHandler:
             DataRepository.SetActiveDropTaken(0)
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")
+            self.LogAction("Medication dropped", "started")
+            self.StepMotor.turnFull()
             self.LogAction("Medication dropped", "successfull")
             self.__dataUpdateCallback()
             self.__dosisReady = False
