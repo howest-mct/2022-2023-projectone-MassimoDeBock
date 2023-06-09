@@ -3,22 +3,55 @@ from helpers.Class_TouchSensor import TouchSensor
 from helpers.Class_Keypad import Keypad
 import time
 from helpers.Class_TimedFunction import TimedFunction
-from helpers.Class_TimeOutableFunction import TimeOutableFunction
 
 from repositories.DataRepository import DataRepository
 from helpers.Class_RFID import TagReader
+from helpers.Class_LCD import LCD_Monitor
+from helpers.Class_LCD import LCDScrollOptions
+from helpers.Class_LCD import LCDinstructions
+import helpers.Timers
+from subprocess import check_output
+import enum
+
 
 import datetime
 
 
+class LCDModes(enum.Enum):
+    IPMode = 0
+    InfoMode = 1
+    LastActionMode = 2
+    NetworkMode = 3
+
+
 class MedicationHandler:
     def __init__(self):
+        GPIO.setmode(GPIO.BCM)
         self.__timedFuncTouchSensor = TimedFunction(0.2)
         self.__touch = TouchSensor(16)
         self.__kPad = Keypad(6, 13, 19, 26, 0x20, 0, 1, 2, 3)
         self.__timedFuncRFID = TimedFunction(0.2, 1)
-        # self.__timeOutFuncRFID = TimeOutableFunction()
+
         self.__rfidReader = TagReader()
+        self.__LCD = LCD_Monitor(24, 23, formatSettings=0b0)
+        self.__LCD.SetScrollOption(1, LCDScrollOptions.Right.value |
+                                   LCDScrollOptions.EnabledWhenLarge.value)
+        self.__LCD.SetScrollOption(0, LCDScrollOptions.Right.value |
+                                   LCDScrollOptions.EnabledWhenLarge.value)
+        self.__LCD.SetScrollSpacing(0, 2)
+        self.__LCD.SetScrollSpacing(1, 2)
+        self.__LCD.WriteMessage("Booting ", 0, False)
+        self.__LCD.WriteMessage("Booting ", 1)
+        self.__LCD.SetScrollSpeed(0, 0.7)
+        self.__LCD.SetScrollSpeed(1, 0.7)
+        self.__LCD.RewriteMessage("  ", 0)
+        self.__LCD.RewriteMessage("  ", 1)
+
+        self.__lcdMode = LCDModes.InfoMode
+        self.__lastAction = "No action yet"
+        self.__lastInfo = "No info yet"
+        self.__lastNetworkInfo = "No networkinfo yet"
+        self.ChangeLCDMode(LCDModes.InfoMode)
 
         self.__lampPin = 21
         self.__buzzerPin = 20
@@ -42,11 +75,15 @@ class MedicationHandler:
         self.__dataUpdateCallback = None
 
     def __del__(self):
+        # self.__LCD.SendInstruction(LCDinstructions.clearDisplay.value)
+        self.__LCD.SendInstruction(LCDinstructions.displayOff.value)
+
         GPIO.output(self.__lampPin, False)
         GPIO.output(self.__buzzerPin, False)
+        GPIO.cleanup()
 
     def update(self):
-
+        self.__LCD.UpdateDisplay()
         self.__HandleKeyPad()
         self.__timedFuncTouchSensor(self.__HandleTouchSensor)
         self.__timedFuncRFID(self.__HandleReader)
@@ -57,13 +94,14 @@ class MedicationHandler:
         if (self.__touch.CheckJustPressed()):
             print(DataRepository.GetNextScheduledMedication())
             DataRepository.LogComponents(3, 1)
-
+            self.LogAction("Touch sensor", "just pressed")
             if ((self.__idDrop == None) or (self.__idDrop == '')):
                 self.DepositeMedication()
             pass
 
     def __HandleKeyPad(self):
-        if self.__kPad.Handle() == 1:
+        kpValue = self.__kPad.Handle()
+        if kpValue == 1:
             code = self.__kPad.Code()
             print(code)
             self.__kPad.ResetCode()
@@ -73,6 +111,15 @@ class MedicationHandler:
                 DataRepository.LogComponents(4, -1)
             else:
                 DataRepository.LogComponents(4, login)
+        if kpValue >= 10:
+            if kpValue == 13:
+                self.ChangeLCDMode(LCDModes.IPMode)
+            elif kpValue == 10:
+                self.ChangeLCDMode(LCDModes.InfoMode)
+            elif kpValue == 11:
+                self.ChangeLCDMode(LCDModes.NetworkMode)
+            elif kpValue == 12:
+                self.ChangeLCDMode(LCDModes.LastActionMode)
 
     def __HandleReader(self):
         # print("read")
@@ -83,8 +130,10 @@ class MedicationHandler:
         if self.__rfidReader.Read():
             id = self.__rfidReader.getId()
             print(id)
+            self.LogAction("Id scanned", id)
             if (int(self.__masterBadgeId) == id):
                 print("masterbadge used")
+                self.LogAction("masterbadge", "used")
                 self.DepositeMedication()
             elif (self.__idDrop != None):
                 if (self.__idDrop != ''):
@@ -122,11 +171,13 @@ class MedicationHandler:
                 GPIO.output(self.__buzzerPin, True)
 
         elif (self.__nextMedication["Time"] < datetime.datetime.now()):
+            self.LogAction("New dosis", "ready")
             self.__dosisReady = True
             DataRepository.SetNextDropActive()
             print("new dosis ready")
             self.__nextMedication = DataRepository.GetNextScheduledMedication()
             self.__idDrop = self.__nextMedication["RFID"]
+            self.LogAction("RFID needed", self.__idDrop)
             print(self.__nextMedication)
             self.__dataUpdateCallback()
         else:
@@ -141,6 +192,7 @@ class MedicationHandler:
             DataRepository.SetActiveDropTaken(0)
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")
+            self.LogAction("Medication dropped", "successfull")
             self.__dataUpdateCallback()
             self.__dosisReady = False
             self.__idDrop = None
@@ -149,3 +201,41 @@ class MedicationHandler:
         self.__dosisReady = False
         self.__idDrop = None
         self.__nextMedication = None
+
+    def ChangeLCDMode(self, newMode):
+        if (newMode == LCDModes.IPMode):
+            ipaddresses = check_output(
+                ['hostname', '--all-ip-addresses']).decode('utf-8')
+            ipaddresses = ipaddresses[0:len(ipaddresses)-2]
+            self.__LCD.RewriteMessage("Ip addresses:", 0, False)
+            self.__LCD.RewriteMessage(ipaddresses, 1)
+            self.__lcdMode = LCDModes.IPMode
+        if (newMode == LCDModes.InfoMode):
+            self.__lcdMode = LCDModes.InfoMode
+            self.__LCD.DoubleWrite(self.__lastInfo, "")
+            pass
+        if (newMode == LCDModes.LastActionMode):
+            self.__lcdMode = LCDModes.LastActionMode
+            self.__LCD.DoubleWrite(self.__lastAction, "")
+            pass
+        if (newMode == LCDModes.NetworkMode):
+            self.__lcdMode = LCDModes.NetworkMode
+            self.__LCD.DoubleWrite(self.__lastNetworkInfo, "")
+            pass
+
+    def LogAction(self, action, result):
+        newAction = f"{action}: {result}"
+        if (self.__lcdMode == LCDModes.LastActionMode):
+            self.__LCD.DoubleWrite(f" {self.__lastAction}", f" {newAction}")
+        self.__lastAction = newAction
+
+    def LogInfo(self, info):
+        if (self.__lcdMode == LCDModes.InfoMode):
+            self.__LCD.DoubleWrite(f" {self.__lastInfo}", f" {info}")
+        self.__lastInfo = info
+
+    def LogNetwork(self, networkinfo):
+        if (self.__lcdMode == LCDModes.NetworkMode):
+            self.__LCD.DoubleWrite(
+                f" {self.__lastNetworkInfo}", f" {networkinfo}")
+        self.__lastNetworkInfo = networkinfo
