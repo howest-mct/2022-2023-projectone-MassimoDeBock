@@ -9,6 +9,8 @@ from helpers.Class_RFID import TagReader
 from helpers.Class_LCD import LCD_Monitor
 from helpers.Class_LCD import LCDScrollOptions
 from helpers.Class_LCD import LCDinstructions
+from helpers.Class_stepMotor
+
 import helpers.Timers
 from subprocess import check_output
 import enum
