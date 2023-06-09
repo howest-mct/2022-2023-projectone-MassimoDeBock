@@ -19,10 +19,15 @@ class StepMotor:
         for x in range(0, change, direction):
             self.__state = ((self.__state + direction)+8) % 8
             self.writePCF(self.__bits[self.__state])
-            time.sleep(0.02)
+            time.sleep(0.0003)
+        self.writePCF(0)
+
 
     def writePCF(self, bits):
         bits = bits << 4
         prev = self.__bus.read_byte(self.__address) & (self.__pcfFilter ^ 255)
         self.__bus.write_byte(self.__address, prev |
                               (bits & self.__pcfFilter))
+
+    def turnFull(self):
+        self.StepMotor.turn(4080)
