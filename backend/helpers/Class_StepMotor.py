@@ -22,6 +22,7 @@ class StepMotor:
             time.sleep(0.0003)
         self.writePCF(0)
 
+
     def writePCF(self, bits):
         bits = bits << 4
         prev = self.__bus.read_byte(self.__address) & (self.__pcfFilter ^ 255)
