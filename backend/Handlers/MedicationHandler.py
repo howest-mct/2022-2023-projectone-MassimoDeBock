@@ -68,12 +68,14 @@ class MedicationHandler:
         self.__idDrop = None
 
         self.__masterBadgeId = 701808313545
+        self.__shutdownCode = 4526
 
         GPIO.output(self.__lampPin, False)
         GPIO.output(self.__buzzerPin, False)
         self.__buzzerOn = True
 
         self.__dataUpdateCallback = None
+        self.__shutdown = None
 
     def __del__(self):
         # self.__LCD.SendInstruction(LCDinstructions.clearDisplay.value)
@@ -112,6 +114,10 @@ class MedicationHandler:
                 DataRepository.LogComponents(4, -1)
             else:
                 DataRepository.LogComponents(4, login)
+            if code == str(self.__shutdownCode):
+                self.__shutdown()
+                pass
+
         if kpValue >= 10:
             if kpValue == 13:
                 self.ChangeLCDMode(LCDModes.IPMode)
@@ -159,6 +165,9 @@ class MedicationHandler:
     def SetDataUpdateReturn(self, callback):
         self.__dataUpdateCallback = callback
 
+    def SetShutdown(self, callback):
+        self.__shutdown=callback
+
     def SetScanReturnId(self, id):
         self.__rfidReader.reset()
         self.__rfidCallbackId = id
@@ -186,7 +195,7 @@ class MedicationHandler:
 
     def DepositeMedication(self):
         if (self.__nextMedication["Status"] == "InProgress"):
-            print(delay)
+            #print(delay)
             DataRepository.SetActiveDropTaken(0)
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")

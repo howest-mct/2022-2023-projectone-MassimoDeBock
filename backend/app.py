@@ -6,6 +6,7 @@ from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 
 from subprocess import check_output
+import subprocess
 
 from Handlers.MedicationHandler import MedicationHandler
 
@@ -28,6 +29,7 @@ pablo = MedicationHandler()
 
 
 treadrun = True
+shoulShutdown = False
 
 
 def run():
@@ -35,6 +37,7 @@ def run():
     # pablo = MedicationHandler()
     pablo.SetScanReturn(sendRFIDToBackend)
     pablo.SetDataUpdateReturn(sync_data)
+    pablo.SetShutdown(shutdown)
 
     time.sleep(2)
     print("Functional")
@@ -52,6 +55,15 @@ def run():
         pablo.update()
 
         # time.sleep(1)
+    if shoulShutdown == True:
+        print("shutdown")
+        subprocess.run(['sudo', 'shutdown', '-h', 'now'])
+
+
+def shutdown():
+    global treadrun, shoulShutdown
+    treadrun = False
+    shoulShutdown = True
 
 
 def start_thread():
