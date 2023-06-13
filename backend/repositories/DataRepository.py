@@ -60,7 +60,7 @@ class DataRepository:
 
     @staticmethod
     def LogComponents(component, value):
-        sql = "insert into DocterPablo.ComponentValue values (NOW(), %s, %s)"
+        sql = "insert into DocterPablo.ComponentValue values (SYSDATE(2), %s, %s)"
         params = [component, value]
         result = Database.execute_sql(sql, params)
         if result == None:

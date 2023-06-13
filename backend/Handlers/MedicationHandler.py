@@ -41,8 +41,8 @@ class MedicationHandler:
         self.__LCD.SetScrollSpacing(1, 2)
         self.__LCD.WriteMessage("Booting ", 0, False)
         self.__LCD.WriteMessage("Booting ", 1)
-        self.__LCD.SetScrollSpeed(0, 1.3)
-        self.__LCD.SetScrollSpeed(1, 1.3)
+        self.__LCD.SetScrollSpeed(0, 0.6)
+        self.__LCD.SetScrollSpeed(1, 0.6)
         self.__LCD.RewriteMessage("  ", 0)
         self.__LCD.RewriteMessage("  ", 1)
 
@@ -71,6 +71,9 @@ class MedicationHandler:
         self.__masterBadgeId = 496339390928
         self.__shutdownCode = 4526
         self.__masterCode = 7295
+
+        self.__stepmotortestCode = 4561
+        self.__servomotortestCode = 4562
 
         GPIO.output(self.__lampPin, False)
         GPIO.output(self.__buzzerPin, False)
@@ -108,21 +111,17 @@ class MedicationHandler:
         kpValue = self.__kPad.Handle()
         if kpValue == 1:
             code = self.__kPad.Code()
+            DataRepository.LogComponents(4, int(code))
             print(code)
             self.__kPad.ResetCode()
-            login = DataRepository.LoginAny(code)
             print(login)
             if login == None:
                 DataRepository.LogComponents(4, -1)
             else:
-                DataRepository.LogComponents(4, login)
-            if code == str(self.__shutdownCode):
-                self.__shutdown()
+                # DataRepository.LogComponents(4, login)
+                login = DataRepository.LoginAny(code)
                 pass
-            elif code == str(self.__masterCode):
-                self.LogInfo("Mastercode used")
-                self.DepositeMedication()
-                pass
+            self.CheckCodes(code)
 
         if kpValue >= 10:
             if kpValue == 13:
@@ -164,6 +163,36 @@ class MedicationHandler:
                 self.__rfidCallbackId = None
 
             # self.__timeOutFuncRFID.Timeout(2)
+
+    def CheckCodes(self, code):
+        if code == str(self.__shutdownCode):
+            self.LogInfo("shutdown down")
+            self.LogAction("shutdown down", "")
+            self.__shutdown()
+            pass
+        elif code == str(self.__masterCode):
+            self.LogInfo("Mastercode used")
+            self.DepositeMedication()
+            pass
+        elif code == str(self.__stepmotortestCode):
+            self.LogInfo("Stepmotor test used")
+            self.TurnMotor()
+        elif code == str(self.__servomotortestCode):
+            self.LogInfo("servo test used")
+            self.ServoMotor(1)
+
+    def TurnMotor(self):
+        self.LogAction("stepmotor", 4080)
+        DataRepository.LogComponents(2, 4080)
+        self.StepMotor.turnFull()
+
+    def ServoMotor(self, on):
+        if (on):
+            self.LogAction("servo", 1)
+            DataRepository.LogComponents(1, 1)
+        else:
+            self.LogAction("servo", 0)
+            DataRepository.LogComponents(1, 0)
 
     def SetScanReturn(self, callback):
         self.__scannedCallback = callback
@@ -208,7 +237,7 @@ class MedicationHandler:
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")
             self.LogAction("Medication dropped", "started")
-            self.StepMotor.turnFull()
+            self.TurnMotor()
             self.LogAction("Medication dropped", "successfull")
             self.__dataUpdateCallback()
             self.__dosisReady = False
