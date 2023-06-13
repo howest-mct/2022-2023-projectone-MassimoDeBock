@@ -56,6 +56,8 @@ class Keypad:
             if value == '#':
                 print(f"Code entered:")
                 # print(*(self.__buffer), sep='')
+                if (self.__buffer.__len__() < 1):
+                    return -1
                 return 1
             if value == '*':
                 self.__buffer.clear()

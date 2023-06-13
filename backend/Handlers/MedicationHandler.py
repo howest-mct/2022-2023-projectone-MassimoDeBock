@@ -114,12 +114,12 @@ class MedicationHandler:
             DataRepository.LogComponents(4, int(code))
             print(code)
             self.__kPad.ResetCode()
-            print(login)
-            # if login == None:
-            #     DataRepository.LogComponents(4, -1)
-            # else:
-                # DataRepository.LogComponents(4, login)
             login = DataRepository.LoginAny(code)
+            print(login)
+            if login == None:
+                DataRepository.LogComponents(4, -1)
+            else:
+                DataRepository.LogComponents(4, login)
             pass
             self.CheckCodes(code)
 
@@ -165,6 +165,8 @@ class MedicationHandler:
             # self.__timeOutFuncRFID.Timeout(2)
 
     def CheckCodes(self, code):
+        if code == '':
+            return
         if code == str(self.__shutdownCode):
             self.LogInfo("shutdown down")
             self.LogAction("shutdown down", "")
