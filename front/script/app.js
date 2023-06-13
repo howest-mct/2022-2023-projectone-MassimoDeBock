@@ -3,8 +3,8 @@ const socketio = io(lanIP);
 
 const backend_IP = 'http://192.168.168.169:5000';
 //const backend_IP = "http://192.168.1.199:5000";
-const backend = backend_IP + '/api/v1';
-//const backend = lanIP + "/api/v1";
+// const backendee = backend_IP + '/api/v1';
+const backend = 'http://' + lanIP + '/api/v1';
 
 // #region ***  DOM references                           ***********
 let htmlIpButton;

@@ -30,4 +30,4 @@ class StepMotor:
                               (bits & self.__pcfFilter))
 
     def turnFull(self):
-        self.StepMotor.turn(4080)
+        self.turn(4080)
