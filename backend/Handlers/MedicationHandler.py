@@ -115,12 +115,12 @@ class MedicationHandler:
             print(code)
             self.__kPad.ResetCode()
             print(login)
-            if login == None:
-                DataRepository.LogComponents(4, -1)
-            else:
+            # if login == None:
+            #     DataRepository.LogComponents(4, -1)
+            # else:
                 # DataRepository.LogComponents(4, login)
-                login = DataRepository.LoginAny(code)
-                pass
+            login = DataRepository.LoginAny(code)
+            pass
             self.CheckCodes(code)
 
         if kpValue >= 10:
