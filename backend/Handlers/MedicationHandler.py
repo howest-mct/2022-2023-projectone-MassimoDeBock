@@ -41,8 +41,8 @@ class MedicationHandler:
         self.__LCD.SetScrollSpacing(1, 2)
         self.__LCD.WriteMessage("Booting ", 0, False)
         self.__LCD.WriteMessage("Booting ", 1)
-        self.__LCD.SetScrollSpeed(0, 0.7)
-        self.__LCD.SetScrollSpeed(1, 0.7)
+        self.__LCD.SetScrollSpeed(0, 1.3)
+        self.__LCD.SetScrollSpeed(1, 1.3)
         self.__LCD.RewriteMessage("  ", 0)
         self.__LCD.RewriteMessage("  ", 1)
 
@@ -67,12 +67,13 @@ class MedicationHandler:
 
         self.__idDrop = None
 
-        self.__masterBadgeId = 701808313545
+        #self.__masterBadgeId = 701808313545
+        self.__masterBadgeId = 496339390928
         self.__shutdownCode = 4526
 
         GPIO.output(self.__lampPin, False)
         GPIO.output(self.__buzzerPin, False)
-        self.__buzzerOn = True
+        self.__buzzerOn = False
 
         self.__dataUpdateCallback = None
         self.__shutdown = None
@@ -175,12 +176,14 @@ class MedicationHandler:
     def HandleNextMedication(self):
         if (self.__nextMedication == None):
             self.__nextMedication = DataRepository.GetNextScheduledMedication()
+            self.LogInfo(f"{self.__nextMedication['Name']} is next")
         elif (self.__dosisReady):
             GPIO.output(self.__lampPin, True)
             if (self.__buzzerOn):
                 GPIO.output(self.__buzzerPin, True)
         elif (self.__nextMedication["Time"].timestamp() < time.time()):
             self.LogAction("New dosis", "ready")
+            self.LogInfo(f"{self.__nextMedication['Name']} is now")
             self.__dosisReady = True
             DataRepository.SetNextDropActive()
             print("new dosis ready")

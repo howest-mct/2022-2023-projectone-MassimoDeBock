@@ -9,10 +9,9 @@ class TagReader:
         self.__text = None
 
     def Read(self):
-        tempid, temptext = self.__reader.read_no_block()
+        tempid = self.__reader.read_id_no_block()
         if self.__id != tempid:
             self.__id = tempid
-            self.__text = temptext
 
             return tempid != None
         return False
