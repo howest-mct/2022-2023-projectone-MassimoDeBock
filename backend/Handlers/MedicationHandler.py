@@ -67,9 +67,10 @@ class MedicationHandler:
 
         self.__idDrop = None
 
-        #self.__masterBadgeId = 701808313545
+        # self.__masterBadgeId = 701808313545
         self.__masterBadgeId = 496339390928
         self.__shutdownCode = 4526
+        self.__masterCode = 7295
 
         GPIO.output(self.__lampPin, False)
         GPIO.output(self.__buzzerPin, False)
@@ -117,6 +118,10 @@ class MedicationHandler:
                 DataRepository.LogComponents(4, login)
             if code == str(self.__shutdownCode):
                 self.__shutdown()
+                pass
+            elif code == str(self.__masterCode):
+                self.LogInfo("Mastercode used")
+                self.DepositeMedication()
                 pass
 
         if kpValue >= 10:
@@ -167,7 +172,7 @@ class MedicationHandler:
         self.__dataUpdateCallback = callback
 
     def SetShutdown(self, callback):
-        self.__shutdown=callback
+        self.__shutdown = callback
 
     def SetScanReturnId(self, id):
         self.__rfidReader.reset()
@@ -198,7 +203,7 @@ class MedicationHandler:
 
     def DepositeMedication(self):
         if (self.__nextMedication["Status"] == "InProgress"):
-            #print(delay)
+            # print(delay)
             DataRepository.SetActiveDropTaken(0)
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")
