@@ -214,10 +214,10 @@ class MedicationHandler:
         elif code == str(self.__beeperOn):
             self.LogInfo("sound enabled")
             GPIO.output(self.__lampPin, True)
-            # GPIO.output(self.__buzzerPin, True)
+            GPIO.output(self.__buzzerPin, True)
             time.sleep(0.4)
             GPIO.output(self.__lampPin, False)
-            # GPIO.output(self.__buzzerPin, False)
+            GPIO.output(self.__buzzerPin, False)
             self.__buzzerOn = True
         elif code == str(self.__beeperOff):
             self.LogInfo("sound disabled")

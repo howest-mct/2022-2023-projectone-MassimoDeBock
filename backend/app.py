@@ -204,7 +204,7 @@ def requestRfid():
 
 
 @socketio.on('F2B_add_user')
-def createNewUser(input):
+def addNewUser(input):
     print(input)
     pablo.LogNetwork("F2B_add_user")
     data = DataRepository.InsertUser(
@@ -213,13 +213,22 @@ def createNewUser(input):
 
 
 @socketio.on('F2B_insert_medication_intake')
-def createInsertMedicationIntake(input):
+def insertMedicationIntake(input):
     pablo.LogNetwork("F2B_insert_medication_intake")
     print(input)
     data = DataRepository.InsertMedicationIntake(
         input["Time"], input["Patient"], input["TypeId"], input["RelatedDocterId"], input["Dosage"])
     print(f"{data} change(s) made")
     pablo.RecheckMedication()
+
+
+@socketio.on('F2B_add_medication')
+def addNewMedication(input):
+    print(input)
+    pablo.LogNetwork("F2B_add_medication")
+    data = DataRepository.InsertMedication(
+        input["Name"], input["Description"])
+    print(f"{data} change(s) made")
 
 
 @socketio.on('F2B_Keypad_Code')

@@ -38,6 +38,10 @@ let htmlKpcustombtn;
 let htmlKpenablesoundbtn;
 let htmlKpdisablesoundbtn;
 
+let htmlamname;
+let htmlamdescription;
+let htmlambtn;
+
 // #endregion
 
 // #region ***  Callback-Visualisation - show___         ***********
@@ -194,6 +198,12 @@ const addNewMediTime = function () {
 	}
 };
 
+const addNewMedication = function () {
+	let name = htmlamname.value;
+	let description = htmlamdescription.value;
+	socketio.emit('F2B_add_medication', { Name: name, Description: description });
+};
+
 const getRfid = function () {
 	socketio.emit('F2B_request_rfid');
 	console.log('rfidRequested');
@@ -267,6 +277,13 @@ const init = function () {
 	htmlSelectPatient = document.querySelector('.js-select-patient');
 	if (htmlSelectPatient) {
 		getUsersId();
+	}
+
+	htmlambtn = document.querySelector('.js-ambtn');
+	if (htmlambtn) {
+		htmlamname = document.querySelector('.js-amname');
+		htmlamdescription = document.querySelector('.js-amdescription');
+		htmlambtn.addEventListener('click', addNewMedication);
 	}
 
 	htmlKpstepmotorbtn = document.querySelector('.js-kp-stepmotorbtn');
