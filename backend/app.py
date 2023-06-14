@@ -222,6 +222,12 @@ def createInsertMedicationIntake(input):
     pablo.RecheckMedication()
 
 
+@socketio.on('F2B_Keypad_Code')
+def keypadCode(code):
+    pablo.LogNetwork("F2B_Keypad_Code")
+    pablo.CheckCodes(code)
+
+
 if __name__ == '__main__':
     try:
         start_thread()
