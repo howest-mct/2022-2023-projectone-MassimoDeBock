@@ -225,7 +225,7 @@ def createInsertMedicationIntake(input):
 @socketio.on('F2B_Keypad_Code')
 def keypadCode(code):
     pablo.LogNetwork("F2B_Keypad_Code")
-    pablo.CheckCodes(code)
+    pablo.CodeInput(code)
 
 
 if __name__ == '__main__':

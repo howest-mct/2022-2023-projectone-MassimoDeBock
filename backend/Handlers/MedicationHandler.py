@@ -36,6 +36,7 @@ class MedicationHandler:
         self.__rfidReader = TagReader()
 
         self.__servoMotor = ServoMotor(18)
+        #self.__servoMotor.set_angle(90)
         # region LCD
         self.__LCD = LCD_Monitor(24, 23, formatSettings=0b0)
         self.__LCD.SetScrollOption(1, LCDScrollOptions.Right.value |
@@ -81,6 +82,10 @@ class MedicationHandler:
         self.__stepmotortestCode = 4561
         self.__servomotortestCodeOn = 4562
         self.__servomotortestCodeOff = 4563
+        self.__beeperOff = 4565
+        self.__beeperOn = 4564
+
+        self.__codeRequested = ''
 
         GPIO.output(self.__lampPin, False)
         GPIO.output(self.__buzzerPin, False)
@@ -103,6 +108,7 @@ class MedicationHandler:
         self.__timedFuncTouchSensor(self.__HandleTouchSensor)
         self.__timedFuncRFID(self.__HandleReader)
         self.HandleNextMedication()
+        self.__HandleCodeRequests()
 
     def __HandleTouchSensor(self):
         # print(f"touch: {self.__touch.CheckState()}")
@@ -113,6 +119,15 @@ class MedicationHandler:
             if ((self.__idDrop == None) or (self.__idDrop == '')):
                 self.DepositeMedication()
             pass
+
+    def __HandleCodeRequests(self):
+        if (self.__codeRequested.__len__() > 0):
+            if (self.__codeRequested.__len__() < 4):
+                self.__codeRequested = ''
+                return
+            temp = self.__codeRequested
+            self.__codeRequested = ''
+            self.__CheckCodes(temp)
 
     def __HandleKeyPad(self):
         kpValue = self.__kPad.Handle()
@@ -128,7 +143,7 @@ class MedicationHandler:
             else:
                 DataRepository.LogComponents(4, login)
             pass
-            self.CheckCodes(code)
+            self.__CheckCodes(code)
 
         if kpValue >= 10:
             if kpValue == 13:
@@ -171,7 +186,10 @@ class MedicationHandler:
 
             # self.__timeOutFuncRFID.Timeout(2)
 
-    def CheckCodes(self, code):
+    def CodeInput(self, code):
+        self.__codeRequested = code
+
+    def __CheckCodes(self, code):
         if code == '':
             return
         if code == str(self.__shutdownCode):
@@ -192,6 +210,17 @@ class MedicationHandler:
         elif code == str(self.__servomotortestCodeOff):
             self.LogInfo("servo off")
             self.ServoMotor(0)
+        elif code == str(self.__beeperOn):
+            self.LogInfo("sound enabled")
+            GPIO.output(self.__lampPin, True)
+            # GPIO.output(self.__buzzerPin, True)
+            time.sleep(0.4)
+            GPIO.output(self.__lampPin, False)
+            # GPIO.output(self.__buzzerPin, False)
+            self.__buzzerOn = True
+        elif code == str(self.__beeperOff):
+            self.LogInfo("sound disabled")
+            self.__buzzerOn = False
 
     def TurnMotor(self):
         self.LogAction("stepmotor", 4080)

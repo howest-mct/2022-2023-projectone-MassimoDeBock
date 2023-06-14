@@ -30,6 +30,14 @@ let htmlNIButton;
 
 let htmlHistoryAmount;
 
+let htmlKpstepmotorbtn;
+let htmlKpcloselockbtn;
+let htmlKpopenlockbtn;
+let htmlKpcustomfield;
+let htmlKpcustombtn;
+let htmlKpenablesoundbtn;
+let htmlKpdisablesoundbtn;
+
 // #endregion
 
 // #region ***  Callback-Visualisation - show___         ***********
@@ -146,6 +154,17 @@ const getlogin = function () {
 	}
 };
 
+const sendCode = function (code) {
+	console.log('wee');
+	socketio.emit('F2B_Keypad_Code', code);
+};
+const sendCustomCode = function () {
+	code = htmlKpcustomfield.value;
+	socketio.emit('F2B_Keypad_Code', code);
+	htmlKpcustomfield.value = '';
+	return false;
+};
+
 const createNewUser = function () {
 	let name = htmlAUName.value;
 	let lastName = htmlAULastName.value;
@@ -248,6 +267,34 @@ const init = function () {
 	htmlSelectPatient = document.querySelector('.js-select-patient');
 	if (htmlSelectPatient) {
 		getUsersId();
+	}
+
+	htmlKpstepmotorbtn = document.querySelector('.js-kp-stepmotorbtn');
+	if (htmlKpstepmotorbtn) {
+		console.log('testcode on page');
+		htmlKpstepmotorbtn.addEventListener('click', function () {
+			sendCode('4561');
+		});
+		htmlKpcloselockbtn = document.querySelector('.js-kp-closelockbtn');
+		htmlKpcloselockbtn.addEventListener('click', function () {
+			sendCode('4562');
+		});
+		htmlKpopenlockbtn = document.querySelector('.js-kp-openlockbtn');
+		htmlKpopenlockbtn.addEventListener('click', function () {
+			sendCode('4563');
+		});
+		htmlKpenablesoundbtn = document.querySelector('.js-kp-enablesoundbtn');
+		htmlKpenablesoundbtn.addEventListener('click', function () {
+			sendCode('4564');
+		});
+		htmlKpdisablesoundbtn = document.querySelector('.js-kp-disablesoundbtn');
+		htmlKpdisablesoundbtn.addEventListener('click', function () {
+			sendCode('4565');
+		});
+
+		htmlKpcustomfield = document.querySelector('.js-kp-customfield');
+		htmlKpcustombtn = document.querySelector('.js-kp-custombtn');
+		htmlKpcustombtn.addEventListener('click', sendCustomCode);
 	}
 
 	htmlHistoryAmount = document.querySelector('.js-historyAmount');
