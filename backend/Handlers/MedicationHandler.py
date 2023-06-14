@@ -10,6 +10,7 @@ from helpers.Class_LCD import LCD_Monitor
 from helpers.Class_LCD import LCDScrollOptions
 from helpers.Class_LCD import LCDinstructions
 from helpers.Class_StepMotor import StepMotor
+from helpers.Class_ServoMotor import ServoMotor
 
 import helpers.Timers
 from subprocess import check_output
