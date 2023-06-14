@@ -132,6 +132,34 @@
 							</div>
 						</div>
 					</section>
+					<section class="o-layout__item u-1-of-3-bp3">
+						<div class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">Testfunctions</h2>
+								<p>Use this to insert codes into the keypad</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<input type="button" class="js-kp-stepmotorbtn" value="Fullturn step motor">
+											<br>
+											<input type="button" class="js-kp-closelockbtn" value="Close lock">
+											<br>
+											<input type="button" class="js-kp-openlockbtn" value="Open lock">
+											<br>
+											<input type="button" class="js-kp-enablesoundbtn" value="Enable sound">
+											<br>
+											<input type="button" class="js-kp-disablesoundbtn" value="Disable sound">
+											<form onsubmit="return sendCustomCode();">
+												<input type="text" class="js-kp-customfield" placeholder="Custom code" name="customCode" value="">
+												<input type="button" class="js-kp-custombtn" value="Try code">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 				</div>
 			</div>
 		</section>

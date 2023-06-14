@@ -6,7 +6,7 @@ class ServoMotor:
     def __init__(self, pin, hz=50):
         GPIO.setup(pin, GPIO.OUT)
         self.pwm = GPIO.PWM(pin, hz)
-        self.pwm.start(5)
+        self.pwm.start(10)
 
     def set_angle(self, angle):
         if angle < 0:
