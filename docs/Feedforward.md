@@ -120,3 +120,37 @@ Dit is de feedback op mijn vragen.
 -   oplossing 1: We keken naar de instellingen, en na vorige gesprekken waar we de swap memory vergroot hebben, dit loste niets op
 
 -   oplossing 2: We underclockde de pi in /boot/config.txt en daar zette we arm_freq op 1800
+
+## Gesprek 6 (Datum: 13/06/2023)
+
+Stijn, Dieter
+
+Feedback moment:
+
+-   feedback 1: Behuizing hobby-ish, op schema
+
+## Gesprek 7 (Datum: 13/06/2023)
+
+Christophe
+
+-   Vraag 1: endpoint probleem in html
+-   Vraag 2: Errors/warnings op main page
+-   Vraag 3: W3school validator installeren
+
+Dit is de feedback op mijn vragen.
+
+-   feedback 1: (probleem was al opgelost voor begin consult)
+-   feedback 2: Warnings waren opera browser specifiek, zorg eerst dat alles werkt
+-   feedback 3: Geholpen de juiste te installeren.
+
+
+## Gesprek 7 (Datum: 13/06/2023)
+
+Geert Deslovere:
+
+-   Vraag 1: Badges werken niet behalve sommigen wel
+
+Dit is de feedback op mijn vragen.
+
+-   feedback 1: probleem niet kunnen loceren, slechte badge?
+        Zorg dat het product werkt zonder,..
