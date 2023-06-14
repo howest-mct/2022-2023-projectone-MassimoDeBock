@@ -12,6 +12,7 @@ from helpers.Class_LCD import LCDinstructions
 from helpers.Class_StepMotor import StepMotor
 from helpers.Class_ServoMotor import ServoMotor
 
+
 import helpers.Timers
 from subprocess import check_output
 import enum
@@ -33,6 +34,9 @@ class MedicationHandler:
         self.__timedFuncRFID = TimedFunction(0.2, 1)
 
         self.__rfidReader = TagReader()
+
+        self.__servoMotor = ServoMotor(18)
+        # region LCD
         self.__LCD = LCD_Monitor(24, 23, formatSettings=0b0)
         self.__LCD.SetScrollOption(1, LCDScrollOptions.Right.value |
                                    LCDScrollOptions.EnabledWhenLarge.value)
@@ -46,6 +50,7 @@ class MedicationHandler:
         self.__LCD.SetScrollSpeed(1, 0.6)
         self.__LCD.RewriteMessage("  ", 0)
         self.__LCD.RewriteMessage("  ", 1)
+        # endregion LCD
 
         self.__lcdMode = LCDModes.InfoMode
         self.__lastAction = "No action yet"
@@ -74,7 +79,8 @@ class MedicationHandler:
         self.__masterCode = 7295
 
         self.__stepmotortestCode = 4561
-        self.__servomotortestCode = 4562
+        self.__servomotortestCodeOn = 4562
+        self.__servomotortestCodeOff = 4563
 
         GPIO.output(self.__lampPin, False)
         GPIO.output(self.__buzzerPin, False)
@@ -180,9 +186,12 @@ class MedicationHandler:
         elif code == str(self.__stepmotortestCode):
             self.LogInfo("Stepmotor test used")
             self.TurnMotor()
-        elif code == str(self.__servomotortestCode):
-            self.LogInfo("servo test used")
+        elif code == str(self.__servomotortestCodeOn):
+            self.LogInfo("servo on")
             self.ServoMotor(1)
+        elif code == str(self.__servomotortestCodeOff):
+            self.LogInfo("servo off")
+            self.ServoMotor(0)
 
     def TurnMotor(self):
         self.LogAction("stepmotor", 4080)
@@ -193,9 +202,11 @@ class MedicationHandler:
         if (on):
             self.LogAction("servo", 1)
             DataRepository.LogComponents(1, 1)
+            self.__servoMotor.set_angle(90)
         else:
             self.LogAction("servo", 0)
             DataRepository.LogComponents(1, 0)
+            self.__servoMotor.set_angle(0)
 
     def SetScanReturn(self, callback):
         self.__scannedCallback = callback
