@@ -36,7 +36,7 @@ class MedicationHandler:
         self.__rfidReader = TagReader()
 
         self.__servoMotor = ServoMotor(18)
-        #self.__servoMotor.set_angle(90)
+        # self.__servoMotor.set_angle(90)
         # region LCD
         self.__LCD = LCD_Monitor(24, 23, formatSettings=0b0)
         self.__LCD.SetScrollOption(1, LCDScrollOptions.Right.value |
@@ -60,6 +60,7 @@ class MedicationHandler:
         self.ChangeLCDMode(LCDModes.InfoMode)
 
         self.StepMotor = StepMotor(addressPCF=0x20)
+        self.StepMotor.writePCF(0)
 
         self.__lampPin = 21
         self.__buzzerPin = 20
