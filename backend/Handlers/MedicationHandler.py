@@ -258,7 +258,12 @@ class MedicationHandler:
         elif (self.__dosisReady):
             GPIO.output(self.__lampPin, True)
             if (self.__buzzerOn):
-                GPIO.output(self.__buzzerPin, True)
+                temp = time.time() % 1
+                if (temp < .4):
+
+                    GPIO.output(self.__buzzerPin, True)
+                else:
+                    GPIO.output(self.__buzzerPin, False)
         elif (self.__nextMedication["Time"].timestamp() < time.time()):
             self.LogAction("New dosis", "ready")
             self.LogInfo(f"{self.__nextMedication['Name']} is now")
