@@ -87,6 +87,16 @@ class DataRepository:
         result = Database.execute_sql(sql, params)
         if result == None:
             print("invalid user wth")
+        print(f"assigned at id {result}")
+        return result
+
+    @staticmethod
+    def InsertMedication(name, description):
+        sql = "insert into DocterPablo.MedicationType (Name, Description) values (%s, %s)"
+        params = [name, description]
+        result = Database.execute_sql(sql, params)
+        if result == None:
+            print("invalid user wth")
         return result
 
     @staticmethod
@@ -95,7 +105,7 @@ class DataRepository:
         result = Database.execute_sql(sql)
         if result == None:
             print("invalid dropactive somehow..")
-        print(f"{result} changes")
+        print(f"assigned at id {result}")
         return result
 
     @staticmethod

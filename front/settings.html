@@ -57,51 +57,6 @@
 					<section class="o-layout__item u-2-of-3-bp3">
 						<div class="c-card">
 							<div class="c-card__body u-filllightgrey">
-								<h2 class="u-mb-xs">Add patient</h2>
-								<p>Use this to add new patients</p>
-								<hr>
-								<div class="c-card">
-									<div class="o-container">
-										<div class="c-logincontainer">
-											<form>
-												<input type="text" class="js-nuname" placeholder="Name" name="name" required>
-												<input type="text" class="js-nulastname" placeholder="Last Name" name="last name" required>
-												<input type="number" class="js-nuphonenumber" placeholder="Phonenumber" name="phone number" required>
-												<input type="number" class="js-nuphonenumberresponsible" placeholder="Phone number of responsible person" name="phonenumberresponsible">
-												<input type="number" class="js-rfidfield" placeholder="rfid id" name="rfidid" value="">
-												<input type="button" class="js-getRfid" value="GetRfid">
-												<input type="button" class="js-newUserBtn" value="Add user">
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</section>
-					<section class="o-layout__item u-1-of-3-bp3">
-						<div title="disabled for this scope" class="c-card">
-							<div class="c-card__body u-filllightgrey">
-								<h2 class="u-mb-xs">Login</h2>
-								<p>Use this to login and make certain changes</p>
-								<hr>
-								<div class="c-card">
-									<div class="o-container">
-										<div class="c-logincontainer">
-											<form class="js-loginform">
-												<input type="text" placeholder="Username" title="disabled for this scope" name="username" disabled required>
-												<input type="password" placeholder="Password" title="disabled for this scope" name="password" disabled required>
-												<input type="submit" disabled title="disabled for this scope" value="Login">
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</section>
-					<!-- <section class="o-layout__item u-1-of-3-bp3"></section> -->
-					<section class="o-layout__item u-2-of-3-bp3">
-						<div class="c-card">
-							<div class="c-card__body u-filllightgrey">
 								<h2 class="u-mb-xs">Add to schedule</h2>
 								<p>Use this add medication intakes to the schedule</p>
 								<hr>
@@ -132,6 +87,70 @@
 							</div>
 						</div>
 					</section>
+					<section class="o-layout__item u-2-of-3-bp3">
+						<div class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">Add patient</h2>
+								<p>Use this to add new patients</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<form>
+												<input type="text" class="js-nuname" placeholder="Name" name="name" required>
+												<input type="text" class="js-nulastname" placeholder="Last Name" name="last name" required>
+												<input type="number" class="js-nuphonenumber" placeholder="Phonenumber" name="phone number" required>
+												<input type="number" class="js-nuphonenumberresponsible" placeholder="Phone number of responsible person" name="phonenumberresponsible">
+												<input type="number" class="js-rfidfield" placeholder="rfid id" name="rfidid" value="">
+												<input type="button" class="js-getRfid" value="GetRfid">
+												<input type="button" class="js-newUserBtn" value="Add user">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section class="o-layout__item u-1-of-3-bp3">
+						<div class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">Add medication</h2>
+								<p>Use this to add new medication</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<form>
+												<input type="text" class="js-amname" placeholder="Name" name="name" required>
+												<input type="text" class="js-amdescription" placeholder="description" name="description" required>
+												<input type="button" class="js-ambtn" value="Add medication">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section class="o-layout__item u-1-of-3-bp3">
+						<div title="disabled for this scope" class="c-card">
+							<div class="c-card__body u-filllightgrey">
+								<h2 class="u-mb-xs">Login</h2>
+								<p>Use this to login and make certain changes</p>
+								<hr>
+								<div class="c-card">
+									<div class="o-container">
+										<div class="c-logincontainer">
+											<form class="js-loginform">
+												<input type="text" placeholder="Username" title="disabled for this scope" name="username" disabled required>
+												<input type="password" placeholder="Password" title="disabled for this scope" name="password" disabled required>
+												<input type="submit" disabled title="disabled for this scope" value="Login">
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 					<section class="o-layout__item u-1-of-3-bp3">
 						<div class="c-card">
 							<div class="c-card__body u-filllightgrey">
@@ -151,7 +170,7 @@
 											<br>
 											<input type="button" class="js-kp-disablesoundbtn" value="Disable sound">
 											<form onsubmit="return sendCustomCode();">
-												<input type="text" class="js-kp-customfield" placeholder="Custom code" name="customCode" value="">
+												<input type="text" class="js-kp-customfield" placeholder="Custom code" name="customCode" value="" required>
 												<input type="button" class="js-kp-custombtn" value="Try code">
 											</form>
 										</div>
