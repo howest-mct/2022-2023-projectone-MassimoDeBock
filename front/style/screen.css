@@ -585,8 +585,16 @@ a:active {
   }
 }
 
+.c-logincontainer input, .c-logincontainer select {
+  border-radius: 0.4rem;
+}
+.c-logincontainer span {
+  padding-left: 0.3rem;
+}
+
 .c-logincontainer form {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   margin-left: 0.5rem;
 }
@@ -607,14 +615,15 @@ a:active {
 .c-overhang__label span {
   transition: all 0.2s;
   transform-origin: top left;
+  font-size: 0.8rem;
 }
 .c-overhang__label input[placeholder=" "]:not(:focus):-moz-placeholder-shown + span {
-  transform: translateY(1em) scale(1.25);
+  transform: translateY(1.4em) scale(1.25);
   pointer-events: none;
   opacity: 0.5;
 }
 .c-overhang__label input[placeholder=" "]:not(:focus):placeholder-shown + span {
-  transform: translateY(1em) scale(1.25);
+  transform: translateY(1.4em) scale(1.25);
   pointer-events: none;
   opacity: 0.5;
 }

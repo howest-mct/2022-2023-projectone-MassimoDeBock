@@ -719,12 +719,23 @@ a:active {
 
 .c-logincontainer {
 	//
+	& input, select{
+		border-radius: 0.4rem;
+		
+	}
+
+	& span{
+		padding-left:0.3rem;
+	}
 }
 
 .c-logincontainer form {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: flex-end;
 	margin-left: 0.5rem;
+
+
 }
 
 .c-input{
@@ -744,12 +755,14 @@ a:active {
 	& span{
 		transition: all .2s;
 		transform-origin: top left;
+		font-size: 0.8rem;
+	
 	}
 
 	& input[placeholder=" "]:not(:focus):placeholder-shown + span {
-		transform: translateY(1em) scale(1.25);
+		transform: translateY(1.4em) scale(1.25);
 		pointer-events: none;
-		opacity: .5
+		opacity: .5;
 	}
 }
 
