@@ -540,6 +540,12 @@ a:active {
   display: flex;
   align-items: center;
 }
+.c-historycontainer--inactive {
+  background-color: #f8f9fa;
+}
+.c-historycontainer--active {
+  background-color: white;
+}
 
 .c-historycontainer object {
   margin-right: 0.75rem;
@@ -557,6 +563,15 @@ a:active {
   display: flex;
   align-items: center;
   margin-left: 0.5rem;
+}
+
+.c-input {
+  border-radius: 0.4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.c-input--small {
+  width: 4rem;
 }
 
 /*---------------------------------------/*
@@ -641,6 +656,10 @@ a:active {
   padding-top: 0;
 }
 
+.u-pb-clear {
+  padding-bottom: 0;
+}
+
 .u-mb-clear {
   margin-bottom: 0;
 }
@@ -670,6 +689,10 @@ a:active {
 */
 .u-flex-basis-auto {
   flex-basis: auto;
+}
+
+.u-gap-xs {
+  gap: 0.75rem;
 }
 
 .u-1-of-2 {
@@ -1061,4 +1084,4 @@ a:active {
   .u-6-of-6-bp5 {
     flex-basis: 100% !important;
   }
-}
+}/*# sourceMappingURL=screen.css.map */

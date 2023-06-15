@@ -660,6 +660,16 @@ a:active {
 .c-historycontainer {
 	display: flex;
 	align-items: center;
+
+
+	
+	&--inactive{
+		background-color:$oc-gray-0
+	}
+	
+	&--active{
+		background-color:white
+	}
 }
 
 .c-historycontainer object {
@@ -682,6 +692,15 @@ a:active {
 	display: flex;
 	align-items: center;
 	margin-left: 0.5rem;
+}
+
+.c-input{
+	border-radius: 0.4rem;
+	padding-left:1rem;
+	padding-right:1rem;
+	&--small{
+		width: 4rem;
+	}
 }
 
 /*---------------------------------------/*
@@ -765,6 +784,9 @@ a:active {
 .u-pt-clear {
 	padding-top: 0;
 }
+.u-pb-clear {
+	padding-bottom: 0;
+}
 
 .u-mb-clear {
 	margin-bottom: 0;
@@ -797,6 +819,10 @@ a:active {
 
 .u-flex-basis-auto {
 	flex-basis: auto;
+}
+
+.u-gap-xs{
+	gap: $space-xs
 }
 
 // Loop through the different columns

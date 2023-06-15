@@ -231,6 +231,7 @@ class MedicationHandler:
             GPIO.output(self.__buzzerPin, False)
             self.__buzzerOn = True
         elif code == str(self.__beeperOff):
+            GPIO.output(self.__buzzerPin, False)
             self.LogInfo("sound disabled")
             self.__buzzerOn = False
 
