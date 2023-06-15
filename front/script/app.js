@@ -114,11 +114,13 @@ const showMedicationIntake = function (jsonObject) {
 									return 'orange';
 							}
 						})()}.svg" type="image/svg+xml" height="24" width="24"></object>
+						<div>
 						<p class="u-mb-clear">${intake.Time}</p>
 						<p class="u-mb-clear">${intake.FirstName + ' ' + intake.LastName}</p>
 						<p class="u-mb-clear">${intake.Name}</p>
 						<p class="u-mb-clear">${intake.Dosage}</p>
 						<p class="u-mb-clear">${intake.Delay} min</p>
+						</div>
 					</div>
 					<hr class="u-mb-clear">
 				</li>

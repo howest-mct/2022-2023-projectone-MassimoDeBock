@@ -342,6 +342,7 @@ a:active {
 	display: flow-root;
 }
 
+
 .o-row--primary {
 	background: $color-primary-dark;
 }
@@ -507,6 +508,7 @@ a:active {
 */
 .c-header {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 	gap: $space-m;
@@ -542,6 +544,10 @@ a:active {
 .c-nav__link--active {
 	background-color: $color-primary-darker;
 	color: $color-primary;
+}
+
+.c-nav__item{
+	flex-shrink: 3;
 }
 
 .c-button,
@@ -659,7 +665,8 @@ a:active {
 
 .c-historycontainer {
 	display: flex;
-	align-items: center;
+	flex-direction: row;
+	align-items: baseline;
 
 
 	
@@ -679,9 +686,35 @@ a:active {
 	margin-left: 0.5rem;
 }
 
-.c-historycontainer p {
-	flex: 1;
-	margin-right: 0.5rem;
+// .c-historycontainer p {
+// 	flex: 1;
+// 	margin-right: 0.5rem;
+// }
+
+.c-historycontainer object{
+	flex-basis: 5%;
+}
+
+.c-historycontainer div{
+	flex-grow: 1;
+	flex-shrink: 85%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-content: center;
+	gap:10px 30px;
+
+}
+
+
+.c-historycontainer > div > p {
+	@media (min-width: 500px) {
+		flex-basis: 20%;
+	}
+  
+	@media (max-width: 500px) {
+	  flex-basis: 40%;
+	}
 }
 
 .c-logincontainer {
