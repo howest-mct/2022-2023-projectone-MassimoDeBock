@@ -55,6 +55,7 @@ def run():
         pablo.update()
 
         # time.sleep(1)
+    pablo.cleanup()
     if shoulShutdown == True:
         print("shutdown")
         subprocess.run(['sudo', 'shutdown', '-h', 'now'])

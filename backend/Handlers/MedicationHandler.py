@@ -36,7 +36,7 @@ class MedicationHandler:
         self.__rfidReader = TagReader()
 
         self.__servoMotor = ServoMotor(18)
-        # self.__servoMotor.set_angle(90)
+        self.__servoMotor.set_angle(90)
         # region LCD
         self.__LCD = LCD_Monitor(24, 23, formatSettings=0b0)
         self.__LCD.SetScrollOption(1, LCDScrollOptions.Right.value |
@@ -60,7 +60,7 @@ class MedicationHandler:
         self.ChangeLCDMode(LCDModes.InfoMode)
 
         self.StepMotor = StepMotor(addressPCF=0x20)
-        self.StepMotor.writePCF(0)
+        self.StepMotor.clean()
 
         self.__lampPin = 21
         self.__buzzerPin = 20
@@ -97,10 +97,21 @@ class MedicationHandler:
 
     def __del__(self):
         # self.__LCD.SendInstruction(LCDinstructions.clearDisplay.value)
+        # self.__LCD.SendInstruction(LCDinstructions.displayOff.value)
+
+        # GPIO.output(self.__lampPin, False)
+        # GPIO.output(self.__buzzerPin, False)
+        # GPIO.cleanup()
+        pass
+
+    def cleanup(self):
         self.__LCD.SendInstruction(LCDinstructions.displayOff.value)
 
+        self.__servoMotor.set_angle(0)
+        self.StepMotor.clean()
         GPIO.output(self.__lampPin, False)
         GPIO.output(self.__buzzerPin, False)
+        time.sleep(1)
         GPIO.cleanup()
 
     def update(self):
@@ -281,6 +292,7 @@ class MedicationHandler:
 
     def DepositeMedication(self):
         if (self.__nextMedication["Status"] == "InProgress"):
+            GPIO.output(self.__buzzerPin, False)
             # print(delay)
             DataRepository.SetActiveDropTaken(0)
             self.__nextMedication = None
