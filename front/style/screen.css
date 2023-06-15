@@ -587,7 +587,7 @@ a:active {
 
 .c-logincontainer form {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   margin-left: 0.5rem;
 }
 
@@ -598,6 +598,25 @@ a:active {
 }
 .c-input--small {
   width: 4rem;
+}
+
+.c-overhang__label {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.c-overhang__label span {
+  transition: all 0.2s;
+  transform-origin: top left;
+}
+.c-overhang__label input[placeholder=" "]:not(:focus):-moz-placeholder-shown + span {
+  transform: translateY(1em) scale(1.25);
+  pointer-events: none;
+  opacity: 0.5;
+}
+.c-overhang__label input[placeholder=" "]:not(:focus):placeholder-shown + span {
+  transform: translateY(1em) scale(1.25);
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /*---------------------------------------/*

@@ -723,7 +723,7 @@ a:active {
 
 .c-logincontainer form {
 	display: flex;
-	align-items: center;
+	align-items: flex-end;
 	margin-left: 0.5rem;
 }
 
@@ -735,6 +735,24 @@ a:active {
 		width: 4rem;
 	}
 }
+
+// taken from https://dev.to/yne/floating-label-over-input-cci 
+.c-overhang__label{
+	display: flex;
+	flex-direction: column-reverse;
+
+	& span{
+		transition: all .2s;
+		transform-origin: top left;
+	}
+
+	& input[placeholder=" "]:not(:focus):placeholder-shown + span {
+		transform: translateY(1em) scale(1.25);
+		pointer-events: none;
+		opacity: .5
+	}
+}
+
 
 /*---------------------------------------/*
  # UTILITIES
