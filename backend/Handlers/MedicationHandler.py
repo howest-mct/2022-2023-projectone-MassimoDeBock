@@ -78,7 +78,7 @@ class MedicationHandler:
         # self.__masterBadgeId = 701808313545
         self.__masterBadgeId = 496339390928
         self.__shutdownCode = 4526
-        self.__masterCode = 021
+        self.__masterCode = '021'
 
         self.__stepmotortestCode = 4561
         self.__servomotortestCodeOn = 4562
@@ -295,11 +295,12 @@ class MedicationHandler:
         if (self.__nextMedication["Status"] == "InProgress"):
             GPIO.output(self.__buzzerPin, False)
             GPIO.output(self.__lampPin, False)
-            delay = int(( time.time() - self.__nextMedication['Time'].timestamp())/60)
+            delay = int(
+                (time.time() - self.__nextMedication['Time'].timestamp())/60)
             DataRepository.SetActiveDropTaken(delay)
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")
-            
+
             self.LogAction("Medication dropped", "started")
             self.TurnMotor()
             self.LogAction("Medication dropped", "successfull")
