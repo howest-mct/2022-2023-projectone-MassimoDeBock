@@ -34,8 +34,7 @@
 
 @font-face {
 	font-family: 'Montserrat';
-	src: url('/path/to/fonts/Montserrat-Regular.ttf') format('truetype');
-	/* Add more src declarations for other font file formats if available */
+	src: url('front/style/fonts/MontserratAlternates-Regular.woff2') format('woff2');
 }
 
 // ---
@@ -93,7 +92,7 @@ $ms9: calc($ms8 * $ratio); // 46.184px
 $ms10: calc($ms9 * $ratio); // 51.957px
 $ms11: calc($ms10 * $ratio); // 58.452px
 
-$font-family-primary: inter, sans-serif;
+$font-family-primary: Montserrat;
 
 // ---
 // Settings: Spacing
@@ -722,11 +721,41 @@ a:active {
 	//
 	& input,
 	select {
-		border-radius: 0.4rem;
+		border-radius: 0.3rem;
+		border-color: $oc-green-1;
+		color: $oc-gray-8;
+		@media (max-width: 500px) {
+			border-width: 0.1rem;
+			border-color: $oc-gray-6;
+			margin-bottom: 0.3rem;
+		}
 	}
 
 	& span {
 		padding-left: 0.3rem;
+		padding-right: 0.3rem;
+	}
+
+	& + input {
+		padding-left: 0.3rem;
+		padding-right: 0.3rem;
+	}
+
+	& .c-testbutton__container {
+		align-items: stretch;
+		flex-direction: column;
+		align-content: space-around;
+	}
+}
+
+.c-testbutton {
+	background-color: $oc-green-1;
+	&--disabled {
+		background-color: $oc-gray-3;
+		border-color: $oc-gray-1;
+	}
+	@media (max-width: 500px) {
+		flex-basis: 90%;
 	}
 }
 
@@ -735,6 +764,7 @@ a:active {
 	flex-wrap: wrap;
 	align-items: flex-end;
 	margin-left: 0.5rem;
+	gap: 0.5rem;
 }
 
 .c-input {
@@ -755,6 +785,7 @@ a:active {
 		transition: all 0.2s;
 		transform-origin: top left;
 		font-size: 0.8rem;
+		font-family: $font-family-primary;
 	}
 
 	& input[placeholder=' ']:not(:focus):placeholder-shown + span {

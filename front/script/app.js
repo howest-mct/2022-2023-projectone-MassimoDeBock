@@ -1,7 +1,7 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socketio = io(lanIP);
 
-const backend_IP = 'http://192.168.168.169:5000';
+// const backend_IP = 'http://192.168.168.169:5000';
 //const backend_IP = "http://192.168.1.199:5000";
 // const backendee = backend_IP + '/api/v1';
 const backend = 'http://' + lanIP + '/api/v1';
@@ -190,6 +190,11 @@ const createNewUser = function () {
 	if (name && lastName) {
 		console.log('data being send');
 		socketio.emit('F2B_add_user', { name: name, lastName: lastName, phoneNumber: phoneNumber, phoneNumberResp: phoneNumberResp, rfidField: rfidField });
+		htmlAUName.value = '';
+		htmlAULastName.value = '';
+		htmlAUPhoneNumber.value = '';
+		htmlAUPhoneNumberResp.value = '';
+		htmlRFIDField.value = '';
 	} else {
 		console.log("data can't be send, not enough");
 	}
@@ -204,6 +209,11 @@ const addNewMediTime = function () {
 	if (time && patientId && typeId && docId && dosage) {
 		console.log('data being send');
 		socketio.emit('F2B_insert_medication_intake', { Time: time, Patient: patientId, TypeId: typeId, RelatedDocterId: docId, Dosage: dosage });
+		htmlNITime.value = '';
+		htmlSelectPatient.value = '';
+		htmlNITypeId.value = '';
+		htmlNIRelDocId.value = '';
+		htmlNIDosage.value = '';
 	} else {
 		console.log("data can't be send, not enough");
 	}
@@ -212,7 +222,11 @@ const addNewMediTime = function () {
 const addNewMedication = function () {
 	let name = htmlamname.value;
 	let description = htmlamdescription.value;
-	socketio.emit('F2B_add_medication', { Name: name, Description: description });
+	if (name && description) {
+		socketio.emit('F2B_add_medication', { Name: name, Description: description });
+		htmlamname.value = '';
+		htmlamdescription.value = '';
+	}
 };
 
 const getRfid = function () {

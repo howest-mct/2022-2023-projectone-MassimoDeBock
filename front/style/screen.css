@@ -7,6 +7,10 @@
 /*---------------------------------------/*
  # SETTINGS
 /*---------------------------------------*/
+@font-face {
+  font-family: "Montserrat";
+  src: url("front/style/fonts/MontserratAlternates-Regular.woff2") format("woff2");
+}
 /*---------------------------------------/*
  # GENERIC
 /*---------------------------------------*/
@@ -38,7 +42,7 @@ img {
 html {
   font-size: 100%;
   line-height: 1.5;
-  font-family: inter, sans-serif;
+  font-family: Montserrat;
   color: #212529;
   background-color: #dee2e6;
   scroll-behavior: smooth;
@@ -585,11 +589,45 @@ a:active {
   }
 }
 
-.c-logincontainer input, .c-logincontainer select {
-  border-radius: 0.4rem;
+.c-logincontainer input,
+.c-logincontainer select {
+  border-radius: 0.3rem;
+  border-color: #d3f9d8;
+  color: #343a40;
+}
+@media (max-width: 500px) {
+  .c-logincontainer input,
+  .c-logincontainer select {
+    border-width: 0.1rem;
+    border-color: #868e96;
+    margin-bottom: 0.3rem;
+  }
 }
 .c-logincontainer span {
   padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
+.c-logincontainer + input {
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
+.c-logincontainer .c-testbutton__container {
+  align-items: stretch;
+  flex-direction: column;
+  align-content: space-around;
+}
+
+.c-testbutton {
+  background-color: #d3f9d8;
+}
+.c-testbutton--disabled {
+  background-color: #dee2e6;
+  border-color: #f1f3f5;
+}
+@media (max-width: 500px) {
+  .c-testbutton {
+    flex-basis: 90%;
+  }
 }
 
 .c-logincontainer form {
@@ -597,6 +635,7 @@ a:active {
   flex-wrap: wrap;
   align-items: flex-end;
   margin-left: 0.5rem;
+  gap: 0.5rem;
 }
 
 .c-input {
@@ -616,6 +655,7 @@ a:active {
   transition: all 0.2s;
   transform-origin: top left;
   font-size: 0.8rem;
+  font-family: Montserrat;
 }
 .c-overhang__label input[placeholder=" "]:not(:focus):-moz-placeholder-shown + span {
   transform: translateY(1.4em) scale(1.25);
@@ -1138,4 +1178,4 @@ a:active {
   .u-6-of-6-bp5 {
     flex-basis: 100% !important;
   }
-}/*# sourceMappingURL=screen.css.map */
+}
