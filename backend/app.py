@@ -10,11 +10,12 @@ import subprocess
 
 from Handlers.MedicationHandler import MedicationHandler
 
+import smbus
 
 # TODO: GPIO
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'HELLOTHISISSCERET'
+app.config['SECRET_KEY'] = 'Giquardo'
 
 # ping interval forces rapid B2F communication
 socketio = SocketIO(app, cors_allowed_origins="*",
@@ -27,6 +28,19 @@ ENDPOINT = '/api/v1'
 # START een thread op. Belangrijk!!! Debugging moet UIT staan op start van de server, anders start de thread dubbel op
 # werk enkel met de packages gevent en gevent-websocket.
 
+
+def isBreadboardPowered():
+    try:
+        bus = smbus.SMBus(1)  # Use the appropriate I2C bus number
+        bus.read_byte(0x20)  # Try reading a byte from the specified address
+        return True
+    except IOError:
+        return False
+
+
+while (False == isBreadboardPowered()):
+    print("Couldn't find pcf at 0x20, breadboard must not be connected, rechecking soon")
+    time.sleep(4)
 
 
 pablo = MedicationHandler()
@@ -63,6 +77,7 @@ def run():
     if shoulShutdown == True:
         print("shutdown")
         subprocess.run(['sudo', 'shutdown', '-h', 'now'])
+
 
 def shutdown():
     global treadrun, shoulShutdown
