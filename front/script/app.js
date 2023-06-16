@@ -101,9 +101,18 @@ const showMedicationIntake = function (jsonObject) {
 		console.log(jsonObject);
 		let tempIntake = '';
 		for (let intake of jsonObject) {
+			delay = intake.Delay;
+			if (delay == null) {
+				delay = 0;
+			}
 			tempIntake += `
 							<li>
-					<div class="c-historycontainer ${(()=>{if(intake.Status == 'InProgress'){return "c-historycontainer--active"}return 'c-historycontainer--inactive'})()}">
+					<div class="c-historycontainer ${(() => {
+						if (intake.Status == 'InProgress') {
+							return 'c-historycontainer--active';
+						}
+						return 'c-historycontainer--inactive';
+					})()}">
 						<object data="./style/svg/pill${(() => {
 							switch (intake.Status) {
 								case 'Taken':
@@ -119,7 +128,7 @@ const showMedicationIntake = function (jsonObject) {
 						<p class="u-mb-clear">${intake.FirstName + ' ' + intake.LastName}</p>
 						<p class="u-mb-clear">${intake.Name}</p>
 						<p class="u-mb-clear">${intake.Dosage}</p>
-						<p class="u-mb-clear">${intake.Delay} min</p>
+						<p class="u-mb-clear">${delay} min</p>
 						</div>
 					</div>
 					<hr class="u-mb-clear">
@@ -334,7 +343,7 @@ const init = function () {
 		htmlNITime = document.querySelector('.js-ni-time');
 		if (htmlNITime) {
 			let currtime = new Date();
-			let actualtime = new Date(currtime.getTime() - (currtime.getTimezoneOffset()) * 60000);
+			let actualtime = new Date(currtime.getTime() - currtime.getTimezoneOffset() * 60000);
 			htmlNITime.value = actualtime.toISOString().slice(0, 16);
 		}
 		htmlNITypeId = document.querySelector('.js-ni-typeid');
