@@ -29,10 +29,10 @@
 					</text>
 				</svg>
 			</h2>
-			<nav class="c-header__nav c-nav">
+			<nav class="c-nav">
 				<ul class="o-list-reset c-nav__list o-list-reset">
 					<li class="c-nav__item">
-						<a class="c-nav__link" href="index.html">Overzicht</a>
+						<a class="c-nav__link" href="index.html">Overview</a>
 					</li>
 					<!-- <li class="c-nav__item">
 						<a class="c-nav__link" href="#!">Historiek</a>
@@ -41,7 +41,7 @@
 						<a class="c-nav__link" href="#!">Medicatie</a>
 					</li> -->
 					<li class="c-nav__item">
-						<a class="c-nav__link c-nav__link--active" href="settings.html">Settings</a>
+						<a class="c-nav__link c-nav__link--active" href="settings.html">Dev</a>
 					</li>
 				</ul>
 			</nav>
@@ -78,7 +78,10 @@
 												<select name="relateddocter" id="relateddocter" class="js-ni-relateddocter">
 													<option disabled selected value="">Select a doctor</option>
 												</select>
-												<input type="text" class="js-ni-dosage" placeholder="dosage" name="dosage" value="">
+												<label class="c-overhang__label">
+												<input type="text" class="js-ni-dosage" placeholder=" " name="dosage" value="">
+												<span>Dosage</span>
+												</label>
 												<input type="button" class="js-ni-button" value="Add to schedule">
 											</form>
 										</div>
@@ -97,13 +100,29 @@
 									<div class="o-container">
 										<div class="c-logincontainer">
 											<form>
-												<input type="text" class="js-nuname" placeholder="Name" name="name" required>
-												<input type="text" class="js-nulastname" placeholder="Last Name" name="last name" required>
-												<input type="number" class="js-nuphonenumber" placeholder="Phonenumber" name="phone number" required>
-												<input type="number" class="js-nuphonenumberresponsible" placeholder="Phone number of responsible person" name="phonenumberresponsible">
-												<input type="number" class="js-rfidfield" placeholder="rfid id" name="rfidid" value="">
-												<input type="button" class="js-getRfid" value="GetRfid">
-												<input type="button" class="js-newUserBtn" value="Add user">
+												<label class="c-overhang__label">
+													<input type="text" class="js-nuname" placeholder=" " name="name" required>
+													<span>Name</span>
+												</label>
+												<label class="c-overhang__label">											
+													<input type="text" class="js-nulastname" placeholder=" " name="last name" required>
+													<span>Last Name</span>
+												</label>
+												<label class="c-overhang__label">	
+													<input type="number" class="js-nuphonenumber" placeholder=" " name="phone number" required>
+													<span>Phonenumber</span>
+												</label>
+												<label class="c-overhang__label">	
+													<input type="number" class="js-nuphonenumberresponsible" placeholder=" " name="phonenumberresponsible">
+													<span>Phone number resp</span>
+												</label>
+												<label class="c-overhang__label">	
+													<input type="number" class="js-rfidfield" placeholder=" " name="rfidid" value="">
+													<span>RFID id</span>
+												</label>
+													<input type="button" class="js-getRfid" value="GetRfid">
+													
+													<input type="button" class="js-newUserBtn" value="Add user">
 											</form>
 										</div>
 									</div>
@@ -121,8 +140,14 @@
 									<div class="o-container">
 										<div class="c-logincontainer">
 											<form>
-												<input type="text" class="js-amname" placeholder="Name" name="name" required>
-												<input type="text" class="js-amdescription" placeholder="description" name="description" required>
+												<label class="c-overhang__label">	
+													<input type="text" class="js-amname" placeholder=" " name="name" required>
+													<span>Name</span>
+												</label>
+												<label class="c-overhang__label">	
+													<input type="text" class="js-amdescription" placeholder=" " name="description" required>
+													<span>description</span>
+												</label>
 												<input type="button" class="js-ambtn" value="Add medication">
 											</form>
 										</div>
@@ -141,8 +166,14 @@
 									<div class="o-container">
 										<div class="c-logincontainer">
 											<form class="js-loginform">
-												<input type="text" placeholder="Username" title="disabled for this scope" name="username" disabled required>
-												<input type="password" placeholder="Password" title="disabled for this scope" name="password" disabled required>
+												<label class="c-overhang__label">	
+													<input type="text" placeholder=" " title="disabled for this scope" name="username" disabled required>
+													<span>username</span>
+												</label>
+												<label class="c-overhang__label">	
+													<input type="password" placeholder=" " title="disabled for this scope" name="password" disabled required>
+													<span>password</span>
+												</label>
 												<input type="submit" disabled title="disabled for this scope" value="Login">
 											</form>
 										</div>

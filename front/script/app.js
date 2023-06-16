@@ -103,7 +103,7 @@ const showMedicationIntake = function (jsonObject) {
 		for (let intake of jsonObject) {
 			tempIntake += `
 							<li>
-					<div class="c-historycontainer">
+					<div class="c-historycontainer ${(()=>{if(intake.Status == 'InProgress'){return "c-historycontainer--active"}return 'c-historycontainer--inactive'})()}">
 						<object data="./style/svg/pill${(() => {
 							switch (intake.Status) {
 								case 'Taken':
@@ -114,11 +114,13 @@ const showMedicationIntake = function (jsonObject) {
 									return 'orange';
 							}
 						})()}.svg" type="image/svg+xml" height="24" width="24"></object>
+						<div>
 						<p class="u-mb-clear">${intake.Time}</p>
 						<p class="u-mb-clear">${intake.FirstName + ' ' + intake.LastName}</p>
 						<p class="u-mb-clear">${intake.Name}</p>
 						<p class="u-mb-clear">${intake.Dosage}</p>
 						<p class="u-mb-clear">${intake.Delay} min</p>
+						</div>
 					</div>
 					<hr class="u-mb-clear">
 				</li>
@@ -332,7 +334,8 @@ const init = function () {
 		htmlNITime = document.querySelector('.js-ni-time');
 		if (htmlNITime) {
 			let currtime = new Date();
-			htmlNITime.value = currtime.toISOString().slice(0, 16);
+			let actualtime = new Date(currtime.getTime() - (currtime.getTimezoneOffset()) * 60000);
+			htmlNITime.value = actualtime.toISOString().slice(0, 16);
 		}
 		htmlNITypeId = document.querySelector('.js-ni-typeid');
 		htmlNIRelDocId = document.querySelector('.js-ni-relateddocter');

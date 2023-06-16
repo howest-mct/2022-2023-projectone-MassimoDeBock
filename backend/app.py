@@ -10,6 +10,7 @@ import subprocess
 
 from Handlers.MedicationHandler import MedicationHandler
 
+
 # TODO: GPIO
 
 app = Flask(__name__)
@@ -25,6 +26,9 @@ ENDPOINT = '/api/v1'
 
 # START een thread op. Belangrijk!!! Debugging moet UIT staan op start van de server, anders start de thread dubbel op
 # werk enkel met de packages gevent en gevent-websocket.
+
+
+
 pablo = MedicationHandler()
 
 
@@ -59,7 +63,6 @@ def run():
     if shoulShutdown == True:
         print("shutdown")
         subprocess.run(['sudo', 'shutdown', '-h', 'now'])
-
 
 def shutdown():
     global treadrun, shoulShutdown

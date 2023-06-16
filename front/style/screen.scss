@@ -342,6 +342,7 @@ a:active {
 	display: flow-root;
 }
 
+
 .o-row--primary {
 	background: $color-primary-dark;
 }
@@ -507,6 +508,7 @@ a:active {
 */
 .c-header {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 	gap: $space-m;
@@ -542,6 +544,10 @@ a:active {
 .c-nav__link--active {
 	background-color: $color-primary-darker;
 	color: $color-primary;
+}
+
+.c-nav__item{
+	flex-shrink: 3;
 }
 
 .c-button,
@@ -659,7 +665,18 @@ a:active {
 
 .c-historycontainer {
 	display: flex;
-	align-items: center;
+	flex-direction: row;
+	align-items: baseline;
+
+
+	
+	&--inactive{
+		background-color:$oc-gray-0
+	}
+	
+	&--active{
+		background-color:white
+	}
 }
 
 .c-historycontainer object {
@@ -669,20 +686,86 @@ a:active {
 	margin-left: 0.5rem;
 }
 
-.c-historycontainer p {
-	flex: 1;
-	margin-right: 0.5rem;
+// .c-historycontainer p {
+// 	flex: 1;
+// 	margin-right: 0.5rem;
+// }
+
+.c-historycontainer object{
+	flex-basis: 5%;
+}
+
+.c-historycontainer div{
+	flex-grow: 1;
+	flex-shrink: 85%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-content: center;
+	gap:10px 30px;
+
+}
+
+
+.c-historycontainer > div > p {
+	@media (min-width: 500px) {
+		flex-basis: 20%;
+	}
+  
+	@media (max-width: 500px) {
+	  flex-basis: 40%;
+	}
 }
 
 .c-logincontainer {
 	//
+	& input, select{
+		border-radius: 0.4rem;
+		
+	}
+
+	& span{
+		padding-left:0.3rem;
+	}
 }
 
 .c-logincontainer form {
 	display: flex;
-	align-items: center;
+	flex-wrap: wrap;
+	align-items: flex-end;
 	margin-left: 0.5rem;
+
+
 }
+
+.c-input{
+	border-radius: 0.4rem;
+	padding-left:1rem;
+	padding-right:1rem;
+	&--small{
+		width: 4rem;
+	}
+}
+
+// taken from https://dev.to/yne/floating-label-over-input-cci 
+.c-overhang__label{
+	display: flex;
+	flex-direction: column-reverse;
+
+	& span{
+		transition: all .2s;
+		transform-origin: top left;
+		font-size: 0.8rem;
+	
+	}
+
+	& input[placeholder=" "]:not(:focus):placeholder-shown + span {
+		transform: translateY(1.4em) scale(1.25);
+		pointer-events: none;
+		opacity: .5;
+	}
+}
+
 
 /*---------------------------------------/*
  # UTILITIES
@@ -765,6 +848,9 @@ a:active {
 .u-pt-clear {
 	padding-top: 0;
 }
+.u-pb-clear {
+	padding-bottom: 0;
+}
 
 .u-mb-clear {
 	margin-bottom: 0;
@@ -797,6 +883,10 @@ a:active {
 
 .u-flex-basis-auto {
 	flex-basis: auto;
+}
+
+.u-gap-xs{
+	gap: $space-xs
 }
 
 // Loop through the different columns
