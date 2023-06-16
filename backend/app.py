@@ -248,17 +248,24 @@ def insertMedicationIntake(input):
 
 @socketio.on('F2B_add_medication')
 def addNewMedication(input):
-    print(input)
-    pablo.LogNetwork("F2B_add_medication")
-    data = DataRepository.InsertMedication(
-        input["Name"], input["Description"])
-    print(f"{data} change(s) made")
+    try:
+        print(input)
+        pablo.LogNetwork("F2B_add_medication")
+        data = DataRepository.InsertMedication(
+            input["Name"], input["Description"])
+        print(f"{data} change(s) made")
+    except:
+        print("error occured addNewMedication")
 
 
 @socketio.on('F2B_Keypad_Code')
 def keypadCode(code):
-    pablo.LogNetwork("F2B_Keypad_Code")
-    pablo.CodeInput(code)
+    if (isinstance(code, str)):
+        pablo.LogNetwork("F2B_Keypad_Code")
+        pablo.CodeInput(code)
+    else:
+        socketio.emit('B2F_status_dispenser_user',
+                      "", to=request.sid)
 
 
 if __name__ == '__main__':

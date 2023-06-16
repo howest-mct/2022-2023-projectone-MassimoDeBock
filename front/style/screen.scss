@@ -32,6 +32,12 @@
  # SETTINGS
 /*---------------------------------------*/
 
+@font-face {
+	font-family: 'Montserrat';
+	src: url('/path/to/fonts/Montserrat-Regular.ttf') format('truetype');
+	/* Add more src declarations for other font file formats if available */
+}
+
 // ---
 // Settings: Colors
 // ---
@@ -342,7 +348,6 @@ a:active {
 	display: flow-root;
 }
 
-
 .o-row--primary {
 	background: $color-primary-dark;
 }
@@ -546,7 +551,7 @@ a:active {
 	color: $color-primary;
 }
 
-.c-nav__item{
+.c-nav__item {
 	flex-shrink: 3;
 }
 
@@ -668,14 +673,12 @@ a:active {
 	flex-direction: row;
 	align-items: baseline;
 
-
-	
-	&--inactive{
-		background-color:$oc-gray-0
+	&--inactive {
+		background-color: $oc-gray-0;
 	}
-	
-	&--active{
-		background-color:white
+
+	&--active {
+		background-color: white;
 	}
 }
 
@@ -691,41 +694,39 @@ a:active {
 // 	margin-right: 0.5rem;
 // }
 
-.c-historycontainer object{
+.c-historycontainer object {
 	flex-basis: 5%;
 }
 
-.c-historycontainer div{
+.c-historycontainer div {
 	flex-grow: 1;
 	flex-shrink: 85%;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
 	align-content: center;
-	gap:10px 30px;
-
+	gap: 10px 30px;
 }
-
 
 .c-historycontainer > div > p {
 	@media (min-width: 500px) {
 		flex-basis: 20%;
 	}
-  
+
 	@media (max-width: 500px) {
-	  flex-basis: 40%;
+		flex-basis: 40%;
 	}
 }
 
 .c-logincontainer {
 	//
-	& input, select{
+	& input,
+	select {
 		border-radius: 0.4rem;
-		
 	}
 
-	& span{
-		padding-left:0.3rem;
+	& span {
+		padding-left: 0.3rem;
 	}
 }
 
@@ -734,38 +735,34 @@ a:active {
 	flex-wrap: wrap;
 	align-items: flex-end;
 	margin-left: 0.5rem;
-
-
 }
 
-.c-input{
+.c-input {
 	border-radius: 0.4rem;
-	padding-left:1rem;
-	padding-right:1rem;
-	&--small{
+	padding-left: 1rem;
+	padding-right: 1rem;
+	&--small {
 		width: 4rem;
 	}
 }
 
-// taken from https://dev.to/yne/floating-label-over-input-cci 
-.c-overhang__label{
+// taken from https://dev.to/yne/floating-label-over-input-cci
+.c-overhang__label {
 	display: flex;
 	flex-direction: column-reverse;
 
-	& span{
-		transition: all .2s;
+	& span {
+		transition: all 0.2s;
 		transform-origin: top left;
 		font-size: 0.8rem;
-	
 	}
 
-	& input[placeholder=" "]:not(:focus):placeholder-shown + span {
+	& input[placeholder=' ']:not(:focus):placeholder-shown + span {
 		transform: translateY(1.4em) scale(1.25);
 		pointer-events: none;
-		opacity: .5;
+		opacity: 0.5;
 	}
 }
-
 
 /*---------------------------------------/*
  # UTILITIES
@@ -885,8 +882,8 @@ a:active {
 	flex-basis: auto;
 }
 
-.u-gap-xs{
-	gap: $space-xs
+.u-gap-xs {
+	gap: $space-xs;
 }
 
 // Loop through the different columns
