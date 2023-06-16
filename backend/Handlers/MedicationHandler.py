@@ -294,10 +294,12 @@ class MedicationHandler:
     def DepositeMedication(self):
         if (self.__nextMedication["Status"] == "InProgress"):
             GPIO.output(self.__buzzerPin, False)
-            # print(delay)
-            DataRepository.SetActiveDropTaken(0)
+            GPIO.output(self.__lampPin, False)
+            delay = int(( time.time() - self.__nextMedication['Time'].timestamp())/60)
+            DataRepository.SetActiveDropTaken(delay)
             self.__nextMedication = None
             print("vroom vroom medication being dropped weee")
+            
             self.LogAction("Medication dropped", "started")
             self.TurnMotor()
             self.LogAction("Medication dropped", "successfull")

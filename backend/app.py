@@ -42,6 +42,11 @@ while (False == isBreadboardPowered()):
     print("Couldn't find pcf at 0x20, breadboard must not be connected, rechecking soon")
     time.sleep(4)
 
+if True:
+    rebootPablo = MedicationHandler()
+    rebootPablo.cleanup()
+    del rebootPablo
+    time.sleep(2)
 
 pablo = MedicationHandler()
 
