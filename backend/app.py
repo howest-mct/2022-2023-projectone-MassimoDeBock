@@ -106,7 +106,7 @@ def sendRFIDToBackend(rfid, clientId):
 # API ENDPOINTS
 @app.route('/')
 def hallo():
-    return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
+    return "Server is running, er zijn momenteel geen API endpoints beschikbaar.", 502
 
 
 @app.route(ENDPOINT+'/ip',  methods=['GET'])
