@@ -77,8 +77,8 @@ class MedicationHandler:
 
         # self.__masterBadgeId = 701808313545
         self.__masterBadgeId = 496339390928
-        self.__shutdownCode = 4526
-        self.__masterCode = 2640
+        self.__shutdownCode = 7601
+        self.__masterCode = 7295
 
         self.__stepmotortestCode = 4561
         self.__servomotortestCodeOn = 4562
