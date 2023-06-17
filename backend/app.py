@@ -115,14 +115,14 @@ def getIp():
     ipaddresses = check_output(
         ['hostname', '--all-ip-addresses']).decode('utf-8')
     ipaddresses = ipaddresses[0:len(ipaddresses)-2]
-    return jsonify(ipaddresses)
+    return jsonify(ipaddresses), 200
 
 
 @app.route(ENDPOINT+'/getrecentdata',  methods=['GET'])
 def getRecentData():
     pablo.LogNetwork("Request: recent data")
     data = DataRepository.GetDispenserInfo()
-    return jsonify(data)
+    return jsonify(data), 200
 
 
 @app.route(ENDPOINT+'/getuserids',  methods=['GET'])
@@ -130,7 +130,7 @@ def getUserId():
     print("ids of users requested")
     pablo.LogNetwork("Request: UserIds")
     data = DataRepository.GetIdUsers()
-    return jsonify(data)
+    return jsonify(data), 200
 
 
 @app.route(ENDPOINT+'/getdoctids',  methods=['GET'])
@@ -138,7 +138,7 @@ def getDoctId():
     print("ids of doc requested")
     pablo.LogNetwork("Request: DocIds")
     data = DataRepository.GetIdDoctor()
-    return jsonify(data)
+    return jsonify(data), 200
 
 
 @app.route(ENDPOINT+'/getmedtypeids',  methods=['GET'])
@@ -146,7 +146,7 @@ def getMedId():
     print("ids of meds requested")
     pablo.LogNetwork("Request: MedIds")
     data = DataRepository.GetIdMedication()
-    return jsonify(data)
+    return jsonify(data), 200
 
 
 # SOCKET IO
