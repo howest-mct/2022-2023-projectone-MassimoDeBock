@@ -210,17 +210,13 @@ class MedicationHandler:
             self.__shutdown()
             pass
         elif code == str(self.__masterCode):
-            self.LogAction("Mastercode used", "")
             self.DepositeMedication()
             pass
         elif code == str(self.__stepmotortestCode):
-            self.LogAction("Stepmotor test used", "")
             self.TurnMotor()
         elif code == str(self.__servomotortestCodeOn):
-            self.LogAction("servo on")
             self.ServoMotor(1)
         elif code == str(self.__servomotortestCodeOff):
-            self.LogAction("servo off")
             self.ServoMotor(0)
         elif code == str(self.__beeperOn):
             self.LogAction("sound enabled")
