@@ -17,6 +17,8 @@ import helpers.Timers
 from subprocess import check_output
 import enum
 
+# LCDModes, tells you which mode the LCD is in, since you can change it between 4 different ones, each showing different info.
+
 
 class LCDModes(enum.Enum):
     IPMode = 0
@@ -104,6 +106,7 @@ class MedicationHandler:
         # GPIO.cleanup()
         pass
 
+# Cleans the pins on delete, keeping the pins on isn't a good practice.
     def cleanup(self):
         self.__LCD.SendInstruction(LCDinstructions.displayOff.value)
 
@@ -114,6 +117,7 @@ class MedicationHandler:
         time.sleep(1)
         GPIO.cleanup()
 
+# the main code getting called over and over again, it calls all other updates that need to happen
     def update(self):
         self.__LCD.UpdateDisplay()
         self.__HandleKeyPad()
@@ -122,6 +126,7 @@ class MedicationHandler:
         self.HandleNextMedication()
         self.__HandleCodeRequests()
 
+# when the touch sensor just went from unpressed to pressed look if the next medication is due, if so and it doesn't have an id assigned to it drop the medication
     def __HandleTouchSensor(self):
         # print(f"touch: {self.__touch.CheckState()}")
         if (self.__touch.CheckJustPressed()):
@@ -132,6 +137,7 @@ class MedicationHandler:
                 self.DepositeMedication()
             pass
 
+#  if the code that is requested is valid execute it.
     def __HandleCodeRequests(self):
         if (self.__codeRequested.__len__() > 0):
             if (self.__codeRequested.__len__() < 4):
@@ -141,6 +147,7 @@ class MedicationHandler:
             self.__codeRequested = ''
             self.__CheckCodes(temp)
 
+# handles the keypad, incase a code was entered execute it if it is linked to something, or if A-D is pressed change the LCDMode
     def __HandleKeyPad(self):
         kpValue = self.__kPad.Handle()
         if kpValue == 1:
@@ -172,6 +179,7 @@ class MedicationHandler:
         self.__ReadRFID()
         # self.__timeOutFuncRFID(self.__ReadRFID)
 
+# if the rfid reads anything look if the id is that of the medication that should currently be taken, if so drop it.
     def __ReadRFID(self):
         if self.__rfidReader.Read():
             id = self.__rfidReader.getId()
@@ -198,9 +206,11 @@ class MedicationHandler:
 
             # self.__timeOutFuncRFID.Timeout(2)
 
+# stores the most recent requested code from the frontend, (not instantly checked to avoid data being send at the same time.
     def CodeInput(self, code):
         self.__codeRequested = code
 
+# execute the actions linked to a certain code
     def __CheckCodes(self, code):
         if code == '':
             return
@@ -246,6 +256,7 @@ class MedicationHandler:
             DataRepository.LogComponents(1, 0)
             self.__servoMotor.set_angle(0)
 
+# saves the functions of app.py so they can be used later, this is needed to communicate with the frontend on its own terms
     def SetScanReturn(self, callback):
         self.__scannedCallback = callback
 
@@ -255,10 +266,12 @@ class MedicationHandler:
     def SetShutdown(self, callback):
         self.__shutdown = callback
 
+# tells you where the next rfid id should be send to.
     def SetScanReturnId(self, id):
         self.__rfidReader.reset()
         self.__rfidCallbackId = id
 
+# does all logic to see when the next medication is, if it's now let the user now,...
     def HandleNextMedication(self):
         if (self.__nextMedication == None):
             self.__nextMedication = DataRepository.GetNextScheduledMedication()
@@ -287,6 +300,7 @@ class MedicationHandler:
             GPIO.output(self.__lampPin, False)
             GPIO.output(self.__buzzerPin, False)
 
+# execute all that is needed for the medication to be rolled out.
     def DepositeMedication(self):
         if (self.__nextMedication["Status"] == "InProgress"):
             GPIO.output(self.__buzzerPin, False)
@@ -304,11 +318,13 @@ class MedicationHandler:
             self.__dosisReady = False
             self.__idDrop = None
 
+# Empty all data related to the next medication so they will be requested automatically
     def RecheckMedication(self):
         self.__dosisReady = False
         self.__idDrop = None
         self.__nextMedication = None
 
+# changes the mode the lcd is in
     def ChangeLCDMode(self, newMode):
         if (newMode == LCDModes.IPMode):
             ipaddresses = check_output(
