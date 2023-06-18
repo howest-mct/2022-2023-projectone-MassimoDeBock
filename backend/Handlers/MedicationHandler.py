@@ -210,20 +210,20 @@ class MedicationHandler:
             self.__shutdown()
             pass
         elif code == str(self.__masterCode):
-            self.LogInfo("Mastercode used")
+            self.LogAction("Mastercode used", "")
             self.DepositeMedication()
             pass
         elif code == str(self.__stepmotortestCode):
-            self.LogInfo("Stepmotor test used")
+            self.LogAction("Stepmotor test used", "")
             self.TurnMotor()
         elif code == str(self.__servomotortestCodeOn):
-            self.LogInfo("servo on")
+            self.LogAction("servo on")
             self.ServoMotor(1)
         elif code == str(self.__servomotortestCodeOff):
-            self.LogInfo("servo off")
+            self.LogAction("servo off")
             self.ServoMotor(0)
         elif code == str(self.__beeperOn):
-            self.LogInfo("sound enabled")
+            self.LogAction("sound enabled")
             GPIO.output(self.__lampPin, True)
             GPIO.output(self.__buzzerPin, True)
             time.sleep(0.4)
@@ -232,7 +232,7 @@ class MedicationHandler:
             self.__buzzerOn = True
         elif code == str(self.__beeperOff):
             GPIO.output(self.__buzzerPin, False)
-            self.LogInfo("sound disabled")
+            self.LogAction("sound disabled")
             self.__buzzerOn = False
 
     def TurnMotor(self):
@@ -334,7 +334,7 @@ class MedicationHandler:
             self.__LCD.DoubleWrite(self.__lastNetworkInfo, "")
             pass
 
-    def LogAction(self, action, result):
+    def LogAction(self, action, result=""):
         newAction = f"{action}: {result}"
         if (self.__lcdMode == LCDModes.LastActionMode):
             self.__LCD.DoubleWrite(f" {self.__lastAction}", f" {newAction}")
