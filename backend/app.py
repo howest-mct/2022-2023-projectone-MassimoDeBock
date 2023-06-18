@@ -12,8 +12,6 @@ from Handlers.MedicationHandler import MedicationHandler
 
 import smbus
 
-# TODO: GPIO
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Giquardo'
 
@@ -25,14 +23,10 @@ CORS(app)
 ENDPOINT = '/api/v1'
 
 
-# START een thread op. Belangrijk!!! Debugging moet UIT staan op start van de server, anders start de thread dubbel op
-# werk enkel met de packages gevent en gevent-websocket.
-
-
 def isBreadboardPowered():
     try:
-        bus = smbus.SMBus(1)  # Use the appropriate I2C bus number
-        bus.read_byte(0x20)  # Try reading a byte from the specified address
+        bus = smbus.SMBus(1)
+        bus.read_byte(0x20)
         return True
     except IOError:
         return False
@@ -65,15 +59,6 @@ def run():
     time.sleep(2)
     print("Functional")
     while treadrun:
-        # print('*** We zetten alles uit **')
-        # DataRepository.update_status_alle_lampen(0)
-        # status = DataRepository.read_status_lampen()
-        # socketio.emit('B2F_alles_uit', {
-        #             'status': "lampen uit"})
-        # socketio.emit('B2F_status_lampen', {'lampen': status})
-        # # save our last run time
-        # last_time_alles_uit = now
-        # time.sleep(30)
 
         pablo.update()
 
@@ -91,7 +76,6 @@ def shutdown():
 
 
 def start_thread():
-    # threading.Timer(10, all_out).start()
     t = threading.Thread(target=run, daemon=True)
     t.start()
     print("thread started")
@@ -156,18 +140,11 @@ def getMedId():
 def initial_connection():
     pablo.LogNetwork("A new client connect")
     print('A new client connect')
-    # # Send to the client!
-    # vraag de status op van de lampen uit de DB
+
     id = request.sid
     status = DataRepository.GetDispenserInfo()
-    # status2 = DataRepository.read_status_lampen()
-    # print(status)
-    # print(status2)
-    # socketio.emit('B2F_status_lampen', {'lampen': status})
-    # Beter is het om enkel naar de client te sturen die de verbinding heeft gemaakt.
 
     socketio.emit('B2F_status_dispenser', status, to=id)
-    # emit('B2F_status_lampen', {'lampen': status}, broadcast=False)
 
 
 @socketio.on('B2B_sync_status_dispenser')
