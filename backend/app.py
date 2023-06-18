@@ -201,23 +201,6 @@ def sync_data_user(data):
         socketio.emit('B2F_status_dispenser', status)
 
 
-@socketio.on('F2B_switch_light')
-def switch_light(data):
-    print('licht gaat aan/uit', data)
-    lamp_id = data['lamp_id']
-    new_status = data['new_status']
-    # spreek de hardware aan
-    # stel de status in op de DB
-    res = DataRepository.update_status_lamp(lamp_id, new_status)
-    print(res)
-    # vraag de (nieuwe) status op van de lamp
-    data = DataRepository.read_status_lamp_by_id(lamp_id)
-    socketio.emit('B2F_verandering_lamp',  {'lamp': data})
-    # Indien het om de lamp van de TV kamer gaat, dan moeten we ook de hardware aansturen.
-    if lamp_id == '3':
-        print(f"TV kamer moet switchen naar {new_status[0]} !")
-        # Do something
-
 
 @socketio.on('F2B_request_rfid')
 def requestRfid():
